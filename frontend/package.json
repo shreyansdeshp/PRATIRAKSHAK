@@ -1,0 +1,33 @@
+{
+  "name": "pratirakshak-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit -p . && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "vitest run",
+    "e2e": "playwright test",
+    "shots": "playwright test --grep @shot",
+    "record": "node -e \"console.log('record: not yet implemented (Stage 10)')\""
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "5.1.0",
+    "@fontsource/ibm-plex-sans": "5.1.0",
+    "@fontsource/source-serif-4": "5.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1",
+    "@types/node": "22.10.2",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@vitejs/plugin-react": "4.3.4",
+    "typescript": "5.6.3",
+    "vite": "5.4.11",
+    "vitest": "2.1.8"
+  }
+}

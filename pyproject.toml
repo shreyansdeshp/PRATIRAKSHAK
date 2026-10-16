@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pratirakshak"
+version = "0.1.0"
+description = "Fleet readiness command console — SIH26249 (Air Power: Predictive Maintenance & Fleet Availability)"
+requires-python = ">=3.11,<3.13"
+# Exact pins live in requirements.txt (direct) and requirements.lock.txt (full freeze).
+
+[tool.setuptools.packages.find]
+where = ["backend"]
+include = ["pratirakshak*"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["backend"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+check_untyped_defs = false
+warn_unused_ignores = true

@@ -1,0 +1,55 @@
+/* Pratirakshak design tokens — SPEC §11.2. "Aviation chart meets flight strip".
+   Light paper ground only: no dark/navy themes, no glow, no gradients (except map hillshade). */
+:root {
+  /* ground */
+  --paper: #f4efe3;
+  --sand: #e7dfcb;
+  --fold: #d6ccb1;
+  --ink: #1e2224;
+  --ink-soft: #4a4f52;
+
+  /* structure */
+  --olive: #4b5632;
+  --khaki: #a89f7a;
+  --charcoal: #2e3234;
+
+  /* status — always paired with a glyph; differ by lightness + shape */
+  --ready: #2f6b3f;   /* ● */
+  --watch: #a66a00;   /* ▲ */
+  --pull: #b83a26;    /* ■ */
+  --stale: #8c8c85;   /* ◇ hatched */
+
+  /* type */
+  --font-serif: "Source Serif 4", "Newsreader", Georgia, serif;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+
+  --fs-12: 12px;
+  --fs-14: 14px;
+  --fs-16: 16px;
+  --fs-20: 20px;
+  --fs-28: 28px;
+  --fs-44: 44px;
+  --fs-72: 72px;
+
+  /* shape & space */
+  --r-1: 2px;
+  --r-2: 4px;
+  --u: 8px;
+  --hairline: 1px solid var(--ink);
+  --hairline-soft: 1px solid var(--fold);
+
+  /* motion */
+  --ease-chart: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t-status: 600ms;
+
+  /* stage */
+  --stage-w: 1920px;
+  --stage-h: 1080px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-status: 0ms;
+  }
+}

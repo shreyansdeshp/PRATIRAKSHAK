@@ -1,0 +1,38 @@
+# secrets
+.env
+
+# raw data (never commit) — keep folder skeleton only
+data/raw/
+data/interim/*
+!data/interim/.gitkeep
+
+# python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# model weights (large artefacts); small json metadata is committed
+models/**/*.pt
+models/**/*.onnx
+models/**/*.pkl
+models/**/*.joblib
+
+# node / front-end
+node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
+
+# recordings (converted by the user)
+docs/shots/*.webm
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
