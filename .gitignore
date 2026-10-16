@@ -36,3 +36,6 @@ docs/shots/*.webm
 Thumbs.db
 .vscode/
 .idea/
+
+# NASA paper copied from the dataset (licence not stated) — local reference only
+docs/*.pdf
