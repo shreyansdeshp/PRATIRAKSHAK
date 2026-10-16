@@ -3,10 +3,10 @@
 > Running state of the build. Update at the **start** and **end** of every stage and whenever you stop. A fresh Claude Code session must be able to resume from this file + `SPEC.md` alone.
 
 ## Status
-- **Current stage:** 3 — Engine RUL models (next)
-- **Last completed stage:** 2 — World generator
-- **Last commit:** see `git log -1` (Stage 2: world generator)
-- **Date/time of last update:** 2026-10-17 05:10
+- **Current stage:** 4 — Other systems + aircraft combiner (next)
+- **Last completed stage:** 3 — Engine RUL models
+- **Last commit:** see `git log -1` (Stage 3: engine RUL models)
+- **Date/time of last update:** 2026-10-17 06:05
 - **Demo seed:** not chosen yet (Stage 7)
 - **Global seed:** 26249
 - **Remote:** `https://github.com/shreyansdeshp/PRATIRAKSHAK.git` (branch `main`); commits authored as `shreyansdeshp <sndeshpande_b25@it.vjti.ac.in>` (repo-local git config). Push after every stage commit.
@@ -15,7 +15,7 @@
 - [x] 0 Scaffold & environment
 - [x] 1 Data ingest & verification
 - [x] 2 World generator
-- [ ] 3 Engine RUL models
+- [x] 3 Engine RUL models
 - [ ] 4 Other systems + aircraft combiner
 - [ ] 5 Intelligence (trust, explanations, mission fit)
 - [ ] 6 Decision, spares, scheduling
@@ -29,7 +29,20 @@
 - [ ] 14 Polish & delivery
 
 ## This stage's plan (10–20 lines, written before coding)
-**Stage 2 — World generator**
+**Stage 3 — Engine RUL models** (one training run; accuracy only needs to be reasonable — rule 15)
+1. `config/models.yaml`: window 30, R_max 125, inputs = 14 sensors (12 headline + NRf/NRc), quantiles {.05,.1,.15,.2,.25,.5,.75,.8,.85,.9,.95}, H = 20 cycles, θ = 0.3, ensemble seeds 3 (`--fast`: 1 seed, fewer epochs).
+2. `models/engine_data.py`: KMeans(k=6) on op settings (FD002/FD004) + per-condition z-score, both **fit on train units only**; capped RUL; left-padded windows; val calibration windows = 10 seeded truncation points per val unit (mimics the test construction); test = last window per engine. Healthy baseline (RUL > 125 rows) per sensor stored for explanations.
+3. Baseline A: Ridge on last-window summary (last/mean/slope + cycle). Baseline B: LightGBM on rolling features (last/mean/std/slope/delta + cycle), early stopping on val.
+4. Main: 1D-CNN + GRU with quantile (pinball) head, early stopping on val, 3-seed ensemble (median of members; spread = agreement).
+5. `models/conformal.py`: CQR per nominal level 50–90 % on val windows (main); abs-residual conformal for B. Predictive CDF = split-normal through p10/p50/p90 → `P(RUL ≤ H)`.
+6. Serving model per subset = main if RMSE ≥ 3 % better than B on test, else B + conformal (stated in report).
+7. Explainability: occlusion-to-healthy-baseline per sensor on the main/serving model (per-engine top-3 + global rank); SHAP TreeExplainer global importance for B.
+8. Alarm quality on **replay units** (never fitted/calibrated on): sequential `P(RUL≤H) ≥ θ` → false-alarm / miss / lead time; ROC-like sweep over θ on test engines.
+9. Precompute serving predictions along every replay trajectory (for Stage 4/7) → `models/engine/<subset>/replay_predictions.parquet`.
+10. Artefacts: `models/engine/<subset>/{model.pt (gitignored), scaler.json, conformal.json, metrics.json, feature_spec.json, explain.json}`, `reports/engine_<subset>.md`, `reports/engine_summary.md`. Test: scaler/KMeans fitted only on train units.
+11. Checks: one metrics table (RMSE/MAE/score/PICP) for all 4 subsets from one run; split + prep tests pass.
+
+**Stage 2 — World generator** (done)
 1. `config/world.yaml`: bases §3.1 (hangar bays, tech-hours, ILLUSTRATIVE dust/salinity, tempo), 3 depots + 1 vendor hub, 4 types §3.2 (C-MAPSS subset, cycle→sorties k, usage, life, age), explicit fleet allocation 20/18/14/20, 8 systems with weights, 35 LRUs with ₵ cost / install h / lead time / mean stock, logistics params, seasonal closure, mission mix.
 2. `schema.py`: Pydantic v2 models for every §3.5 entity (world ones filled now; state/decision/plan ones later). `io.py`: LF-only JSON/text writers (fixes Windows CRLF → same bytes on every OS), parquet writer.
 3. `world/climate.py`: Open-Meteo archive 2015–2024 per base (4 calls, cached in `data/interim/climate/`), day-of-year normals, elevation from its 90 m DEM, stress indices (heat/cold/humidity/wet/dust/salinity/altitude); committed normals = offline fallback.
@@ -57,6 +70,13 @@
 9. Check: fresh venv `pip install` + `npm ci` + Playwright render test; paste output; commit.
 
 ## What I did (this session)
+**Stage 3**
+- `models/engine_data.py` (Normaliser: KMeans k=6 for FD002/FD004 + per-condition z-score, fitted on train units; left-padded windows; 10 seeded truncation windows per val unit for calibration), `engine_seq.py` (CNN-GRU, 11-quantile pinball head, cycle channel), `conformal.py` (CQR, abs-residual conformal, `p_fail_within` = piecewise-linear CDF through the quantiles with split-normal tails), `engine.py` (orchestration), `__main__.py` (reports).
+- One `--fast` smoke run on FD001 to debug the pipeline, then **one full run** (3-seed ensemble, ~34 min CPU total).
+- **Serving model = LightGBM + conformal on all four subsets**: the CNN-GRU was not ≥3 % better on any subset (rule 15). Reported as such in `reports/engine_summary.md`.
+- Outputs: `models/engine/<subset>/{metrics,scaler,conformal,feature_spec,explain}.json`, `replay_predictions.parquet` (every cycle of every replay engine: 11 quantiles + `P(RUL≤20)`; used by Stages 4/7), `model.pt` + `lgbm.txt` (gitignored, regenerate with `train`); `reports/engine_FD00x.md`, `reports/engine_summary.md`.
+- Explanations: occlusion-to-healthy-baseline on the serving model ranks HPC sensors first in every subset (Ps30/T30/T50/htBleed), which matches the HPC fault mode; LightGBM SHAP global ranking stored alongside.
+
 **Stage 2**
 - Built as planned. Outputs: `data/processed/world/{bases,nodes,types,systems,aircraft,engines,parts,stock,routes,missions,environment,climate_normals}.parquet` + `world.json` (228 KB total); `data/routes/road/*.geojson` (28, 92–574 points each) + `air.geojson` (304 KB total).
 - Base coordinates: ARV nudged 28.3,76.9 → 28.22,76.78 and HIM 34.1,77.5 → 33.95,77.75 (away from existing airfields); SAH/KAV kept. Elevations from the DEM: SAH 693, ARV 245, HIM 3623, KAV 90 m.
@@ -77,6 +97,39 @@
 - Remote set to the user's GitHub repo; local `main` rebased onto its existing 2 commits (README only); README expanded.
 
 ## Acceptance checks — **real output pasted**
+**Stage 3** — Check (1): one metrics table for all four subsets from a single training run.
+```
+> python -m pratirakshak.models
+  FD001: serving=lgbm · 285.2 s   FD002: serving=lgbm · 535.5 s   FD003: serving=lgbm · 582.8 s   FD004: serving=lgbm · 630.2 s
+| Subset | Model | RMSE | RMSE (capped) | MAE | NASA score | PICP 80 % | MPIW 80 % | Serving |
+|---|---|---|---|---|---|---|---|---|
+| FD001 | Baseline A · Ridge | 17.54 | 16.15 | 14.24 | 459 |  |  |  |
+| FD001 | Baseline B · LightGBM | 13.76 | 12.32 | 9.94 | 261 | 0.810 | 28.0 | **yes** |
+| FD001 | Main · CNN-GRU quantile | 16.31 | 14.95 | 11.86 | 457 | 0.720 | 28.1 |  |
+| FD002 | Baseline A · Ridge | 28.49 | 15.82 | 20.22 | 10342 |  |  |  |
+| FD002 | Baseline B · LightGBM | 25.52 | 13.01 | 16.87 | 6724 | 0.795 | 31.8 | **yes** |
+| FD002 | Main · CNN-GRU quantile | 25.91 | 14.66 | 17.91 | 6311 | 0.741 | 27.6 |  |
+| FD003 | Baseline A · Ridge | 18.28 | 16.66 | 15.24 | 586 |  |  |  |
+| FD003 | Baseline B · LightGBM | 15.11 | 13.38 | 10.89 | 354 | 0.640 | 17.7 | **yes** |
+| FD003 | Main · CNN-GRU quantile | 15.48 | 13.78 | 10.80 | 404 | 0.670 | 16.7 |  |
+| FD004 | Baseline A · Ridge | 31.99 | 20.32 | 24.75 | 9835 |  |  |  |
+| FD004 | Baseline B · LightGBM | 26.41 | 14.39 | 18.67 | 4648 | 0.802 | 34.6 | **yes** |
+| FD004 | Main · CNN-GRU quantile | 27.61 | 14.98 | 19.27 | 5525 | 0.798 | 27.9 |  |
+**Coverage outside 75–85 % for FD003**: flagged, not hidden (see per-subset reports).
+```
+Check (2): unit-disjoint split test + "scaler fitted on train units only" test.
+```
+> python -m pytest -v
+============================= 9 passed in 13.59s ==============================
+```
+Replay-engine alarm quality (P(RUL≤20) ≥ 0.3, serving model, engines never fitted/calibrated on):
+```
+FD001 replay 20 missed 0 premature 0 lead p10/med/p90 20.0 24.5 34.3
+FD002 replay 52 missed 0 premature 0 lead p10/med/p90 19.1 24.0 37.0
+FD003 replay 20 missed 0 premature 0 lead p10/med/p90 18.7 23.0 27.2
+FD004 replay 50 missed 0 premature 0 lead p10/med/p90 15.9 22.0 28.1
+```
+
 **Stage 2** — Check (1): fleet totals match (72 tails, every base hosts ≥3 types). Check (2): routes cached on disk.
 ```
 > python -m pratirakshak.world
@@ -168,6 +221,12 @@ Tests  1 passed (1)
 | 2026-10-17 | Climate/elevation from Open-Meteo (keyless); dust & salinity ILLUSTRATIVE config | No keyless historical dust source used; keeps it honest | Yes |
 | 2026-10-17 | Road routes: OSRM full geometry, RDP ε=0.003° (≈300 m); time × 1.35 truck factor + 3 h handling | Small committed GeoJSON that still draws well | Yes |
 | 2026-10-17 | Generated artefacts in `data/processed/` and `data/routes/` are committed (small, deterministic) | Front-end + offline fallback need them; only `data/raw` and `data/interim` are ignored | Yes |
+| 2026-10-17 | Engine serving model = LightGBM + split conformal (all subsets); CNN-GRU kept for the Results comparison | Main model not ≥ 3 % better on any subset (SPEC rule 15 / §17) | Yes (re-run train) |
+| 2026-10-17 | Model inputs = 14 sensors (12 headline + NRf, NRc); explanations restricted to the 12 headline | Standard informative set; NRf/NRc double as trust cross-checks | Yes |
+| 2026-10-17 | Calibration set = 10 seeded truncation windows per val unit (not every window) | Mimics how the test set was cut; avoids thousands of highly correlated scores | Yes |
+| 2026-10-17 | `P(RUL ≤ H)` = linear CDF through the 11 conformal quantiles + split-normal tails; H = 20 cycles, θ = 0.3 for the alarm report | Simple, monotone, uses the calibrated quantiles directly | Yes (`config/models.yaml`) |
+| 2026-10-17 | Per-decision drivers = occlusion of each sensor to its healthy baseline on the **serving** model | Explanation comes from the model that makes the decision; SHAP (LightGBM) kept as global cross-check | Yes |
+| 2026-10-17 | `model.pt`/`lgbm.txt` gitignored; replay predictions + metrics committed | Downstream stages run without retraining; weights regenerate with `./tasks.ps1 train` | Yes |
 
 ## Defaults used because the user hadn't specified (SPEC §3.4)
 - Base names / aircraft names / fleet mix: SPEC defaults (to be written to `config/world.yaml` in Stage 2).
@@ -196,26 +255,31 @@ Tests  1 passed (1)
 ## Metrics log (append; never overwrite)
 | Stage | Date | Item | Value | Notes |
 |---|---|---|---|---|
-| | | | | |
+| 3 | 2026-10-17 | Serving (LightGBM) test RMSE FD001/2/3/4 | 13.76 / 25.52 / 15.11 / 26.41 | SPEC sanity 12–16 / 18–28 ✓ |
+| 3 | 2026-10-17 | 80 % PICP (serving) FD001/2/3/4 | 0.810 / 0.795 / 0.640 / 0.802 | FD003 flagged (< 0.75) |
+| 3 | 2026-10-17 | Replay alarm (H=20, θ=0.3) | 142 engines, 0 missed, 0 premature, median lead 22–24.5 cycles | held-out engines |
+| 3 | 2026-10-17 | CNN-GRU vs LightGBM RMSE | worse by 1.5–18.5 % | main not served |
 
 ## Open issues / known defects
+- [ ] **FD003 interval under-covers** (80 % nominal → 64 % on test). Likely cause: only 16 val units / 160 calibration windows, and FD003's long lifetime tail (up to 525 cycles) makes val and test truncations less exchangeable. Not tuned (rule 15). Effect: Shikshak engine risk is somewhat over-confident. Options if time allows: calibrate on val ∪ part of replay, or widen with a per-subset factor, and say so. Shown on the Results screen as flagged.
 - [ ] `mission_critical: role` for avionics: the role-dependent rule (type's `criticality_role` list) is defined in config but only applied from Stage 4/6.
 - [ ] Elevation profiles along road routes (for S5) are not computed yet; planned for Stage 9/12 from the Terrarium DEM.
 - [ ] npm 11 blocks dependency install scripts by default (`esbuild` postinstall skipped). Build works regardless (esbuild ships platform binaries as optional deps). If a later dependency needs its install script, approve it with `npm approve-scripts <pkg>`.
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
 ## Next steps (ordered, concrete)
-1. Stage 3: write plan here. Pre-processing per subset: KMeans(k=6) on op settings for FD002/FD004 (fit on train units), per-condition (or global) standardisation fitted on train units, drop constant sensors from DATA_NOTES, RUL cap 125, 30-cycle windows with left-pad.
-2. Baseline A (Ridge on last-window summary), Baseline B (LightGBM on rolling features), main 1D-CNN+GRU with quantile head (`--fast`), one training run each; split conformal on val units → p10/p50/p90; coverage on official test; `P(RUL ≤ H)`.
-3. Explainability: SHAP for LightGBM, permutation-by-sensor-group for the main model → 12 headline sensors.
-4. Artefacts in `models/engine/<subset>/`, `reports/engine_<subset>.md`; checks: one metrics table for all four subsets; unit-disjoint split test still passes. If the main model isn't clearly better than LightGBM, ship LightGBM + conformal and say so (rule 15).
+1. Stage 4: write plan here. `config/couplings.yaml` (driver → system matrix, SPEC §7.3). `synth/`: per-aircraft per-day drivers (sorties from missions, intensity, environment, age), latent health per non-engine system (gamma process with inception point, drift × drivers × couplings), sensor model with faults (stuck/drift/dropout/spike), ground-truth failure day; maintenance reset effect.
+2. Engines: advance each aircraft's replay unit by sorties ÷ k cycles per day; read the committed `replay_predictions.parquet` for RUL quantiles/`P(fail)`.
+3. Real anchors: check UCI hydraulic (licence, size) and NASA battery data; use them only if quick, otherwise published ranges, marked SIMULATED (rule: no pretending).
+4. Non-engine RUL: one LightGBM per system on rolling features + abs-residual conformal (reuse `models/conformal.py`), validated against synthetic truth.
+5. Combiner: health 0–100, `R = 1 − Π(1 − p_i)`, readiness gating + limiting system, weighted health, bundling window. Checks: per-system estimate-vs-truth error table (SIMULATED); unit test for `R` and gating.
 
 ## How to run (keep current)
 ```
 # setup     ./tasks.ps1 setup        | make setup
 # data      ./tasks.ps1 fetch; ./tasks.ps1 data   → docs/DATA_NOTES.md, data/processed/splits.json
 # world     ./tasks.ps1 world  → data/processed/world/, data/routes/  (network optional after first run)
-# train     ./tasks.ps1 train [-Fast]             (Stage 3)
+# train     ./tasks.ps1 train [-Fast]  → models/engine/, reports/engine_*.md  (~34 min full, CPU; -Fast ≈ 1/4)
 # sim       ./tasks.ps1 sim                       (Stage 7)
 # export    ./tasks.ps1 export                    (Stage 8)
 # dev       ./tasks.ps1 dev   (UI only for now: cd frontend; npm run dev → http://localhost:5173)

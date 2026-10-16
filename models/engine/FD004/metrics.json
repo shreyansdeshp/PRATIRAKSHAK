@@ -1,0 +1,235 @@
+{
+ "subset": "FD004",
+ "provenance": "REAL",
+ "fast": false,
+ "serving_model": "lgbm",
+ "main_vs_lgbm_rmse_gain": -0.0456,
+ "test_engines": 248,
+ "metrics": {
+  "ridge": {
+   "rmse": 31.99,
+   "mae": 24.75,
+   "nasa_score": 9835.167,
+   "rmse_capped": 20.324,
+   "mae_capped": 16.056,
+   "nasa_score_capped": 2138.933
+  },
+  "lgbm": {
+   "rmse": 26.405,
+   "mae": 18.671,
+   "nasa_score": 4647.907,
+   "rmse_capped": 14.388,
+   "mae_capped": 9.977,
+   "nasa_score_capped": 998.237
+  },
+  "main": {
+   "rmse": 27.608,
+   "mae": 19.271,
+   "nasa_score": 5524.596,
+   "rmse_capped": 14.981,
+   "mae_capped": 10.578,
+   "nasa_score_capped": 1123.623
+  }
+ },
+ "intervals": {
+  "main": [
+   {
+    "nominal": 0.5,
+    "empirical": 0.5081,
+    "mean_width": 16.88
+   },
+   {
+    "nominal": 0.6,
+    "empirical": 0.5726,
+    "mean_width": 19.09
+   },
+   {
+    "nominal": 0.7,
+    "empirical": 0.6935,
+    "mean_width": 22.61
+   },
+   {
+    "nominal": 0.8,
+    "empirical": 0.7984,
+    "mean_width": 27.85
+   },
+   {
+    "nominal": 0.9,
+    "empirical": 0.9032,
+    "mean_width": 39.9
+   }
+  ],
+  "lgbm": [
+   {
+    "nominal": 0.5,
+    "empirical": 0.4435,
+    "mean_width": 10.85
+   },
+   {
+    "nominal": 0.6,
+    "empirical": 0.5605,
+    "mean_width": 16.07
+   },
+   {
+    "nominal": 0.7,
+    "empirical": 0.6895,
+    "mean_width": 24.12
+   },
+   {
+    "nominal": 0.8,
+    "empirical": 0.8024,
+    "mean_width": 34.64
+   },
+   {
+    "nominal": 0.9,
+    "empirical": 0.9073,
+    "mean_width": 47.0
+   }
+  ]
+ },
+ "headline_interval": {
+  "main": {
+   "nominal": 0.8,
+   "empirical": 0.7984,
+   "mean_width": 27.85
+  },
+  "lgbm": {
+   "nominal": 0.8,
+   "empirical": 0.8024,
+   "mean_width": 34.64
+  }
+ },
+ "ensemble_disagreement_mean": 3.999,
+ "lgbm_best_iteration": 221,
+ "seq_training": [
+  {
+   "seed": 1389410828,
+   "epochs_run": 11,
+   "best_val_pinball": 2.9015
+  },
+  {
+   "seed": 526923447,
+   "epochs_run": 10,
+   "best_val_pinball": 2.8923
+  },
+  {
+   "seed": 1893325596,
+   "epochs_run": 16,
+   "best_val_pinball": 2.6185
+  }
+ ],
+ "alarm_test_roc": [
+  {
+   "theta": 0.05,
+   "false_alarm_rate": 0.1346,
+   "miss_rate": 0.0
+  },
+  {
+   "theta": 0.1,
+   "false_alarm_rate": 0.101,
+   "miss_rate": 0.025
+  },
+  {
+   "theta": 0.2,
+   "false_alarm_rate": 0.0337,
+   "miss_rate": 0.05
+  },
+  {
+   "theta": 0.3,
+   "false_alarm_rate": 0.0144,
+   "miss_rate": 0.125
+  },
+  {
+   "theta": 0.4,
+   "false_alarm_rate": 0.0096,
+   "miss_rate": 0.25
+  },
+  {
+   "theta": 0.5,
+   "false_alarm_rate": 0.0048,
+   "miss_rate": 0.275
+  },
+  {
+   "theta": 0.6,
+   "false_alarm_rate": 0.0,
+   "miss_rate": 0.375
+  },
+  {
+   "theta": 0.7,
+   "false_alarm_rate": 0.0,
+   "miss_rate": 0.5
+  },
+  {
+   "theta": 0.8,
+   "false_alarm_rate": 0.0,
+   "miss_rate": 0.775
+  },
+  {
+   "theta": 0.9,
+   "false_alarm_rate": 0.0,
+   "miss_rate": 1.0
+  }
+ ],
+ "alarm_replay": {
+  "units": 50,
+  "theta": 0.3,
+  "horizon": 20,
+  "missed": 0,
+  "premature_gt_3H": 0,
+  "lead_p10": 15.9,
+  "lead_median": 22.0,
+  "lead_p90": 28.1,
+  "leads": [
+   20,
+   18,
+   22,
+   28,
+   25,
+   16,
+   29,
+   49,
+   23,
+   21,
+   27,
+   27,
+   26,
+   10,
+   50,
+   16,
+   18,
+   23,
+   18,
+   22,
+   22,
+   21,
+   4,
+   23,
+   19,
+   11,
+   19,
+   24,
+   12,
+   18,
+   20,
+   27,
+   29,
+   24,
+   19,
+   26,
+   22,
+   18,
+   22,
+   15,
+   17,
+   38,
+   25,
+   26,
+   27,
+   27,
+   22,
+   26,
+   24,
+   21
+  ]
+ }
+}

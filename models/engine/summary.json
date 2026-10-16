@@ -1,0 +1,884 @@
+[
+ {
+  "subset": "FD001",
+  "provenance": "REAL",
+  "fast": false,
+  "serving_model": "lgbm",
+  "main_vs_lgbm_rmse_gain": -0.1849,
+  "test_engines": 100,
+  "metrics": {
+   "ridge": {
+    "rmse": 17.535,
+    "mae": 14.242,
+    "nasa_score": 458.569,
+    "rmse_capped": 16.147,
+    "mae_capped": 13.172,
+    "nasa_score_capped": 397.907
+   },
+   "lgbm": {
+    "rmse": 13.763,
+    "mae": 9.936,
+    "nasa_score": 260.658,
+    "rmse_capped": 12.325,
+    "mae_capped": 8.866,
+    "nasa_score_capped": 221.943
+   },
+   "main": {
+    "rmse": 16.308,
+    "mae": 11.855,
+    "nasa_score": 456.55,
+    "rmse_capped": 14.946,
+    "mae_capped": 10.785,
+    "nasa_score_capped": 398.136
+   }
+  },
+  "intervals": {
+   "main": [
+    {
+     "nominal": 0.5,
+     "empirical": 0.44,
+     "mean_width": 13.07
+    },
+    {
+     "nominal": 0.6,
+     "empirical": 0.5,
+     "mean_width": 17.08
+    },
+    {
+     "nominal": 0.7,
+     "empirical": 0.57,
+     "mean_width": 21.1
+    },
+    {
+     "nominal": 0.8,
+     "empirical": 0.72,
+     "mean_width": 28.07
+    },
+    {
+     "nominal": 0.9,
+     "empirical": 0.9,
+     "mean_width": 41.57
+    }
+   ],
+   "lgbm": [
+    {
+     "nominal": 0.5,
+     "empirical": 0.53,
+     "mean_width": 12.87
+    },
+    {
+     "nominal": 0.6,
+     "empirical": 0.62,
+     "mean_width": 15.15
+    },
+    {
+     "nominal": 0.7,
+     "empirical": 0.7,
+     "mean_width": 20.55
+    },
+    {
+     "nominal": 0.8,
+     "empirical": 0.81,
+     "mean_width": 27.98
+    },
+    {
+     "nominal": 0.9,
+     "empirical": 0.85,
+     "mean_width": 39.33
+    }
+   ]
+  },
+  "headline_interval": {
+   "main": {
+    "nominal": 0.8,
+    "empirical": 0.72,
+    "mean_width": 28.07
+   },
+   "lgbm": {
+    "nominal": 0.8,
+    "empirical": 0.81,
+    "mean_width": 27.98
+   }
+  },
+  "ensemble_disagreement_mean": 3.128,
+  "lgbm_best_iteration": 332,
+  "seq_training": [
+   {
+    "seed": 1830631057,
+    "epochs_run": 18,
+    "best_val_pinball": 2.8844
+   },
+   {
+    "seed": 948128125,
+    "epochs_run": 18,
+    "best_val_pinball": 2.5319
+   },
+   {
+    "seed": 778502258,
+    "epochs_run": 20,
+    "best_val_pinball": 2.9366
+   }
+  ],
+  "alarm_test_roc": [
+   {
+    "theta": 0.05,
+    "false_alarm_rate": 0.131,
+    "miss_rate": 0.0
+   },
+   {
+    "theta": 0.1,
+    "false_alarm_rate": 0.1071,
+    "miss_rate": 0.0
+   },
+   {
+    "theta": 0.2,
+    "false_alarm_rate": 0.0357,
+    "miss_rate": 0.125
+   },
+   {
+    "theta": 0.3,
+    "false_alarm_rate": 0.0357,
+    "miss_rate": 0.1875
+   },
+   {
+    "theta": 0.4,
+    "false_alarm_rate": 0.0238,
+    "miss_rate": 0.25
+   },
+   {
+    "theta": 0.5,
+    "false_alarm_rate": 0.0119,
+    "miss_rate": 0.3125
+   },
+   {
+    "theta": 0.6,
+    "false_alarm_rate": 0.0119,
+    "miss_rate": 0.4375
+   },
+   {
+    "theta": 0.7,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.4375
+   },
+   {
+    "theta": 0.8,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.5625
+   },
+   {
+    "theta": 0.9,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 1.0
+   }
+  ],
+  "alarm_replay": {
+   "units": 20,
+   "theta": 0.3,
+   "horizon": 20,
+   "missed": 0,
+   "premature_gt_3H": 0,
+   "lead_p10": 20.0,
+   "lead_median": 24.5,
+   "lead_p90": 34.300000000000004,
+   "leads": [
+    25,
+    30,
+    23,
+    20,
+    34,
+    20,
+    30,
+    25,
+    20,
+    21,
+    37,
+    22,
+    37,
+    25,
+    22,
+    24,
+    33,
+    23,
+    33,
+    22
+   ]
+  }
+ },
+ {
+  "subset": "FD002",
+  "provenance": "REAL",
+  "fast": false,
+  "serving_model": "lgbm",
+  "main_vs_lgbm_rmse_gain": -0.0153,
+  "test_engines": 259,
+  "metrics": {
+   "ridge": {
+    "rmse": 28.489,
+    "mae": 20.218,
+    "nasa_score": 10341.521,
+    "rmse_capped": 15.822,
+    "mae_capped": 12.723,
+    "nasa_score_capped": 1054.17
+   },
+   "lgbm": {
+    "rmse": 25.52,
+    "mae": 16.867,
+    "nasa_score": 6724.472,
+    "rmse_capped": 13.006,
+    "mae_capped": 9.373,
+    "nasa_score_capped": 777.316
+   },
+   "main": {
+    "rmse": 25.91,
+    "mae": 17.91,
+    "nasa_score": 6310.563,
+    "rmse_capped": 14.656,
+    "mae_capped": 10.416,
+    "nasa_score_capped": 1208.029
+   }
+  },
+  "intervals": {
+   "main": [
+    {
+     "nominal": 0.5,
+     "empirical": 0.4093,
+     "mean_width": 14.61
+    },
+    {
+     "nominal": 0.6,
+     "empirical": 0.4981,
+     "mean_width": 17.24
+    },
+    {
+     "nominal": 0.7,
+     "empirical": 0.6178,
+     "mean_width": 21.18
+    },
+    {
+     "nominal": 0.8,
+     "empirical": 0.7413,
+     "mean_width": 27.6
+    },
+    {
+     "nominal": 0.9,
+     "empirical": 0.9112,
+     "mean_width": 41.39
+    }
+   ],
+   "lgbm": [
+    {
+     "nominal": 0.5,
+     "empirical": 0.5058,
+     "mean_width": 12.86
+    },
+    {
+     "nominal": 0.6,
+     "empirical": 0.6216,
+     "mean_width": 17.3
+    },
+    {
+     "nominal": 0.7,
+     "empirical": 0.7181,
+     "mean_width": 23.57
+    },
+    {
+     "nominal": 0.8,
+     "empirical": 0.7954,
+     "mean_width": 31.8
+    },
+    {
+     "nominal": 0.9,
+     "empirical": 0.9073,
+     "mean_width": 44.08
+    }
+   ]
+  },
+  "headline_interval": {
+   "main": {
+    "nominal": 0.8,
+    "empirical": 0.7413,
+    "mean_width": 27.6
+   },
+   "lgbm": {
+    "nominal": 0.8,
+    "empirical": 0.7954,
+    "mean_width": 31.8
+   }
+  },
+  "ensemble_disagreement_mean": 3.92,
+  "lgbm_best_iteration": 307,
+  "seq_training": [
+   {
+    "seed": 1420174337,
+    "epochs_run": 13,
+    "best_val_pinball": 2.7501
+   },
+   {
+    "seed": 1472930709,
+    "epochs_run": 11,
+    "best_val_pinball": 2.7826
+   },
+   {
+    "seed": 821952771,
+    "epochs_run": 12,
+    "best_val_pinball": 2.6806
+   }
+  ],
+  "alarm_test_roc": [
+   {
+    "theta": 0.05,
+    "false_alarm_rate": 0.1068,
+    "miss_rate": 0.0
+   },
+   {
+    "theta": 0.1,
+    "false_alarm_rate": 0.0728,
+    "miss_rate": 0.0
+   },
+   {
+    "theta": 0.2,
+    "false_alarm_rate": 0.0388,
+    "miss_rate": 0.0189
+   },
+   {
+    "theta": 0.3,
+    "false_alarm_rate": 0.0291,
+    "miss_rate": 0.0189
+   },
+   {
+    "theta": 0.4,
+    "false_alarm_rate": 0.0194,
+    "miss_rate": 0.0377
+   },
+   {
+    "theta": 0.5,
+    "false_alarm_rate": 0.0097,
+    "miss_rate": 0.0377
+   },
+   {
+    "theta": 0.6,
+    "false_alarm_rate": 0.0049,
+    "miss_rate": 0.1509
+   },
+   {
+    "theta": 0.7,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.2642
+   },
+   {
+    "theta": 0.8,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.434
+   },
+   {
+    "theta": 0.9,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.9623
+   }
+  ],
+  "alarm_replay": {
+   "units": 52,
+   "theta": 0.3,
+   "horizon": 20,
+   "missed": 0,
+   "premature_gt_3H": 0,
+   "lead_p10": 19.1,
+   "lead_median": 24.0,
+   "lead_p90": 37.0,
+   "leads": [
+    20,
+    14,
+    22,
+    17,
+    26,
+    30,
+    25,
+    40,
+    21,
+    19,
+    51,
+    24,
+    42,
+    27,
+    29,
+    21,
+    20,
+    18,
+    25,
+    21,
+    23,
+    37,
+    26,
+    20,
+    25,
+    26,
+    37,
+    31,
+    22,
+    26,
+    23,
+    22,
+    26,
+    19,
+    21,
+    20,
+    23,
+    30,
+    24,
+    24,
+    27,
+    29,
+    22,
+    37,
+    23,
+    37,
+    30,
+    23,
+    22,
+    18,
+    20,
+    25
+   ]
+  }
+ },
+ {
+  "subset": "FD003",
+  "provenance": "REAL",
+  "fast": false,
+  "serving_model": "lgbm",
+  "main_vs_lgbm_rmse_gain": -0.0244,
+  "test_engines": 100,
+  "metrics": {
+   "ridge": {
+    "rmse": 18.277,
+    "mae": 15.236,
+    "nasa_score": 586.249,
+    "rmse_capped": 16.656,
+    "mae_capped": 13.676,
+    "nasa_score_capped": 521.267
+   },
+   "lgbm": {
+    "rmse": 15.108,
+    "mae": 10.887,
+    "nasa_score": 353.816,
+    "rmse_capped": 13.375,
+    "mae_capped": 9.327,
+    "nasa_score_capped": 297.105
+   },
+   "main": {
+    "rmse": 15.477,
+    "mae": 10.804,
+    "nasa_score": 403.993,
+    "rmse_capped": 13.781,
+    "mae_capped": 9.244,
+    "nasa_score_capped": 344.61
+   }
+  },
+  "intervals": {
+   "main": [
+    {
+     "nominal": 0.5,
+     "empirical": 0.48,
+     "mean_width": 10.24
+    },
+    {
+     "nominal": 0.6,
+     "empirical": 0.52,
+     "mean_width": 12.19
+    },
+    {
+     "nominal": 0.7,
+     "empirical": 0.59,
+     "mean_width": 13.99
+    },
+    {
+     "nominal": 0.8,
+     "empirical": 0.67,
+     "mean_width": 16.67
+    },
+    {
+     "nominal": 0.9,
+     "empirical": 0.78,
+     "mean_width": 23.56
+    }
+   ],
+   "lgbm": [
+    {
+     "nominal": 0.5,
+     "empirical": 0.39,
+     "mean_width": 6.09
+    },
+    {
+     "nominal": 0.6,
+     "empirical": 0.45,
+     "mean_width": 8.77
+    },
+    {
+     "nominal": 0.7,
+     "empirical": 0.56,
+     "mean_width": 12.98
+    },
+    {
+     "nominal": 0.8,
+     "empirical": 0.64,
+     "mean_width": 17.67
+    },
+    {
+     "nominal": 0.9,
+     "empirical": 0.77,
+     "mean_width": 31.74
+    }
+   ]
+  },
+  "headline_interval": {
+   "main": {
+    "nominal": 0.8,
+    "empirical": 0.67,
+    "mean_width": 16.67
+   },
+   "lgbm": {
+    "nominal": 0.8,
+    "empirical": 0.64,
+    "mean_width": 17.67
+   }
+  },
+  "ensemble_disagreement_mean": 3.595,
+  "lgbm_best_iteration": 343,
+  "seq_training": [
+   {
+    "seed": 188605458,
+    "epochs_run": 20,
+    "best_val_pinball": 2.0047
+   },
+   {
+    "seed": 1299894715,
+    "epochs_run": 36,
+    "best_val_pinball": 2.2158
+   },
+   {
+    "seed": 716698917,
+    "epochs_run": 29,
+    "best_val_pinball": 2.0671
+   }
+  ],
+  "alarm_test_roc": [
+   {
+    "theta": 0.05,
+    "false_alarm_rate": 0.093,
+    "miss_rate": 0.0
+   },
+   {
+    "theta": 0.1,
+    "false_alarm_rate": 0.0698,
+    "miss_rate": 0.0
+   },
+   {
+    "theta": 0.2,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.0
+   },
+   {
+    "theta": 0.3,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.0714
+   },
+   {
+    "theta": 0.4,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.0714
+   },
+   {
+    "theta": 0.5,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.1429
+   },
+   {
+    "theta": 0.6,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.1429
+   },
+   {
+    "theta": 0.7,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.2857
+   },
+   {
+    "theta": 0.8,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.3571
+   },
+   {
+    "theta": 0.9,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.5714
+   }
+  ],
+  "alarm_replay": {
+   "units": 20,
+   "theta": 0.3,
+   "horizon": 20,
+   "missed": 0,
+   "premature_gt_3H": 0,
+   "lead_p10": 18.7,
+   "lead_median": 23.0,
+   "lead_p90": 27.200000000000003,
+   "leads": [
+    23,
+    29,
+    38,
+    24,
+    20,
+    22,
+    26,
+    19,
+    25,
+    19,
+    16,
+    27,
+    27,
+    27,
+    14,
+    24,
+    20,
+    23,
+    22,
+    20
+   ]
+  }
+ },
+ {
+  "subset": "FD004",
+  "provenance": "REAL",
+  "fast": false,
+  "serving_model": "lgbm",
+  "main_vs_lgbm_rmse_gain": -0.0456,
+  "test_engines": 248,
+  "metrics": {
+   "ridge": {
+    "rmse": 31.99,
+    "mae": 24.75,
+    "nasa_score": 9835.167,
+    "rmse_capped": 20.324,
+    "mae_capped": 16.056,
+    "nasa_score_capped": 2138.933
+   },
+   "lgbm": {
+    "rmse": 26.405,
+    "mae": 18.671,
+    "nasa_score": 4647.907,
+    "rmse_capped": 14.388,
+    "mae_capped": 9.977,
+    "nasa_score_capped": 998.237
+   },
+   "main": {
+    "rmse": 27.608,
+    "mae": 19.271,
+    "nasa_score": 5524.596,
+    "rmse_capped": 14.981,
+    "mae_capped": 10.578,
+    "nasa_score_capped": 1123.623
+   }
+  },
+  "intervals": {
+   "main": [
+    {
+     "nominal": 0.5,
+     "empirical": 0.5081,
+     "mean_width": 16.88
+    },
+    {
+     "nominal": 0.6,
+     "empirical": 0.5726,
+     "mean_width": 19.09
+    },
+    {
+     "nominal": 0.7,
+     "empirical": 0.6935,
+     "mean_width": 22.61
+    },
+    {
+     "nominal": 0.8,
+     "empirical": 0.7984,
+     "mean_width": 27.85
+    },
+    {
+     "nominal": 0.9,
+     "empirical": 0.9032,
+     "mean_width": 39.9
+    }
+   ],
+   "lgbm": [
+    {
+     "nominal": 0.5,
+     "empirical": 0.4435,
+     "mean_width": 10.85
+    },
+    {
+     "nominal": 0.6,
+     "empirical": 0.5605,
+     "mean_width": 16.07
+    },
+    {
+     "nominal": 0.7,
+     "empirical": 0.6895,
+     "mean_width": 24.12
+    },
+    {
+     "nominal": 0.8,
+     "empirical": 0.8024,
+     "mean_width": 34.64
+    },
+    {
+     "nominal": 0.9,
+     "empirical": 0.9073,
+     "mean_width": 47.0
+    }
+   ]
+  },
+  "headline_interval": {
+   "main": {
+    "nominal": 0.8,
+    "empirical": 0.7984,
+    "mean_width": 27.85
+   },
+   "lgbm": {
+    "nominal": 0.8,
+    "empirical": 0.8024,
+    "mean_width": 34.64
+   }
+  },
+  "ensemble_disagreement_mean": 3.999,
+  "lgbm_best_iteration": 221,
+  "seq_training": [
+   {
+    "seed": 1389410828,
+    "epochs_run": 11,
+    "best_val_pinball": 2.9015
+   },
+   {
+    "seed": 526923447,
+    "epochs_run": 10,
+    "best_val_pinball": 2.8923
+   },
+   {
+    "seed": 1893325596,
+    "epochs_run": 16,
+    "best_val_pinball": 2.6185
+   }
+  ],
+  "alarm_test_roc": [
+   {
+    "theta": 0.05,
+    "false_alarm_rate": 0.1346,
+    "miss_rate": 0.0
+   },
+   {
+    "theta": 0.1,
+    "false_alarm_rate": 0.101,
+    "miss_rate": 0.025
+   },
+   {
+    "theta": 0.2,
+    "false_alarm_rate": 0.0337,
+    "miss_rate": 0.05
+   },
+   {
+    "theta": 0.3,
+    "false_alarm_rate": 0.0144,
+    "miss_rate": 0.125
+   },
+   {
+    "theta": 0.4,
+    "false_alarm_rate": 0.0096,
+    "miss_rate": 0.25
+   },
+   {
+    "theta": 0.5,
+    "false_alarm_rate": 0.0048,
+    "miss_rate": 0.275
+   },
+   {
+    "theta": 0.6,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.375
+   },
+   {
+    "theta": 0.7,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.5
+   },
+   {
+    "theta": 0.8,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 0.775
+   },
+   {
+    "theta": 0.9,
+    "false_alarm_rate": 0.0,
+    "miss_rate": 1.0
+   }
+  ],
+  "alarm_replay": {
+   "units": 50,
+   "theta": 0.3,
+   "horizon": 20,
+   "missed": 0,
+   "premature_gt_3H": 0,
+   "lead_p10": 15.9,
+   "lead_median": 22.0,
+   "lead_p90": 28.1,
+   "leads": [
+    20,
+    18,
+    22,
+    28,
+    25,
+    16,
+    29,
+    49,
+    23,
+    21,
+    27,
+    27,
+    26,
+    10,
+    50,
+    16,
+    18,
+    23,
+    18,
+    22,
+    22,
+    21,
+    4,
+    23,
+    19,
+    11,
+    19,
+    24,
+    12,
+    18,
+    20,
+    27,
+    29,
+    24,
+    19,
+    26,
+    22,
+    18,
+    22,
+    15,
+    17,
+    38,
+    25,
+    26,
+    27,
+    27,
+    22,
+    26,
+    24,
+    21
+   ]
+  }
+ }
+]

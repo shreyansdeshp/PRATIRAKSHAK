@@ -1,0 +1,1881 @@
+{
+ "method": "occlusion to healthy baseline on serving model (lgbm)",
+ "global_ranking": [
+  {
+   "sensor": "s17",
+   "symbol": "htBleed",
+   "description": "bleed enthalpy",
+   "part": "High-pressure turbine",
+   "headline": true,
+   "mean_abs_delta_rul": 5.36
+  },
+  {
+   "sensor": "s11",
+   "symbol": "Ps30",
+   "description": "HPC outlet static pressure",
+   "part": "High-pressure compressor",
+   "headline": true,
+   "mean_abs_delta_rul": 5.077
+  },
+  {
+   "sensor": "s4",
+   "symbol": "T50",
+   "description": "LPT outlet temperature",
+   "part": "Low-pressure turbine",
+   "headline": true,
+   "mean_abs_delta_rul": 4.858
+  },
+  {
+   "sensor": "s9",
+   "symbol": "Nc",
+   "description": "physical core speed",
+   "part": "High-pressure compressor",
+   "headline": true,
+   "mean_abs_delta_rul": 3.53
+  },
+  {
+   "sensor": "s14",
+   "symbol": "NRc",
+   "description": "corrected core speed",
+   "part": "redundancy check",
+   "headline": false,
+   "mean_abs_delta_rul": 3.53
+  },
+  {
+   "sensor": "s3",
+   "symbol": "T30",
+   "description": "HPC outlet temperature",
+   "part": "High-pressure compressor",
+   "headline": true,
+   "mean_abs_delta_rul": 3.506
+  },
+  {
+   "sensor": "s2",
+   "symbol": "T24",
+   "description": "LPC outlet temperature",
+   "part": "Low-pressure compressor",
+   "headline": true,
+   "mean_abs_delta_rul": 3.484
+  },
+  {
+   "sensor": "s15",
+   "symbol": "BPR",
+   "description": "bypass ratio",
+   "part": "Fan",
+   "headline": true,
+   "mean_abs_delta_rul": 3.315
+  },
+  {
+   "sensor": "s7",
+   "symbol": "P30",
+   "description": "HPC outlet pressure",
+   "part": "High-pressure compressor",
+   "headline": true,
+   "mean_abs_delta_rul": 3.051
+  },
+  {
+   "sensor": "s12",
+   "symbol": "phi",
+   "description": "fuel flow to Ps30 ratio",
+   "part": "Combustor",
+   "headline": true,
+   "mean_abs_delta_rul": 2.942
+  },
+  {
+   "sensor": "s8",
+   "symbol": "Nf",
+   "description": "physical fan speed",
+   "part": "Fan",
+   "headline": true,
+   "mean_abs_delta_rul": 2.657
+  },
+  {
+   "sensor": "s20",
+   "symbol": "W31",
+   "description": "HPT coolant bleed",
+   "part": "High-pressure turbine",
+   "headline": true,
+   "mean_abs_delta_rul": 2.528
+  },
+  {
+   "sensor": "s21",
+   "symbol": "W32",
+   "description": "LPT coolant bleed",
+   "part": "Low-pressure turbine",
+   "headline": true,
+   "mean_abs_delta_rul": 2.096
+  },
+  {
+   "sensor": "s13",
+   "symbol": "NRf",
+   "description": "corrected fan speed",
+   "part": "redundancy check",
+   "headline": false,
+   "mean_abs_delta_rul": 2.069
+  }
+ ],
+ "per_test_engine": [
+  {
+   "unit": 1,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 2.74
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 2.19
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 1.8
+    }
+   ]
+  },
+  {
+   "unit": 2,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 2.46
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 1.17
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 1.06
+    }
+   ]
+  },
+  {
+   "unit": 3,
+   "top3": [
+    {
+     "sensor": "s4",
+     "delta_rul": 13.3
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 8.69
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 7.42
+    }
+   ]
+  },
+  {
+   "unit": 4,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 10.94
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 6.45
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 6.23
+    }
+   ]
+  },
+  {
+   "unit": 5,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 6.56
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 3.94
+    },
+    {
+     "sensor": "s12",
+     "delta_rul": 3.74
+    }
+   ]
+  },
+  {
+   "unit": 6,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 12.46
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 2.48
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 2.1
+    }
+   ]
+  },
+  {
+   "unit": 7,
+   "top3": [
+    {
+     "sensor": "s21",
+     "delta_rul": 5.02
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 3.75
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 3.17
+    }
+   ]
+  },
+  {
+   "unit": 8,
+   "top3": [
+    {
+     "sensor": "s20",
+     "delta_rul": 8.69
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 3.71
+    },
+    {
+     "sensor": "s12",
+     "delta_rul": 2.45
+    }
+   ]
+  },
+  {
+   "unit": 9,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 1.76
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 0.17
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 0.15
+    }
+   ]
+  },
+  {
+   "unit": 10,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 10.86
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 4.05
+    },
+    {
+     "sensor": "s7",
+     "delta_rul": 3.78
+    }
+   ]
+  },
+  {
+   "unit": 11,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 3.65
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 3.54
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 3.17
+    }
+   ]
+  },
+  {
+   "unit": 12,
+   "top3": [
+    {
+     "sensor": "s20",
+     "delta_rul": 6.25
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 5.56
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 1.41
+    }
+   ]
+  },
+  {
+   "unit": 13,
+   "top3": [
+    {
+     "sensor": "s7",
+     "delta_rul": 12.34
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 9.93
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 7.96
+    }
+   ]
+  },
+  {
+   "unit": 14,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 2.83
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 0.79
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 0.74
+    }
+   ]
+  },
+  {
+   "unit": 15,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 7.55
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 7.54
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 4.51
+    }
+   ]
+  },
+  {
+   "unit": 16,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 7.1
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 3.3
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 2.59
+    }
+   ]
+  },
+  {
+   "unit": 17,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 19.64
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 5.62
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 4.89
+    }
+   ]
+  },
+  {
+   "unit": 18,
+   "top3": [
+    {
+     "sensor": "s12",
+     "delta_rul": 13.89
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 8.71
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 8.15
+    }
+   ]
+  },
+  {
+   "unit": 19,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 11.02
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 8.15
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 7.16
+    }
+   ]
+  },
+  {
+   "unit": 20,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 14.73
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 14.09
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 10.95
+    }
+   ]
+  },
+  {
+   "unit": 21,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 27.96
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 1.01
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 0.51
+    }
+   ]
+  },
+  {
+   "unit": 22,
+   "top3": [
+    {
+     "sensor": "s2",
+     "delta_rul": 0.0
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 0.0
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 23,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 4.16
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 0.84
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 0.38
+    }
+   ]
+  },
+  {
+   "unit": 24,
+   "top3": [
+    {
+     "sensor": "s4",
+     "delta_rul": 8.12
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 5.9
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 5.48
+    }
+   ]
+  },
+  {
+   "unit": 25,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 2.93
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 2.21
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 1.99
+    }
+   ]
+  },
+  {
+   "unit": 26,
+   "top3": [
+    {
+     "sensor": "s12",
+     "delta_rul": 2.16
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 1.98
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 1.57
+    }
+   ]
+  },
+  {
+   "unit": 27,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 7.57
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 5.69
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 5.02
+    }
+   ]
+  },
+  {
+   "unit": 28,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 18.36
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 2.83
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 2.6
+    }
+   ]
+  },
+  {
+   "unit": 29,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 5.8
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 4.7
+    },
+    {
+     "sensor": "s12",
+     "delta_rul": 3.98
+    }
+   ]
+  },
+  {
+   "unit": 30,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 4.69
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 1.5
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 1.31
+    }
+   ]
+  },
+  {
+   "unit": 31,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 13.94
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 13.02
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 11.51
+    }
+   ]
+  },
+  {
+   "unit": 32,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 5.77
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 5.49
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 4.95
+    }
+   ]
+  },
+  {
+   "unit": 33,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 2.46
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 2.31
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 1.31
+    }
+   ]
+  },
+  {
+   "unit": 34,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 14.71
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 14.33
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 12.44
+    }
+   ]
+  },
+  {
+   "unit": 35,
+   "top3": [
+    {
+     "sensor": "s4",
+     "delta_rul": 19.08
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 16.44
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 12.99
+    }
+   ]
+  },
+  {
+   "unit": 36,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 11.57
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 9.88
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 8.78
+    }
+   ]
+  },
+  {
+   "unit": 37,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 13.83
+    },
+    {
+     "sensor": "s12",
+     "delta_rul": 12.72
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 7.65
+    }
+   ]
+  },
+  {
+   "unit": 38,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 12.04
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 9.22
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 5.3
+    }
+   ]
+  },
+  {
+   "unit": 39,
+   "top3": [
+    {
+     "sensor": "s21",
+     "delta_rul": 1.08
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 0.74
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 0.46
+    }
+   ]
+  },
+  {
+   "unit": 40,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 15.25
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 7.51
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 6.24
+    }
+   ]
+  },
+  {
+   "unit": 41,
+   "top3": [
+    {
+     "sensor": "s12",
+     "delta_rul": 12.68
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 10.87
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 9.24
+    }
+   ]
+  },
+  {
+   "unit": 42,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 17.64
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 10.34
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 8.96
+    }
+   ]
+  },
+  {
+   "unit": 43,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 13.51
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 11.48
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 9.83
+    }
+   ]
+  },
+  {
+   "unit": 44,
+   "top3": [
+    {
+     "sensor": "s15",
+     "delta_rul": 2.56
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 2.33
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 2.3
+    }
+   ]
+  },
+  {
+   "unit": 45,
+   "top3": [
+    {
+     "sensor": "s4",
+     "delta_rul": 10.99
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 9.83
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 8.67
+    }
+   ]
+  },
+  {
+   "unit": 46,
+   "top3": [
+    {
+     "sensor": "s2",
+     "delta_rul": 10.57
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 6.97
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 5.43
+    }
+   ]
+  },
+  {
+   "unit": 47,
+   "top3": [
+    {
+     "sensor": "s15",
+     "delta_rul": 3.92
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 2.61
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 1.56
+    }
+   ]
+  },
+  {
+   "unit": 48,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 8.77
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 4.2
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 3.96
+    }
+   ]
+  },
+  {
+   "unit": 49,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 13.43
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 13.36
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 9.94
+    }
+   ]
+  },
+  {
+   "unit": 50,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 4.54
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 4.05
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 3.04
+    }
+   ]
+  },
+  {
+   "unit": 51,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 6.17
+    },
+    {
+     "sensor": "s7",
+     "delta_rul": 6.11
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 4.37
+    }
+   ]
+  },
+  {
+   "unit": 52,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 10.46
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 10.22
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 8.25
+    }
+   ]
+  },
+  {
+   "unit": 53,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 9.46
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 8.44
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 7.67
+    }
+   ]
+  },
+  {
+   "unit": 54,
+   "top3": [
+    {
+     "sensor": "s15",
+     "delta_rul": 4.46
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 4.29
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 2.55
+    }
+   ]
+  },
+  {
+   "unit": 55,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 6.95
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 5.13
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 3.27
+    }
+   ]
+  },
+  {
+   "unit": 56,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 13.45
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 11.14
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 9.94
+    }
+   ]
+  },
+  {
+   "unit": 57,
+   "top3": [
+    {
+     "sensor": "s4",
+     "delta_rul": 8.08
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 7.97
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 6.27
+    }
+   ]
+  },
+  {
+   "unit": 58,
+   "top3": [
+    {
+     "sensor": "s4",
+     "delta_rul": 19.01
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 9.98
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 8.73
+    }
+   ]
+  },
+  {
+   "unit": 59,
+   "top3": [
+    {
+     "sensor": "s2",
+     "delta_rul": 2.55
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 1.9
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 0.94
+    }
+   ]
+  },
+  {
+   "unit": 60,
+   "top3": [
+    {
+     "sensor": "s20",
+     "delta_rul": 5.91
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 3.68
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 1.35
+    }
+   ]
+  },
+  {
+   "unit": 61,
+   "top3": [
+    {
+     "sensor": "s4",
+     "delta_rul": 17.69
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 14.42
+    },
+    {
+     "sensor": "s12",
+     "delta_rul": 11.46
+    }
+   ]
+  },
+  {
+   "unit": 62,
+   "top3": [
+    {
+     "sensor": "s20",
+     "delta_rul": 6.88
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 6.48
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 3.8
+    }
+   ]
+  },
+  {
+   "unit": 63,
+   "top3": [
+    {
+     "sensor": "s15",
+     "delta_rul": 12.14
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 12.1
+    },
+    {
+     "sensor": "s7",
+     "delta_rul": 6.57
+    }
+   ]
+  },
+  {
+   "unit": 64,
+   "top3": [
+    {
+     "sensor": "s7",
+     "delta_rul": 11.59
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 11.21
+    },
+    {
+     "sensor": "s12",
+     "delta_rul": 8.32
+    }
+   ]
+  },
+  {
+   "unit": 65,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 1.48
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 1.03
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 0.88
+    }
+   ]
+  },
+  {
+   "unit": 66,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 15.21
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 7.74
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 7.39
+    }
+   ]
+  },
+  {
+   "unit": 67,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 4.51
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 2.4
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 1.01
+    }
+   ]
+  },
+  {
+   "unit": 68,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 14.28
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 13.02
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 12.01
+    }
+   ]
+  },
+  {
+   "unit": 69,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 3.17
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 1.95
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 1.91
+    }
+   ]
+  },
+  {
+   "unit": 70,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 12.96
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 5.63
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 5.27
+    }
+   ]
+  },
+  {
+   "unit": 71,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 7.25
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 2.2
+    },
+    {
+     "sensor": "s7",
+     "delta_rul": 2.15
+    }
+   ]
+  },
+  {
+   "unit": 72,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 19.44
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 8.49
+    },
+    {
+     "sensor": "s12",
+     "delta_rul": 7.16
+    }
+   ]
+  },
+  {
+   "unit": 73,
+   "top3": [
+    {
+     "sensor": "s21",
+     "delta_rul": 3.89
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 3.13
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 2.29
+    }
+   ]
+  },
+  {
+   "unit": 74,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 3.94
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 2.66
+    },
+    {
+     "sensor": "s7",
+     "delta_rul": 2.55
+    }
+   ]
+  },
+  {
+   "unit": 75,
+   "top3": [
+    {
+     "sensor": "s8",
+     "delta_rul": 5.7
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 3.88
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 3.14
+    }
+   ]
+  },
+  {
+   "unit": 76,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 15.77
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 13.53
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 11.9
+    }
+   ]
+  },
+  {
+   "unit": 77,
+   "top3": [
+    {
+     "sensor": "s12",
+     "delta_rul": 13.41
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 13.32
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 10.52
+    }
+   ]
+  },
+  {
+   "unit": 78,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 5.67
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 1.81
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 1.68
+    }
+   ]
+  },
+  {
+   "unit": 79,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 17.12
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 6.91
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 5.07
+    }
+   ]
+  },
+  {
+   "unit": 80,
+   "top3": [
+    {
+     "sensor": "s7",
+     "delta_rul": 7.33
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 6.06
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 5.87
+    }
+   ]
+  },
+  {
+   "unit": 81,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 14.93
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 13.23
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 12.12
+    }
+   ]
+  },
+  {
+   "unit": 82,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 16.46
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 13.93
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 11.68
+    }
+   ]
+  },
+  {
+   "unit": 83,
+   "top3": [
+    {
+     "sensor": "s20",
+     "delta_rul": 1.18
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 0.59
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 0.53
+    }
+   ]
+  },
+  {
+   "unit": 84,
+   "top3": [
+    {
+     "sensor": "s7",
+     "delta_rul": 12.9
+    },
+    {
+     "sensor": "s15",
+     "delta_rul": 8.45
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 5.16
+    }
+   ]
+  },
+  {
+   "unit": 85,
+   "top3": [
+    {
+     "sensor": "s2",
+     "delta_rul": 0.0
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 0.0
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 86,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 15.49
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 1.98
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 1.78
+    }
+   ]
+  },
+  {
+   "unit": 87,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 4.63
+    },
+    {
+     "sensor": "s21",
+     "delta_rul": 2.06
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 1.51
+    }
+   ]
+  },
+  {
+   "unit": 88,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 1.68
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 1.29
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 1.14
+    }
+   ]
+  },
+  {
+   "unit": 89,
+   "top3": [
+    {
+     "sensor": "s9",
+     "delta_rul": 9.59
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 3.19
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 1.95
+    }
+   ]
+  },
+  {
+   "unit": 90,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 11.97
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 11.94
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 10.93
+    }
+   ]
+  },
+  {
+   "unit": 91,
+   "top3": [
+    {
+     "sensor": "s3",
+     "delta_rul": 18.26
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 16.41
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 15.57
+    }
+   ]
+  },
+  {
+   "unit": 92,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 14.75
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 11.79
+    },
+    {
+     "sensor": "s11",
+     "delta_rul": 9.1
+    }
+   ]
+  },
+  {
+   "unit": 93,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 9.8
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 9.78
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 6.77
+    }
+   ]
+  },
+  {
+   "unit": 94,
+   "top3": [
+    {
+     "sensor": "s2",
+     "delta_rul": 18.56
+    },
+    {
+     "sensor": "s17",
+     "delta_rul": 8.19
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 7.69
+    }
+   ]
+  },
+  {
+   "unit": 95,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 6.15
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 3.53
+    },
+    {
+     "sensor": "s7",
+     "delta_rul": 2.82
+    }
+   ]
+  },
+  {
+   "unit": 96,
+   "top3": [
+    {
+     "sensor": "s7",
+     "delta_rul": 3.14
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 2.32
+    },
+    {
+     "sensor": "s2",
+     "delta_rul": 2.16
+    }
+   ]
+  },
+  {
+   "unit": 97,
+   "top3": [
+    {
+     "sensor": "s15",
+     "delta_rul": 7.29
+    },
+    {
+     "sensor": "s8",
+     "delta_rul": 4.96
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 4.5
+    }
+   ]
+  },
+  {
+   "unit": 98,
+   "top3": [
+    {
+     "sensor": "s11",
+     "delta_rul": 15.4
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 11.73
+    },
+    {
+     "sensor": "s12",
+     "delta_rul": 8.57
+    }
+   ]
+  },
+  {
+   "unit": 99,
+   "top3": [
+    {
+     "sensor": "s12",
+     "delta_rul": 6.72
+    },
+    {
+     "sensor": "s9",
+     "delta_rul": 3.77
+    },
+    {
+     "sensor": "s20",
+     "delta_rul": 3.13
+    }
+   ]
+  },
+  {
+   "unit": 100,
+   "top3": [
+    {
+     "sensor": "s17",
+     "delta_rul": 8.5
+    },
+    {
+     "sensor": "s3",
+     "delta_rul": 8.44
+    },
+    {
+     "sensor": "s4",
+     "delta_rul": 7.12
+    }
+   ]
+  }
+ ],
+ "lgbm_shap_global": [
+  {
+   "feature": "cycle",
+   "mean_abs_shap": 9.535
+  },
+  {
+   "feature": "s17",
+   "mean_abs_shap": 7.118
+  },
+  {
+   "feature": "s11",
+   "mean_abs_shap": 5.985
+  },
+  {
+   "feature": "s3",
+   "mean_abs_shap": 5.924
+  },
+  {
+   "feature": "s4",
+   "mean_abs_shap": 4.712
+  },
+  {
+   "feature": "s14",
+   "mean_abs_shap": 3.772
+  },
+  {
+   "feature": "s12",
+   "mean_abs_shap": 3.36
+  },
+  {
+   "feature": "s2",
+   "mean_abs_shap": 2.839
+  },
+  {
+   "feature": "s9",
+   "mean_abs_shap": 2.829
+  },
+  {
+   "feature": "s7",
+   "mean_abs_shap": 2.623
+  },
+  {
+   "feature": "s20",
+   "mean_abs_shap": 2.359
+  },
+  {
+   "feature": "s15",
+   "mean_abs_shap": 2.34
+  },
+  {
+   "feature": "s8",
+   "mean_abs_shap": 2.208
+  },
+  {
+   "feature": "s13",
+   "mean_abs_shap": 1.955
+  },
+  {
+   "feature": "s21",
+   "mean_abs_shap": 1.288
+  }
+ ]
+}

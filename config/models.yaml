@@ -1,0 +1,41 @@
+# Engine RUL model settings (SPEC §6). Train once with these defaults — no tuning sweeps (SPEC §0 rule 15).
+
+engine:
+  window: 30                      # cycles; shorter sequences are left-padded with their first row
+  r_max: 125                      # piecewise-linear RUL cap for training targets
+  # 12 headline sensors (SPEC §6.2) + NRf/NRc (redundancy for sensor trust, also informative)
+  inputs: [s2, s3, s4, s7, s8, s9, s11, s12, s13, s14, s15, s17, s20, s21]
+  kmeans_k: 6                     # operating-condition clusters for FD002/FD004 (fit on train units)
+  val_truncations_per_unit: 10    # calibration windows per val unit (seeded truncation points)
+  quantiles: [0.05, 0.10, 0.15, 0.20, 0.25, 0.50, 0.75, 0.80, 0.85, 0.90, 0.95]
+  coverage_levels: [0.5, 0.6, 0.7, 0.8, 0.9]
+  nominal_interval: 0.8           # p10–p90 reported as the headline interval
+  alarm:
+    horizon_cycles: 20            # H: "will it fail within the next H cycles?"
+    theta: 0.3                    # alarm when P(RUL ≤ H) ≥ θ
+    theta_grid: [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+  serving_rule_rmse_gain: 0.03    # main model serves only if ≥ 3 % lower test RMSE than LightGBM
+
+  ridge:
+    alpha: 1.0
+  lightgbm:
+    n_estimators: 2000
+    learning_rate: 0.03
+    num_leaves: 31
+    min_child_samples: 40
+    subsample: 0.8
+    subsample_freq: 1
+    colsample_bytree: 0.8
+    early_stopping_rounds: 100
+  sequence:
+    conv_channels: 32
+    gru_hidden: 64
+    dropout: 0.2
+    lr: 0.001
+    batch_size: 256
+    max_epochs: 40
+    patience: 6
+    ensemble_seeds: 3
+    fast:                         # --fast
+      max_epochs: 8
+      ensemble_seeds: 1

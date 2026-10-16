@@ -20,6 +20,7 @@ models/**/*.pt
 models/**/*.onnx
 models/**/*.pkl
 models/**/*.joblib
+models/**/lgbm.txt
 
 # node / front-end
 node_modules/
