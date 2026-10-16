@@ -15,6 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from pratirakshak.io import write_json
 from pratirakshak.settings import PROCESSED_DIR, derive_seed
 
 GROUP = 5  # 1 in 5 → 20 %
@@ -46,8 +47,7 @@ def make_splits(subset: str, life: pd.Series) -> dict[str, list[int]]:
 
 
 def save_splits(splits: dict[str, dict[str, list[int]]], path: Path = SPLITS_PATH) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(splits, indent=1) + "\n", encoding="utf-8")
+    write_json(path, splits)
 
 
 def load_splits(path: Path = SPLITS_PATH) -> dict[str, dict[str, list[int]]]:

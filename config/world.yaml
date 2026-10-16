@@ -1,0 +1,243 @@
+# Pratirakshak world definition (SPEC §3). Everything in the simulated world is driven from this file.
+# All names, bases, tails, costs are FICTIONAL. Provenance tags: SIMULATED unless noted.
+# Rename bases/aircraft here; regenerate with `./tasks.ps1 world` (or `make world`).
+
+calendar:
+  sim_start: "2026-06-01"        # ILLUSTRATIVE: D+0. June–August = monsoon (Sahyadri), heat (Aravalli), Ladakh roads open
+  horizon_days: 90
+  climatology_years: [2015, 2024] # Open-Meteo historical archive, day-of-year normals (REAL-ANCHORED)
+
+bases:
+  # lat/lon: SPEC §3.1 placeholders, nudged into open terrain away from real stations (see nudge_note).
+  # elevation_m is filled from Open-Meteo's 90 m DEM at generation time; `elevation_hint_m` is SPEC's estimate.
+  - id: SAH
+    name: Sahyadri Air Base
+    region: Maharashtra
+    lat: 19.50
+    lon: 74.00
+    elevation_hint_m: 600
+    character: "Monsoon, humidity, central hub"
+    hangar_bays: 5
+    tech_hours_per_day: 160
+    dust_index: 0.25             # ILLUSTRATIVE 0–1 (no keyless historical dust source used)
+    salinity_index: 0.15         # ILLUSTRATIVE 0–1
+    tempo: 1.0                   # sortie-rate multiplier
+    nudge_note: "SPEC placeholder kept (rural Ahmednagar district plateau)"
+  - id: ARV
+    name: Aravalli Air Base
+    region: Delhi / NCR
+    lat: 28.22
+    lon: 76.78
+    elevation_hint_m: 220
+    character: "Heat, dust, high tempo, command seat"
+    hangar_bays: 5
+    tech_hours_per_day: 176
+    dust_index: 0.80
+    salinity_index: 0.05
+    tempo: 1.25
+    nudge_note: "moved from 28.3,76.9 SW into open Aravalli foothills"
+  - id: HIM
+    name: Himshikhar Air Base
+    region: Ladakh
+    lat: 33.95
+    lon: 77.75
+    elevation_hint_m: 3300
+    character: "High altitude, cold, thin air, supply routes seasonally cut"
+    hangar_bays: 3
+    tech_hours_per_day: 112
+    dust_index: 0.45
+    salinity_index: 0.0
+    tempo: 0.9
+    nudge_note: "moved from 34.1,77.5 (near an existing airfield) SE along the Indus valley"
+  - id: KAV
+    name: Kaveri Air Base
+    region: Tamil Nadu
+    lat: 10.90
+    lon: 78.50
+    elevation_hint_m: 100
+    character: "Humid, salty/coastal-corrosion tendency"
+    hangar_bays: 4
+    tech_hours_per_day: 144
+    dust_index: 0.20
+    salinity_index: 0.70
+    tempo: 1.0
+    nudge_note: "SPEC placeholder kept (open land west of the Kaveri delta)"
+
+# Logistics nodes other than bases (fictional names, real regions).
+nodes:
+  - id: VIN
+    kind: depot
+    name: Vindhya Logistics Depot
+    region: Madhya Pradesh
+    lat: 23.30
+    lon: 77.55
+  - id: GOD
+    kind: depot
+    name: Godavari Logistics Depot
+    region: Telangana
+    lat: 17.60
+    lon: 78.60
+  - id: CHE
+    kind: depot
+    name: Chenab Forward Depot
+    region: Jammu
+    lat: 32.80
+    lon: 74.95
+  - id: NAN
+    kind: vendor_hub
+    name: Nandi Vendor Hub
+    region: Karnataka
+    lat: 13.25
+    lon: 77.60
+
+aircraft_types:
+  # cmapss_subset: REAL engine data source. engine_cycle_to_sorties (SPEC §3.3): sorties that consume one C-MAPSS cycle.
+  - id: GAR
+    name: Garjan
+    letter: G
+    role: Multirole fighter
+    engines: 1
+    cmapss_subset: FD004
+    engine_cycle_to_sorties: 1.0
+    sorties_per_day: 1.1         # per aircraft, mean, at tempo 1.0
+    sortie_hours: 1.4
+    intensity: 0.9               # g-load / throttle profile index 0–1
+    airframe_life_hours: 6000
+    age_years: [3, 22]
+    annual_hours: 180
+    criticality_role: [engines, hydraulics, flight_controls, avionics]
+    silhouette: delta
+  - id: PRA
+    name: Prahar
+    letter: P
+    role: Strike / ground attack
+    engines: 1
+    cmapss_subset: FD002
+    engine_cycle_to_sorties: 1.0
+    sorties_per_day: 1.0
+    sortie_hours: 1.6
+    intensity: 0.75
+    airframe_life_hours: 6000
+    age_years: [5, 25]
+    annual_hours: 170
+    criticality_role: [engines, hydraulics, flight_controls, avionics]
+    silhouette: swept
+  - id: VAH
+    name: Vahak
+    letter: V
+    role: Medium transport
+    engines: 2
+    cmapss_subset: FD001
+    engine_cycle_to_sorties: 0.8
+    sorties_per_day: 0.8
+    sortie_hours: 3.2
+    intensity: 0.3
+    airframe_life_hours: 20000
+    age_years: [2, 30]
+    annual_hours: 420
+    criticality_role: [engines, hydraulics, landing_gear, fuel]
+    silhouette: high_wing
+    cruise_kmh: 450              # used for airlift of spares
+  - id: SHI
+    name: Shikshak
+    letter: S
+    role: Advanced trainer / light utility
+    engines: 1
+    cmapss_subset: FD003
+    engine_cycle_to_sorties: 1.5
+    sorties_per_day: 1.6
+    sortie_hours: 1.0
+    intensity: 0.6
+    airframe_life_hours: 10000
+    age_years: [1, 18]
+    annual_hours: 300
+    criticality_role: [engines, flight_controls, landing_gear]
+    silhouette: straight
+
+# Fleet mix 72 = Garjan 20, Prahar 18, Vahak 14, Shikshak 20 (SPEC §3.2).
+# Every base hosts >= 3 types; Himshikhar leans Garjan/Vahak, Kaveri leans Shikshak/Prahar.
+fleet_allocation:
+  SAH: {GAR: 4, PRA: 5, VAH: 4, SHI: 5}
+  ARV: {GAR: 6, PRA: 5, VAH: 3, SHI: 6}
+  HIM: {GAR: 8, PRA: 0, VAH: 5, SHI: 2}
+  KAV: {GAR: 2, PRA: 8, VAH: 2, SHI: 7}
+
+# Engine tie-in (SPEC §7.3): each engine replays a fleet-replay holdout unit of the type's subset,
+# starting at a seeded phase (fraction of that unit's life already consumed).
+engine_phase_range: [0.05, 0.70]
+
+# Readiness floor: minimum fraction of each type at a base that must stay on the line (SPEC §4 P5).
+readiness_floor: 0.5
+
+systems:
+  # weight: criticality weight in the overall health bar (SPEC §7.6). mission_critical: no-go if at risk.
+  - {id: engines,         name: Engines,                weight: 0.25, mission_critical: true,  provenance: REAL}
+  - {id: hydraulics,      name: Hydraulics,             weight: 0.14, mission_critical: true,  provenance: REAL-ANCHORED}
+  - {id: landing_gear,    name: Landing gear & brakes,  weight: 0.12, mission_critical: true,  provenance: SIMULATED}
+  - {id: flight_controls, name: Flight controls,        weight: 0.14, mission_critical: true,  provenance: SIMULATED}
+  - {id: electrical,      name: Electrical,             weight: 0.10, mission_critical: true,  provenance: SIMULATED}
+  - {id: avionics,        name: Avionics / radar,       weight: 0.08, mission_critical: role,  provenance: SIMULATED}
+  - {id: fuel,            name: Fuel,                   weight: 0.09, mission_critical: true,  provenance: SIMULATED}
+  - {id: structure,       name: Structure / airframe,   weight: 0.08, mission_critical: true,  provenance: SIMULATED}
+
+# Parts catalogue (≈35 LRUs). cost in cost units ₵ (ILLUSTRATIVE). lead_time_days = vendor lead time.
+# stock = mean on-hand quantity per node kind (sampled per node with the seed). criticality 1 (low) – 3 (no-go).
+parts:
+  - {lru: ENG-QEC, system: engines, name: Spare engine (quick engine change), cost: 9000, install_hours: 16, lead_time_days: 45, criticality: 3, stock: {base: 0.2, depot: 1.5, vendor_hub: 3}}
+  - {lru: ENG-FAN, system: engines, name: Fan module,                cost: 2600, install_hours: 14, lead_time_days: 30, criticality: 3, stock: {base: 0.1, depot: 1.0, vendor_hub: 3}}
+  - {lru: ENG-HPC, system: engines, name: HP compressor module,      cost: 3400, install_hours: 18, lead_time_days: 35, criticality: 3, stock: {base: 0.1, depot: 1.2, vendor_hub: 3}}
+  - {lru: ENG-HPT, system: engines, name: HP turbine module,         cost: 3100, install_hours: 18, lead_time_days: 35, criticality: 3, stock: {base: 0.1, depot: 1.0, vendor_hub: 3}}
+  - {lru: ENG-LPT, system: engines, name: LP turbine module,         cost: 2400, install_hours: 14, lead_time_days: 30, criticality: 3, stock: {base: 0.1, depot: 0.8, vendor_hub: 3}}
+  - {lru: ENG-CMB, system: engines, name: Combustor liner,           cost: 900,  install_hours: 10, lead_time_days: 20, criticality: 2, stock: {base: 0.3, depot: 2.0, vendor_hub: 6}}
+  - {lru: HYD-PMP, system: hydraulics, name: Engine-driven hydraulic pump, cost: 420, install_hours: 5, lead_time_days: 14, criticality: 3, stock: {base: 1.0, depot: 4.0, vendor_hub: 10}}
+  - {lru: HYD-ACC, system: hydraulics, name: Hydraulic accumulator,   cost: 180, install_hours: 3, lead_time_days: 10, criticality: 2, stock: {base: 1.0, depot: 3.0, vendor_hub: 10}}
+  - {lru: HYD-VLV, system: hydraulics, name: Hydraulic servo valve,   cost: 260, install_hours: 4, lead_time_days: 12, criticality: 3, stock: {base: 0.8, depot: 3.0, vendor_hub: 10}}
+  - {lru: HYD-CLR, system: hydraulics, name: Hydraulic fluid cooler,  cost: 150, install_hours: 3, lead_time_days: 10, criticality: 2, stock: {base: 0.6, depot: 2.0, vendor_hub: 8}}
+  - {lru: HYD-FLT, system: hydraulics, name: Hydraulic filter element, cost: 12, install_hours: 0.5, lead_time_days: 5, criticality: 1, stock: {base: 8.0, depot: 30.0, vendor_hub: 100}}
+  - {lru: LG-BRK,  system: landing_gear, name: Brake assembly,          cost: 140, install_hours: 2, lead_time_days: 7, criticality: 3, stock: {base: 3.0, depot: 10.0, vendor_hub: 30}}
+  - {lru: LG-TYR,  system: landing_gear, name: Main wheel & tyre,       cost: 40,  install_hours: 1, lead_time_days: 5, criticality: 2, stock: {base: 6.0, depot: 20.0, vendor_hub: 60}}
+  - {lru: LG-STR,  system: landing_gear, name: Shock strut,             cost: 520, install_hours: 8, lead_time_days: 21, criticality: 3, stock: {base: 0.3, depot: 1.5, vendor_hub: 6}}
+  - {lru: LG-ACT,  system: landing_gear, name: Gear retraction actuator, cost: 380, install_hours: 6, lead_time_days: 18, criticality: 3, stock: {base: 0.3, depot: 1.5, vendor_hub: 6}}
+  - {lru: FC-ACT,  system: flight_controls, name: Primary flight-control actuator, cost: 640, install_hours: 7, lead_time_days: 21, criticality: 3, stock: {base: 0.5, depot: 2.0, vendor_hub: 8}}
+  - {lru: FC-SRV,  system: flight_controls, name: Flight-control servo valve, cost: 300, install_hours: 4, lead_time_days: 14, criticality: 3, stock: {base: 0.6, depot: 2.5, vendor_hub: 10}}
+  - {lru: FC-FCC,  system: flight_controls, name: Flight-control computer, cost: 1100, install_hours: 3, lead_time_days: 30, criticality: 3, stock: {base: 0.2, depot: 1.0, vendor_hub: 4}}
+  - {lru: FC-LVD,  system: flight_controls, name: Position transducer (LVDT), cost: 90, install_hours: 2, lead_time_days: 7, criticality: 2, stock: {base: 2.0, depot: 6.0, vendor_hub: 20}}
+  - {lru: EL-GEN,  system: electrical, name: AC generator (115 V / 400 Hz), cost: 560, install_hours: 5, lead_time_days: 21, criticality: 3, stock: {base: 0.5, depot: 2.0, vendor_hub: 8}}
+  - {lru: EL-BAT,  system: electrical, name: Main battery (28 V DC),   cost: 70,  install_hours: 1, lead_time_days: 7, criticality: 2, stock: {base: 3.0, depot: 10.0, vendor_hub: 40}}
+  - {lru: EL-TRU,  system: electrical, name: Transformer-rectifier unit, cost: 240, install_hours: 3, lead_time_days: 14, criticality: 2, stock: {base: 0.6, depot: 2.0, vendor_hub: 8}}
+  - {lru: EL-GCU,  system: electrical, name: Generator control unit,   cost: 310, install_hours: 2, lead_time_days: 14, criticality: 3, stock: {base: 0.5, depot: 2.0, vendor_hub: 8}}
+  - {lru: AV-TXR,  system: avionics, name: Radar transmitter,           cost: 1500, install_hours: 4, lead_time_days: 30, criticality: 2, stock: {base: 0.2, depot: 1.0, vendor_hub: 4}}
+  - {lru: AV-RXP,  system: avionics, name: Radar receiver / processor,  cost: 1300, install_hours: 3, lead_time_days: 30, criticality: 2, stock: {base: 0.2, depot: 1.0, vendor_hub: 4}}
+  - {lru: AV-MC,   system: avionics, name: Mission computer,            cost: 900,  install_hours: 2, lead_time_days: 25, criticality: 2, stock: {base: 0.3, depot: 1.0, vendor_hub: 4}}
+  - {lru: AV-CLF,  system: avionics, name: Avionics cooling fan,        cost: 85,  install_hours: 1.5, lead_time_days: 7, criticality: 1, stock: {base: 2.0, depot: 6.0, vendor_hub: 20}}
+  - {lru: AV-INS,  system: avionics, name: Inertial navigation unit,    cost: 780, install_hours: 2, lead_time_days: 25, criticality: 2, stock: {base: 0.3, depot: 1.0, vendor_hub: 4}}
+  - {lru: FU-PMP,  system: fuel, name: Fuel boost pump,                 cost: 260, install_hours: 4, lead_time_days: 14, criticality: 3, stock: {base: 0.8, depot: 3.0, vendor_hub: 10}}
+  - {lru: FU-FLT,  system: fuel, name: Fuel filter element,             cost: 10,  install_hours: 0.5, lead_time_days: 5, criticality: 1, stock: {base: 10.0, depot: 40.0, vendor_hub: 120}}
+  - {lru: FU-FCU,  system: fuel, name: Fuel control unit,               cost: 720, install_hours: 6, lead_time_days: 25, criticality: 3, stock: {base: 0.2, depot: 1.0, vendor_hub: 4}}
+  - {lru: FU-QTY,  system: fuel, name: Fuel quantity probe,             cost: 60,  install_hours: 2, lead_time_days: 7, criticality: 1, stock: {base: 1.5, depot: 5.0, vendor_hub: 20}}
+  - {lru: ST-PNL,  system: structure, name: Structural access-panel kit, cost: 120, install_hours: 6, lead_time_days: 14, criticality: 2, stock: {base: 1.0, depot: 4.0, vendor_hub: 12}}
+  - {lru: ST-NDT,  system: structure, name: NDT inspection kit (consumable), cost: 25, install_hours: 8, lead_time_days: 5, criticality: 2, stock: {base: 4.0, depot: 12.0, vendor_hub: 40}}
+  - {lru: ST-CRP,  system: structure, name: Corrosion treatment kit,    cost: 30,  install_hours: 5, lead_time_days: 5, criticality: 2, stock: {base: 3.0, depot: 10.0, vendor_hub: 40}}
+
+logistics:
+  road:
+    source: osrm                       # precomputed once via the OSRM demo server, cached in data/routes/
+    truck_time_factor: 1.35            # ILLUSTRATIVE: car-routed time → military/logistics truck
+    handling_hours: 3                  # ILLUSTRATIVE: pick, load, paperwork, unload
+    fallback_detour_factor: 1.4        # used only when OSRM is unreachable: great-circle × factor …
+    fallback_speed_kmh: 40             # … at this average speed
+  air:
+    handling_hours: 4                  # ILLUSTRATIVE: airlift tasking, load, taxi, unload
+    carrier_type: VAH                  # airlift needs a ready Vahak (checked in Stage 6)
+  seasonal_closures:
+    # ILLUSTRATIVE calendar: road routes touching these nodes are closed between the dates (inclusive, MM-DD).
+    - {node: HIM, from: "11-15", to: "05-15", reason: "High passes closed by snow"}
+
+missions:
+  # Daily sortie demand per base & type = aircraft × sorties_per_day × base tempo × weekday factor × noise.
+  weekend_factor: 0.55
+  demand_noise_cv: 0.15
+  criticality_mix:                     # probability of a day's mission package criticality
+    default: {training: 0.55, routine: 0.35, operational: 0.10}
+    ARV:     {training: 0.40, routine: 0.40, operational: 0.20}
+    HIM:     {training: 0.35, routine: 0.40, operational: 0.25}

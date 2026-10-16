@@ -74,7 +74,7 @@ def main() -> int:
 
     digests = {f: sha256(src / f) for f in FILES}
     if args.write_manifest:
-        MANIFEST.write_text(json.dumps(digests, indent=1) + "\n", encoding="utf-8")
+        MANIFEST.write_text(json.dumps(digests, indent=1) + "\n", encoding="utf-8", newline="\n")
         print(f"wrote {MANIFEST.relative_to(ROOT)}")
         return 0
 

@@ -6,7 +6,6 @@ Every number in DATA_NOTES.md is computed here from the files on disk.
 
 from __future__ import annotations
 
-import json
 import shutil
 import sys
 
@@ -25,6 +24,7 @@ from pratirakshak.ingest.cmapss import (
     load_subset,
 )
 from pratirakshak.ingest.splits import SPLITS_PATH, make_splits, save_splits
+from pratirakshak.io import write_json, write_text
 from pratirakshak.settings import DOCS_DIR, REPORTS_DIR, ROOT
 
 # What SPEC §3.2 says, and what readme.txt says (engines train/test). Compared, never trusted.
@@ -242,7 +242,7 @@ def write_notes(eda: dict, splits: dict) -> None:  # type: ignore[type-arg]
     for s, (sym, desc, unit) in SENSOR_NAMES.items():
         w(f"| {s} | {sym} | {desc} | {unit} |")
     w("")
-    (DOCS_DIR / "DATA_NOTES.md").write_text("\n".join(L), encoding="utf-8")
+    write_text(DOCS_DIR / "DATA_NOTES.md", "\n".join(L) + "\n")
 
 
 def main() -> int:
@@ -298,7 +298,7 @@ def main() -> int:
 
     save_splits(splits)
     EDA_JSON.parent.mkdir(parents=True, exist_ok=True)
-    EDA_JSON.write_text(json.dumps({"provenance": "REAL", **eda}, indent=1) + "\n", encoding="utf-8")
+    write_json(EDA_JSON, {"provenance": "REAL", **eda})
 
     fig_lifetimes({n: lifetimes(s.train) for n, s in subsets.items()})
     for s in subsets.values():

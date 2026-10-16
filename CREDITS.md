@@ -10,7 +10,7 @@ Every external asset (data, fonts, tiles, 3D models, icons) is recorded here wit
 | UCI Condition Monitoring of Hydraulic Systems | Helwig, Pignanelli, Schütze — UCI ML Repository | _verify on source page_ | _to add_ | Hydraulics real anchor | to verify (Stage 4) |
 | NASA PCoE Li-ion Battery Ageing | Saha & Goebel — NASA Prognostics Data Repository | _verify_ | _to add_ | Battery degradation shape | to verify (Stage 4) |
 | NASA PCoE electromechanical actuator data | NASA Prognostics Data Repository | _verify_ | _to add_ | Actuator signatures | to verify (Stage 4) |
-| Open-Meteo historical archive | open-meteo.com | _verify terms_ | _to add_ | Base climatology | to verify (Stage 2) |
+| Open-Meteo historical archive API (ERA5, ERA5-Land, ECMWF IFS) | `https://archive-api.open-meteo.com/v1/archive` — terms checked 2026-10-17: free for non-commercial use, no key, 600/min · 5,000/h · 10,000/day | Data: CC BY 4.0 | Weather data by Open-Meteo.com (Zippenfenig, P. 2023, Zenodo). Hersbach et al. (2023) ERA5; Muñoz Sabater (2019) ERA5-Land. Generated using Copernicus Climate Change Service information. | Base climatology + elevation (4 requests, cached) | in use (Stage 2) |
 | Natural Earth | naturalearthdata.com | Public domain | Made with Natural Earth. | Offline fallback map | to add (Stage 9) |
 
 ## Maps, terrain, routing
@@ -20,7 +20,7 @@ Every external asset (data, fonts, tiles, 3D models, icons) is recorded here wit
 | AWS Terrain Tiles (Terrarium) | `elevation-tiles-prod` | _verify_ | _to add_ | to verify (Stage 9) |
 | OpenFreeMap vector tiles | openfreemap.org | _verify_ | _to add_ | to verify (Stage 9) |
 | EOX Sentinel-2 cloudless | s2maps.eu | _verify (non-commercial terms)_ | _to add_ | to verify (Stage 9) |
-| OSRM public demo server (precomputed, cached routes only) | project-osrm.org | _verify usage policy_ | © OpenStreetMap contributors | to verify (Stage 2) |
+| OSRM public demo server (precomputed once, 28 routes cached in `data/routes/road/`) | `router.project-osrm.org`, sponsored by FOSSGIS — policy checked 2026-10-17: ≤ 1 request/s, reasonable non-commercial use, no uptime guarantee | Route geometry derived from OpenStreetMap: ODbL 1.0 | Routing: OSRM (FOSSGIS demo server). Map data © OpenStreetMap contributors, ODbL. | in use (Stage 2) |
 
 ## Fonts (self-hosted via @fontsource)
 
