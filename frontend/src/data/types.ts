@@ -135,6 +135,7 @@ export interface Rollup {
 export interface FleetState {
   snapshot: string;
   window_days: number;
+  risk: { watch: number; pull: number };
   aircraft: AircraftState[];
   summary: {
     fleet: Rollup;

@@ -1,5 +1,5 @@
 /* Pratirakshak service worker — offline mode (SPEC U5, S11).
-   Cache-first for the snapshot (/data/*) and built assets; network-first for navigations with an app-shell fallback.
+   Network-first for the snapshot (/data/*), cache-first for built assets; network-first for navigations with an app-shell fallback.
    Bump VERSION when the snapshot changes. */
 const VERSION = "pratirakshak-v1";
 
@@ -30,6 +30,21 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET" || url.origin !== self.location.origin) return; // API calls bypass the cache
   if (event.request.mode === "navigate") {
     event.respondWith(fetch(event.request).catch(() => caches.match("/")));
+    return;
+  }
+  if (url.pathname.startsWith("/data/")) {
+    // snapshot: network-first so a fresh export always wins; the cached copy serves when offline
+    event.respondWith(
+      fetch(event.request)
+        .then((res) => {
+          if (res.ok) {
+            const copy = res.clone();
+            caches.open(VERSION).then((c) => c.put(event.request, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(event.request)),
+    );
     return;
   }
   event.respondWith(
