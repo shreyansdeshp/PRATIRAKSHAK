@@ -1,3 +1,5 @@
+import { Component, type ReactNode } from "react";
+
 import { ChartDefs } from "../charts/kit";
 import { CornerTag, RegistrationMarks } from "../components/primitives";
 import { Showroom } from "../screens/aircraft/Showroom";
@@ -18,6 +20,7 @@ import { Spares } from "../screens/spares/Spares";
 import { Stress } from "../screens/stress/Stress";
 import { Vendor } from "../screens/vendor/Vendor";
 import { Stage } from "../stage/Stage";
+import { useSnapshotError } from "../data/useSnapshots";
 import { useApp } from "../store/app";
 import { StoryController } from "../story/StoryController";
 import { useStory } from "../story/story";
@@ -30,11 +33,14 @@ import styles from "./App.module.css";
 export function App() {
   const route = useApp((s) => s.route);
   const story = useStory((s) => s.active);
+  const loadError = useSnapshotError((s) => s.error);
   if (route.screen === "dev-data") return <DevData />;
   return (
     <Stage>
       <ChartDefs />
-      <Screen screen={route.screen} param={route.param} />
+      {loadError ? <SheetError detail={loadError} /> : (
+        <Boundary key={`${route.screen}/${route.param ?? ""}`}><Screen screen={route.screen} param={route.param} /></Boundary>
+      )}
       {story && <StoryController />}
     </Stage>
   );
@@ -73,4 +79,25 @@ function NotFound({ name }: { name: string }) {
       <CornerTag />
     </main>
   );
+}
+
+/** Shown instead of a blank page when a snapshot file is missing or a sheet fails to render. */
+function SheetError({ detail }: { detail: string }) {
+  return (
+    <main className={styles.sheet} data-testid="sheet-error">
+      <RegistrationMarks />
+      <header className={styles.titleBlock}>
+        <h1>Sheet unavailable</h1>
+        <p className={styles.motto}>The data for this sheet could not be read. Re-run <code>./tasks.ps1 export</code> (or <code>make export</code>) and reload.</p>
+        <p className={styles.motto}><small>{detail}</small></p>
+      </header>
+      <CornerTag />
+    </main>
+  );
+}
+
+class Boundary extends Component<{ children: ReactNode }, { error: string | null }> {
+  state = { error: null as string | null };
+  static getDerivedStateFromError(e: unknown) { return { error: String(e) }; }
+  render() { return this.state.error ? <SheetError detail={this.state.error} /> : this.props.children; }
 }

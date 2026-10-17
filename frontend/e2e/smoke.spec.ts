@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("empty sheet renders on the paper background @shot", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/no-such-sheet"); // "/" is the hero now; the not-found sheet is the bare paper page
   await expect(page.getByTestId("sheet")).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
 
