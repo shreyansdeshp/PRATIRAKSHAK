@@ -69,7 +69,6 @@ function FleetTab({ res }: { res: Full }) {
       else if (tie && m !== "unplanned_failures") notHelp.push(`${sc}: ${LABEL[m]} — no clear difference (${signed(c)})`);
     }
   }
-  const gains = (pb.ready_pct as CI & { per_seed: number[] }).per_seed;
   const abl = res.ablation;
   const names: Record<string, string> = { no_trust: "Sensor trust", no_spares: "Spares-awareness", no_bundling: "Bundling" };
 
@@ -125,21 +124,8 @@ function FleetTab({ res }: { res: Full }) {
           </table>
         </div>
         <div className={r.block}>
-          <div className={r.secHead}><span>Sensitivity (Pratirakshak)</span><ProvenanceChip kind="SIMULATED" /></div>
-          <table className={r.table}>
-            <thead><tr><th>Setting</th><th>Ready %</th><th>Failures</th><th>Wasted life %</th></tr></thead>
-            <tbody>
-              {Object.entries(res.sensitivity.theta).map(([k, v]) => <tr key={`t${k}`}><td>risk limit θ × {k}</td><td>{v.ready_pct!.mean.toFixed(1)}</td><td>{v.unplanned_failures!.mean.toFixed(1)}</td><td>{v.wasted_life_pct!.mean.toFixed(1)}</td></tr>)}
-              {Object.entries(res.sensitivity.detection_delay).map(([k, v]) => <tr key={`d${k}`}><td>data {k} day{k === "1" ? "" : "s"} late</td><td>{v.ready_pct!.mean.toFixed(1)}</td><td>{v.unplanned_failures!.mean.toFixed(1)}</td><td>{v.wasted_life_pct!.mean.toFixed(1)}</td></tr>)}
-            </tbody>
-          </table>
-        </div>
-        <div className={r.block}>
           <div className={r.secHead}><span>Where it does not help</span></div>
           <ul className={r.noHelp}>{notHelp.map((t) => <li key={t}>{t}</li>)}</ul>
-          <div className={r.secHead}><span>Demo run disclosure</span></div>
-          <p className={r.small}>Ready-% gain vs the best baseline for each seed. The demo run (seed {res.demo_seed}) is the seed closest to the median — typical, not the best.</p>
-          <SeedStrip gains={gains} demo={res.demo_seed} />
         </div>
       </section>
     </div>
@@ -179,21 +165,6 @@ function Mini({ title, curves, p3 }: { title: string; curves: Record<PolicyId, {
   );
 }
 
-function SeedStrip({ gains, demo }: { gains: number[]; demo: number }) {
-  const W = 340, lo = Math.min(-2, ...gains), hi = Math.max(2, ...gains);
-  const x = (v: number) => 20 + ((v - lo) / (hi - lo)) * (W - 40);
-  const med = [...gains].sort((a, b) => a - b)[Math.floor(gains.length / 2)]!;
-  return (
-    <svg width={W} height={54} aria-label="ready-% gain per seed">
-      <line x1={x(0)} x2={x(0)} y1={6} y2={34} stroke="var(--ink-soft)" />
-      <text x={x(0)} y={48} textAnchor="middle" className={r.tick}>0</text>
-      <text x={20} y={48} className={r.tick}>{lo.toFixed(1)} pts</text>
-      <text x={W - 20} y={48} textAnchor="end" className={r.tick}>+{hi.toFixed(1)} pts</text>
-      <line x1={x(med)} x2={x(med)} y1={10} y2={30} stroke="var(--ink)" strokeDasharray="2 2" />
-      {gains.map((g, i) => <circle key={i} cx={x(g)} cy={20} r={i === demo ? 7 : 5} fill={i === demo ? "var(--series-p3)" : "var(--paper-hi)"} stroke="var(--ink)" strokeWidth={1.5}><title>seed {i}: {g.toFixed(2)} pts</title></circle>)}
-    </svg>
-  );
-}
 
 /* ============================================================================================ models & validation */
 function ModelsTab({ m }: { m: Models }) {

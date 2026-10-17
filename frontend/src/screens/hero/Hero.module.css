@@ -5,7 +5,7 @@
 .mapSheet { position: absolute; left: 48px; top: 48px; width: 1380px; height: 984px; }
 .mapFade { opacity: 0; transition: opacity 1600ms var(--ease-chart); }
 .mapFade.on { opacity: 1; }
-.edition { position: absolute; left: 44px; bottom: -22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-soft); }
+.edition { position: absolute; left: 44px; bottom: -22px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.08em; color: var(--ink-soft); }
 
 .arcs { position: absolute; inset: 0; pointer-events: none; }
 .arc { fill: none; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2400ms var(--ease-chart); }
@@ -19,7 +19,7 @@
 .node.on { opacity: 1; }
 .depot { display: inline-block; width: 10px; height: 10px; background: var(--ink); }
 .vendor { display: inline-block; width: 10px; height: 10px; background: var(--paper-hi); border: 2px solid var(--ink); transform: rotate(45deg); }
-.nodeLabel { font-family: var(--font-mono); font-size: 11px; color: var(--ink); background: rgba(239, 232, 214, 0.85); padding: 0 3px; }
+.nodeLabel { font-family: var(--font-mono); font-size: 14px; color: var(--ink); background: rgba(239, 232, 214, 0.85); padding: 0 3px; }
 
 .base { cursor: pointer; position: absolute; transform: translate(-32px, -32px) scale(1.7); opacity: 0;
   transition: transform 700ms cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 500ms var(--ease-chart); }
@@ -34,46 +34,46 @@
 
 .baseLabel { position: absolute; left: 70px; top: 4px; display: flex; flex-direction: column; gap: 1px; white-space: nowrap;
   background: rgba(244, 239, 227, 0.9); padding: 4px 8px 5px; border-left: 2px solid var(--ink); }
-.baseName { font-family: var(--font-serif); font-weight: 600; font-size: 22px; line-height: 1.05; color: var(--ink); }
-.baseMeta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-soft); }
-.baseCount { font-family: var(--font-sans); font-size: 13px; color: var(--ink); opacity: 0; transition: opacity 600ms; }
-.baseStatus { display: flex; align-items: center; gap: 4px 6px; font-family: var(--font-mono); font-size: 12px; color: var(--ink); opacity: 0; transition: opacity 600ms; }
+.baseName { font-family: var(--font-serif); font-weight: 600; font-size: 24px; line-height: 1.05; color: var(--ink); }
+.baseMeta { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; color: var(--ink-soft); }
+.baseCount { font-family: var(--font-sans); font-size: 16px; color: var(--ink); opacity: 0; transition: opacity 600ms; }
+.baseStatus { display: flex; align-items: center; gap: 4px 6px; font-family: var(--font-mono); font-size: 15px; color: var(--ink); opacity: 0; transition: opacity 600ms; }
 .baseStatus > span { margin-left: 4px; }
 .on { opacity: 1 !important; }
 
 /* ---------------------------------------------------------------- marginalia */
 .margin { position: absolute; left: 1468px; top: 48px; width: 404px; height: 984px; display: flex; flex-direction: column; gap: 22px; }
-.kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ink-soft); }
+.kicker { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; color: var(--ink-soft); }
 .preTitle { position: absolute; top: 0; left: 0; right: 0; display: flex; flex-direction: column; gap: 6px;
   border-top: 3px double var(--ink); border-bottom: 3px double var(--ink); padding: 12px 0; transition: opacity 600ms; }
 .preTitleText { font-family: var(--font-serif); font-weight: 600; font-size: 34px; line-height: 1; }
-.snapshotLine { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); }
+.snapshotLine { font-family: var(--font-mono); font-size: 15px; color: var(--ink-soft); }
 .lockup { position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 250px;
   border-top: 3px double var(--ink); border-bottom: 3px double var(--ink); padding: 14px 0 16px;
   opacity: 0; transform: translateY(8px); transition: opacity 1200ms var(--ease-chart), transform 1200ms var(--ease-chart); }
 .lockupOn { opacity: 1; transform: none; }
 .wordmark { font-family: var(--font-serif); font-weight: 600; font-size: 50px; letter-spacing: 0.035em; text-transform: uppercase; line-height: 1; margin: 6px 0 0; }
 .motto { margin: 0; font-family: var(--font-serif); font-style: italic; font-size: 28px; color: var(--olive); }
-.lede { margin: 6px 0 0; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); line-height: 1.45; }
+.lede { margin: 6px 0 0; font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); line-height: 1.45; }
 
 .totals { display: flex; flex-direction: column; opacity: 0; transition: opacity 800ms; }
 .totalRow { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--fold);
-  font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); transition: opacity 600ms; }
-.totalRow b { font-family: var(--font-sans); font-weight: 600; font-size: 24px; color: var(--ink); }
+  font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); transition: opacity 600ms; }
+.totalRow b { font-family: var(--font-sans); font-weight: 600; font-size: 26px; color: var(--ink); }
 .dim { opacity: 0.45; }
 
 .dataAge { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 1px solid var(--ink); background: var(--paper-hi);
-  font-family: var(--font-sans); font-size: 13px; color: var(--ink); opacity: 0; transition: opacity 600ms; }
-.dataAgeHead { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-soft); }
+  font-family: var(--font-sans); font-size: 16px; color: var(--ink); opacity: 0; transition: opacity 600ms; }
+.dataAgeHead { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.06em; color: var(--ink-soft); }
 .dataAge span { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 
-.legend { display: flex; flex-direction: column; gap: 7px; font-family: var(--font-sans); font-size: 13px; color: var(--ink-soft); }
+.legend { display: flex; flex-direction: column; gap: 7px; font-family: var(--font-sans); font-size: 16px; color: var(--ink-soft); }
 .legend > span { display: flex; align-items: center; gap: 10px; }
-.legendHead { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; color: var(--ink-soft); border-bottom: 1px solid var(--fold); padding-bottom: 4px; }
+.legendHead { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.16em; color: var(--ink-soft); border-bottom: 1px solid var(--fold); padding-bottom: 4px; }
 .lgAirfield { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--ready); box-shadow: inset 0 0 0 2px var(--paper-hi), inset 0 0 0 4px var(--ink); }
 .legend .depot, .legend .vendor { flex: none; }
 
-.prov { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); padding-bottom: 34px; }
+.prov { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); padding-bottom: 34px; }
 .prov > span { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
 
 /* stills (screenshots, story mode): no transitions */
@@ -84,8 +84,10 @@
 }
 
 .enter { display: flex; flex-direction: column; gap: 6px; }
-.enter button { align-self: flex-start; font-family: var(--font-sans); font-weight: 600; font-size: 16px; padding: 8px 16px; cursor: pointer;
+.enter button { align-self: flex-start; font-family: var(--font-sans); font-weight: 600; font-size: 19px; padding: 8px 16px; cursor: pointer;
   background: var(--ink); color: var(--paper); border: none; border-radius: var(--r-1); }
 .enter button:hover { background: var(--ink-soft); }
-.enter span { font-family: var(--font-sans); font-size: 12px; color: var(--ink-mute); }
+.enter span { font-family: var(--font-sans); font-size: 15px; color: var(--ink-mute); }
 .enter a { color: var(--ink-soft); }
+
+.prov { display: none; } /* provenance lives on every other sheet */

@@ -1,7 +1,7 @@
 .sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 14px; }
 .loading { position: absolute; inset: 0; }
 .grid { display: grid; grid-template-columns: 290px 1fr 440px; gap: 24px; min-height: 0; flex: 1; }
-.kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ink-soft); }
+.kicker { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; color: var(--ink-soft); }
 
 .carousel { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
 .carouselList { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
@@ -9,56 +9,56 @@
 .studio { position: relative; border: 1px solid var(--ink); background: #e9e3d4; min-height: 0; }
 .studio canvas { display: block; }
 .controls { position: absolute; left: 14px; top: 14px; display: flex; gap: 6px; align-items: center; z-index: 30; }
-.controls button { font-family: var(--font-sans); font-size: 12px; background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 10px; cursor: pointer; color: var(--ink-soft); }
+.controls button { font-family: var(--font-sans); font-size: 15px; background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 10px; cursor: pointer; color: var(--ink-soft); }
 .controls button.on { border-color: var(--ink); color: var(--ink); font-weight: 500; }
 .sep { width: 1px; height: 20px; background: var(--fold); margin: 0 4px; }
-.studioCaption { position: absolute; right: 14px; bottom: 10px; font-family: var(--font-mono); font-size: 10px; color: var(--ink-soft); letter-spacing: 0.06em; }
+.studioCaption { position: absolute; right: 14px; bottom: 10px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; }
 .bodyLegend { position: absolute; left: 14px; bottom: 14px; z-index: 30; display: grid; grid-template-columns: auto; gap: 4px; background: var(--paper-hi); border: 1px solid var(--fold); padding: 8px 10px;
-  font-family: var(--font-sans); font-size: 12px; }
+  font-family: var(--font-sans); font-size: 15px; }
 .bodyRamp { width: 220px; height: 8px; background: linear-gradient(90deg, #b07a55, #bdb6a4); border-radius: var(--r-1); }
-.bodyEnds { display: flex; justify-content: space-between; width: 220px; font-size: 10px; color: var(--ink-mute); }
+.bodyEnds { display: flex; justify-content: space-between; width: 220px; font-size: 13px; color: var(--ink-mute); }
 .bodyEnds em { font-style: normal; }
 
 .hot { position: relative; display: block; background: transparent; border: none; padding: 0; cursor: pointer; transform: translate(-6px, -6px); }
 .hotDot { position: absolute; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--paper-hi); border: 3px solid; box-shadow: 0 0 0 2px var(--paper-hi); }
 .hotLine { position: absolute; left: 11px; top: 5px; width: 26px; height: 1px; background: var(--ink); transform-origin: left center; transform: rotate(-24deg); }
 .hotTag { position: absolute; left: 34px; top: -18px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
-  background: var(--paper-hi); border: 1px solid var(--ink); border-radius: var(--r-1); padding: 2px 6px; font-family: var(--font-sans); font-size: 11px; color: var(--ink); }
+  background: var(--paper-hi); border: 1px solid var(--ink); border-radius: var(--r-1); padding: 2px 6px; font-family: var(--font-sans); font-size: 14px; color: var(--ink); }
 .hotTag b { font-family: var(--font-mono); font-weight: 500; margin-left: 2px; }
 .hot:hover .hotTag, .hotOpen .hotTag { background: var(--ink); color: var(--paper); }
 
 .right { min-height: 0; }
 .spec { display: flex; flex-direction: column; gap: 12px; }
-.statusBlock { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 1px solid var(--ink); background: var(--paper-hi); font-family: var(--font-sans); font-size: 14px; }
-.action { font-size: 13px; color: var(--ink-soft); text-transform: none; }
+.statusBlock { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 1px solid var(--ink); background: var(--paper-hi); font-family: var(--font-sans); font-size: 17px; }
+.action { font-size: 16px; color: var(--ink-soft); text-transform: none; }
 .stat { display: flex; flex-direction: column; gap: 4px; }
-.statTop { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-sans); font-size: 13px; color: var(--ink-soft); }
-.statTop b { font-family: var(--font-sans); font-weight: 600; font-size: 20px; color: var(--ink); }
-.statNote { font-family: var(--font-sans); font-size: 11px; color: var(--ink-mute); }
+.statTop { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-sans); font-size: 16px; color: var(--ink-soft); }
+.statTop b { font-family: var(--font-sans); font-weight: 600; font-size: 22px; color: var(--ink); }
+.statNote { font-family: var(--font-sans); font-size: 14px; color: var(--ink-mute); }
 .sysList { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 4px; }
 .sysList button { display: flex; flex-direction: column; gap: 4px; text-align: left;
-  background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); padding: 6px 8px; cursor: pointer; font-family: var(--font-sans); font-size: 12px; }
+  background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); padding: 6px 8px; cursor: pointer; font-family: var(--font-sans); font-size: 15px; }
 .sysList button:hover { border-color: var(--ink); }
 .sysTop { display: flex; align-items: center; gap: 6px; }
 .sysName { flex: 1; }
-.sysProv { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); }
+.sysProv { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); }
 
 .drawer { display: flex; flex-direction: column; gap: 10px; }
-.back { align-self: flex-start; font-family: var(--font-sans); font-size: 12px; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 3px 8px; cursor: pointer; color: var(--ink-soft); }
+.back { align-self: flex-start; font-family: var(--font-sans); font-size: 15px; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 3px 8px; cursor: pointer; color: var(--ink-soft); }
 .drawerHead { display: flex; align-items: center; gap: 10px; }
 .drawerHead h2 { font-family: var(--font-serif); font-weight: 600; font-size: 30px; margin: 0; flex: 1; }
-.drawerNums { display: flex; gap: 18px; font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); }
-.drawerNums b { font-size: 18px; color: var(--ink); font-weight: 600; margin-right: 3px; }
+.drawerNums { display: flex; gap: 18px; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
+.drawerNums b { font-size: 20px; color: var(--ink); font-weight: 600; margin-right: 3px; }
 .rul { display: flex; flex-direction: column; gap: 2px; }
-.rulLabel { font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); }
-.drivers p { margin: 4px 0 0; font-family: var(--font-sans); font-size: 13px; line-height: 1.4; }
+.rulLabel { font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
+.drivers p { margin: 4px 0 0; font-family: var(--font-sans); font-size: 16px; line-height: 1.4; }
 .sensors, .lrus { display: flex; flex-direction: column; gap: 4px; }
 .sensorRow { display: grid; grid-template-columns: 1fr 130px 64px; align-items: center; gap: 8px; border-bottom: 1px solid var(--fold); padding: 2px 0; }
-.sensorName { font-family: var(--font-sans); font-size: 12px; display: flex; flex-direction: column; }
-.sensorName em { font-style: normal; font-family: var(--font-mono); font-size: 10px; color: var(--ink-mute); }
-.trust { font-family: var(--font-mono); font-size: 11px; text-align: right; color: var(--ink-soft); }
+.sensorName { font-family: var(--font-sans); font-size: 15px; display: flex; flex-direction: column; }
+.sensorName em { font-style: normal; font-family: var(--font-mono); font-size: 13px; color: var(--ink-mute); }
+.trust { font-family: var(--font-mono); font-size: 14px; text-align: right; color: var(--ink-soft); }
 .untrusted { color: var(--pull); font-weight: 600; }
-.lruRow { display: grid; grid-template-columns: 70px 1fr 28px; gap: 8px; font-family: var(--font-sans); font-size: 12px; border-bottom: 1px solid var(--fold); padding: 2px 0; }
+.lruRow { display: grid; grid-template-columns: 70px 1fr 28px; gap: 8px; font-family: var(--font-sans); font-size: 15px; border-bottom: 1px solid var(--fold); padding: 2px 0; }
 .lruRow b { font-family: var(--font-mono); text-align: right; }
 .zero { color: var(--pull); }
-.mono { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); }
+.mono { font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); }

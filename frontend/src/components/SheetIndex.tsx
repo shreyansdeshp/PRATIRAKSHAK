@@ -1,6 +1,3 @@
-import { useApp } from "../store/app";
-import { useStory } from "../story/story";
-import s from "./SheetIndex.module.css";
 
 export const SHEETS: { no: string; screen: string; path: string; label: string }[] = [
   { no: "00", screen: "hero", path: "/", label: "Map" },
@@ -17,23 +14,9 @@ export const SHEETS: { no: string; screen: string; path: string; label: string }
   { no: "11", screen: "offline", path: "/offline", label: "Offline" },
   { no: "12", screen: "vendor", path: "/vendor", label: "Vendor" },
   { no: "13", screen: "lifecycle", path: "/lifecycle", label: "Lifecycle" },
-  { no: "14", screen: "method", path: "/method", label: "Method" },
 ];
 
-/** Compact sheet index (chart-series style). Hidden when storyline chrome is off. */
-export function SheetIndex() {
-  const { route, navigate } = useApp();
-  const chrome = useStory((st) => !st.active || st.chrome);
-  if (!chrome) return null;
-  return (
-    <nav className={s.index} aria-label="Sheets">
-      {SHEETS.map((sh) => (
-        <button key={sh.no} type="button" className={`${s.item} ${route.screen === sh.screen ? s.active : ""}`}
-                onClick={() => navigate(sh.path)} title={sh.label}>
-          <span className={s.no}>{sh.no}</span>
-          <span className={s.label}>{sh.label}</span>
-        </button>
-      ))}
-    </nav>
-  );
+/** Superseded by the global NavBar (one taskbar on every page); kept so sheet headers need no edits. */
+export function SheetIndex(): null {
+  return null;
 }

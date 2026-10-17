@@ -66,7 +66,7 @@ export function Showroom({ tail }: { tail: string }) {
         </aside>
 
         <section className={s.studio}>
-          <Canvas key={a.tail} dpr={[1, 1.5]} camera={{ position: PRESETS[preset], fov: 34 }} gl={{ preserveDrawingBuffer: true, antialias: true }}
+          <Canvas key={a.tail} resize={{ offsetSize: true }} dpr={[1, 1.5]} camera={{ position: PRESETS[preset], fov: 34 }} gl={{ preserveDrawingBuffer: true, antialias: true }}
                   frameloop={still ? "demand" : "always"} data-testid="three-canvas">
             <color attach="background" args={["#e9e3d4"]} />
             <hemisphereLight args={["#fbf8f0", "#9a907a", 0.85]} />

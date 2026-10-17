@@ -5,5 +5,5 @@
 }
 .item:hover { border-color: var(--fold); background: var(--paper-hi); }
 .active { border-color: var(--ink); color: var(--ink); background: var(--paper-hi); }
-.no { font-family: var(--font-mono); font-size: 12px; line-height: 1; }
-.label { font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.2; }
+.no { font-family: var(--font-mono); font-size: 15px; line-height: 1; }
+.label { font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.2; }

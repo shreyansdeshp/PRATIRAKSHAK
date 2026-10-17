@@ -9,16 +9,16 @@ const H = 1080;
  * The 1920×1080 design space, scaled to fit the window and letterboxed on paper (SPEC §11.7).
  * Every screen is composed for 16:9, so any screenshot is slide-ready.
  */
-export function Stage({ children }: { children: ReactNode }) {
+export function Stage({ children, top = 0 }: { children: ReactNode; top?: number }) {
   const [scale, setScale] = useState(1);
   useEffect(() => {
-    const fit = () => setScale(Math.min(window.innerWidth / W, window.innerHeight / H));
+    const fit = () => setScale(Math.min(window.innerWidth / W, (window.innerHeight - top) / H));
     fit();
     window.addEventListener("resize", fit);
     return () => window.removeEventListener("resize", fit);
-  }, []);
+  }, [top]);
   return (
-    <div className={styles.viewport}>
+    <div className={styles.viewport} style={{ top }}>
       <div className={styles.stage} style={{ transform: `translate(-50%, -50%) scale(${scale})` }} data-testid="stage">
         {children}
       </div>

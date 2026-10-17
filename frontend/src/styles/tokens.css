@@ -62,10 +62,32 @@
   /* stage */
   --stage-w: 1920px;
   --stage-h: 1080px;
+  --nav-bg: #1e2224;
+  --nav-ink: #f4efe3;
+  --nav-accent: #c9a24a;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --t-status: 0ms;
   }
+}
+
+/* Air Force theme (default): cool sky-grey paper, navy ink, air-force blue accent. Status colours unchanged. */
+:root[data-theme="iaf"] {
+  --paper: #edf1f5;
+  --paper-hi: #f8fafc;
+  --sand: #dae2eb;
+  --fold: #c2cedb;
+  --ink: #0e1d33;
+  --ink-soft: #33445e;
+  --ink-mute: #56657b;
+  --olive: #1d4f91;
+  --khaki: #8ea3ba;
+  --charcoal: #1a2a40;
+  --water: #d2dfeb;
+  --grid: #d4dde7;
+  --nav-bg: #0e2547;
+  --nav-ink: #eef3f9;
+  --nav-accent: #f2a93b;
 }

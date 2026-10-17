@@ -1,15 +1,15 @@
 .sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 14px; }
 .loading { position: absolute; inset: 0; }
-.kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ink-soft); }
+.kicker { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; color: var(--ink-soft); }
 .controls { display: flex; align-items: center; gap: 6px; }
-.controls button { font-family: var(--font-sans); font-size: 14px; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 14px; cursor: pointer; color: var(--ink-soft); }
+.controls button { font-family: var(--font-sans); font-size: 17px; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 14px; cursor: pointer; color: var(--ink-soft); }
 .controls button.on { border-color: var(--ink); color: var(--ink); background: var(--paper-hi); font-weight: 600; }
 .sep { width: 1px; height: 22px; background: var(--fold); margin: 0 8px; }
 .chip { margin-left: auto; }
 .tiles { display: grid; grid-template-columns: 340px 340px 1fr; gap: 0 12px; border-bottom: 1px solid var(--fold); padding-bottom: 10px; }
 .bad { color: var(--pull); font-weight: 600; }
-.caveat { align-self: center; font-family: var(--font-serif); font-size: 17px; line-height: 1.45; color: var(--ink); padding-left: 18px; border-left: 3px solid var(--ink); }
+.caveat { align-self: center; font-family: var(--font-serif); font-size: 20px; line-height: 1.45; color: var(--ink); padding-left: 18px; border-left: 3px solid var(--ink); }
 .panel { display: flex; flex-direction: column; gap: 10px; }
 .twoUp { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-.story { margin: 0; padding-left: 18px; font-family: var(--font-sans); font-size: 14px; line-height: 1.6; color: var(--ink); }
-.empty { font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
+.story { margin: 0; padding-left: 18px; font-family: var(--font-sans); font-size: 17px; line-height: 1.6; color: var(--ink); }
+.empty { font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); }

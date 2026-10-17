@@ -1,13 +1,13 @@
 .sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 14px; }
 .loading { position: absolute; inset: 0; }
 .controls { display: flex; align-items: center; gap: 6px; }
-.controls button { font-family: var(--font-sans); font-size: 14px; text-transform: capitalize; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 12px; cursor: pointer; color: var(--ink-soft); }
+.controls button { font-family: var(--font-sans); font-size: 17px; text-transform: capitalize; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 12px; cursor: pointer; color: var(--ink-soft); }
 .controls button.on { border-color: var(--ink); color: var(--ink); background: var(--paper-hi); font-weight: 600; }
 .chip { margin-left: auto; }
-.secHead { display: flex; align-items: center; justify-content: space-between; font-family: var(--font-sans); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+.secHead { display: flex; align-items: center; justify-content: space-between; font-family: var(--font-sans); font-weight: 600; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--ink-soft); border-bottom: 1px solid var(--fold); padding-bottom: 4px; }
-.hint { font-weight: 400; letter-spacing: 0; text-transform: none; font-size: 11px; color: var(--ink-mute); }
-.small { margin: 0; font-family: var(--font-sans); font-size: 12px; line-height: 1.45; color: var(--ink-soft); }
+.hint { font-weight: 400; letter-spacing: 0; text-transform: none; font-size: 14px; color: var(--ink-mute); }
+.small { display: none; margin: 0; font-family: var(--font-sans); font-size: 15px; line-height: 1.45; color: var(--ink-soft); }
 
 .grid { display: grid; grid-template-columns: 470px 870px 1fr; gap: 28px; flex: 1; min-height: 0; }
 .rank, .flow, .trust { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
@@ -15,38 +15,38 @@
 .bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .bars li { display: grid; grid-template-columns: 1fr 120px 50px; grid-template-rows: auto auto; column-gap: 8px; align-items: center; padding: 3px 4px; border-radius: var(--r-1); cursor: default; }
 .bars li.hot { background: var(--paper-hi); }
-.bLabel { font-family: var(--font-sans); font-size: 13px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.bLabel small { color: var(--ink-mute); font-size: 11px; }
+.bLabel { font-family: var(--font-sans); font-size: 16px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bLabel small { color: var(--ink-mute); font-size: 14px; }
 .bTrack { height: 8px; background: var(--grid); border-radius: 0 4px 4px 0; }
 .bTrack i { display: block; height: 100%; background: var(--series-p3); border-radius: 0 4px 4px 0; }
-.bVal { font-family: var(--font-mono); font-size: 11px; text-align: right; color: var(--ink-soft); }
-.support { grid-column: 1 / 4; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em; color: var(--ink-mute); }
+.bVal { font-family: var(--font-mono); font-size: 14px; text-align: right; color: var(--ink-soft); }
+.support { grid-column: 1 / 4; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--ink-mute); }
 
 .flowSvg { overflow: visible; }
-.colHead { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; fill: var(--ink-mute); }
+.colHead { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; fill: var(--ink-mute); }
 .edge { fill: none; stroke: var(--fold); stroke-width: 1; }
 .edgeOn { fill: none; stroke: var(--series-p3); stroke-width: 1.8; }
-.node text, .nodeOn text { font-family: var(--font-sans); font-size: 12px; }
+.node text, .nodeOn text { font-family: var(--font-sans); font-size: 15px; }
 .node circle { fill: var(--paper); stroke: var(--ink-mute); stroke-width: 1.2; }
 .node text { fill: var(--ink-soft); }
 .nodeOn circle { fill: var(--series-p3); stroke: var(--paper); stroke-width: 2; }
 .nodeOn text { fill: var(--ink); font-weight: 600; }
 
 .harness { display: flex; flex-direction: column; gap: 6px; padding: 6px 0 10px; border-bottom: 1px solid var(--fold); }
-.hTitle { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-serif); font-weight: 600; font-size: 15px; }
-.hNums { display: flex; flex-direction: column; gap: 1px; font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); }
-.hNums b { font-size: 18px; color: var(--ink); font-weight: 600; margin-right: 3px; }
+.hTitle { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-serif); font-weight: 600; font-size: 18px; }
+.hNums { display: flex; flex-direction: column; gap: 1px; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
+.hNums b { font-size: 20px; color: var(--ink); font-weight: 600; margin-right: 3px; }
 .types { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 14px; }
-.type { display: grid; grid-template-columns: 52px 1fr 34px; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--ink-soft); }
+.type { display: grid; grid-template-columns: 52px 1fr 34px; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
 .type em { font-style: normal; }
 .tTrack { height: 6px; background: var(--grid); }
 .tTrack i { display: block; height: 100%; background: var(--ink-soft); }
 .type small { text-align: right; }
 
-.today { margin: 0; font-family: var(--font-serif); font-size: 15px; line-height: 1.4; }
-.today b { font-size: 22px; }
-.flagged { border-collapse: collapse; width: 100%; font-family: var(--font-sans); font-size: 11px; }
+.today { margin: 0; font-family: var(--font-serif); font-size: 18px; line-height: 1.4; }
+.today b { font-size: 24px; }
+.flagged { border-collapse: collapse; width: 100%; font-family: var(--font-sans); font-size: 14px; }
 .flagged td { padding: 3px 4px 3px 0; border-bottom: 1px solid var(--grid); vertical-align: top; color: var(--ink-soft); }
-.flagged code { font-family: var(--font-mono); font-size: 10px; }
+.flagged code { font-family: var(--font-mono); font-size: 13px; }
 .tail { font-family: var(--font-mono); color: var(--ink) !important; white-space: nowrap; }
 .reason { color: var(--ink-mute) !important; }

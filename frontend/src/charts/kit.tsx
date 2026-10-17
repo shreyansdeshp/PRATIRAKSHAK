@@ -354,7 +354,7 @@ export function Reliability({ series, size = 220 }: { series: { label: string; c
 /** Horizontal bars (≤ 24 px, 4 px rounded data end) with 95 % CI whiskers; value at the tip. */
 export function BarCI({ rows, width = 420, format = (v: number) => v.toFixed(1), domain }:
   { rows: { label: string; mean: number; lo: number; hi: number; color: string }[]; width?: number; format?: (v: number) => string; domain?: [number, number] }) {
-  const m = { l: 150, r: 70 };
+  const m = { l: 190, r: 70 };
   const rowH = 30;
   const height = rows.length * rowH + 8;
   const xs = scaleLinear().domain(domain ?? [0, max(rows, (r) => r.hi)!]).nice().range([m.l, width - m.r]);

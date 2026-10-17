@@ -118,13 +118,13 @@ export function Hero() {
 
       {/* ---------------------------------------------------------------- marginalia */}
       <aside className={h.margin}>
-        <div className={`${h.lockup} ${step >= 7 ? h.lockupOn : ""}`}>
+        <div className={`${h.lockup} ${h.lockupOn}`}>
           <span className={h.kicker}>SIH26249 · AIR POWER — PREDICTIVE MAINTENANCE &amp; FLEET AVAILABILITY</span>
           <h1 className={h.wordmark}>Pratirakshak</h1>
           <p className={h.motto}>Predict. Prepare. Protect.</p>
           <p className={h.lede}>Fleet readiness command console: when each system will fail, how sure we are, and what to do today.</p>
         </div>
-        <div className={h.preTitle} style={{ opacity: step >= 7 ? 0 : 1 }}>
+        <div className={h.preTitle} style={{ display: "none" }}>
           <span className={h.kicker}>SHEET 00</span>
           <span className={h.preTitleText}>Fleet readiness</span>
           <span className={h.snapshotLine}>Snapshot {meta.snapshot}</span>

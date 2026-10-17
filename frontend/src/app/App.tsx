@@ -1,6 +1,7 @@
 import { Component, type ReactNode } from "react";
 
 import { ChartDefs } from "../charts/kit";
+import { NAV_H, NavBar } from "../components/NavBar";
 import { CornerTag, RegistrationMarks } from "../components/primitives";
 import { Showroom } from "../screens/aircraft/Showroom";
 import { BaseView } from "../screens/base/BaseView";
@@ -35,14 +36,18 @@ export function App() {
   const story = useStory((s) => s.active);
   const loadError = useSnapshotError((s) => s.error);
   if (route.screen === "dev-data") return <DevData />;
+  const navShown = !story || useStory.getState().chrome;
   return (
-    <Stage>
+    <>
+    <NavBar />
+    <Stage top={navShown ? NAV_H : 0}>
       <ChartDefs />
       {loadError ? <SheetError detail={loadError} /> : (
         <Boundary key={`${route.screen}/${route.param ?? ""}`}><Screen screen={route.screen} param={route.param} /></Boundary>
       )}
       {story && <StoryController />}
     </Stage>
+    </>
   );
 }
 

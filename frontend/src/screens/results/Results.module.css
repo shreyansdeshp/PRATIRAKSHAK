@@ -1,15 +1,15 @@
 .sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 12px; }
 .loading { position: absolute; inset: 0; }
-.kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--ink-soft); }
+.kicker { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; color: var(--ink-soft); }
 .tabs { display: flex; gap: 6px; }
-.tabs button { font-family: var(--font-sans); font-size: 14px; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 14px; cursor: pointer; color: var(--ink-soft); }
+.tabs button { font-family: var(--font-sans); font-size: 17px; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 14px; cursor: pointer; color: var(--ink-soft); }
 .tabs button.on { border-color: var(--ink); color: var(--ink); background: var(--paper-hi); font-weight: 600; }
-.secHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-family: var(--font-sans); font-weight: 600; font-size: 13px; letter-spacing: 0.08em;
+.secHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-family: var(--font-sans); font-weight: 600; font-size: 16px; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid var(--fold); padding-bottom: 4px; }
-.small { margin: 0; font-family: var(--font-sans); font-size: 12px; line-height: 1.45; color: var(--ink-soft); }
-.tick { font-family: var(--font-mono); font-size: 10px; fill: var(--ink-mute); }
-.axis { font-family: var(--font-sans); font-size: 10px; fill: var(--ink-soft); }
-.legendRow { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); }
+.small { margin: 0; font-family: var(--font-sans); font-size: 15px; line-height: 1.45; color: var(--ink-soft); }
+.tick { font-family: var(--font-mono); font-size: 13px; fill: var(--ink-mute); }
+.axis { font-family: var(--font-sans); font-size: 13px; fill: var(--ink-soft); }
+.legendRow { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
 .legendRow span { display: inline-flex; align-items: center; gap: 6px; }
 .legendRow i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
 
@@ -19,37 +19,37 @@
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 3px double var(--ink); }
 .tile { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px 8px 0; border-right: 1px solid var(--fold); margin-right: 12px; }
 .tile:last-child { border-right: none; }
-.tileLabel { font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); }
-.tileVal { font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); }
+.tileLabel { font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
+.tileVal { font-family: var(--font-sans); font-size: 20px; color: var(--ink-soft); }
 .tileVal em { font-style: normal; color: var(--ink-mute); }
 .tileVal b { font-size: 34px; font-weight: 600; color: var(--ink); }
-.tileDelta { font-family: var(--font-mono); font-size: 11px; }
+.tileDelta { font-family: var(--font-mono); font-size: 14px; }
 .good { color: var(--ready); }
 .bad { color: var(--pull); }
 .tie { color: var(--ink-soft); }
-.under { margin: 0; font-family: var(--font-serif); font-size: 16px; color: var(--ink); }
+.under { margin: 0; font-family: var(--font-serif); font-size: 19px; color: var(--ink); }
 
 .bars { grid-column: 1 / 2; display: grid; grid-template-columns: 430px 430px; gap: 10px 40px; }
 .scen { grid-column: 2 / 3; grid-row: 1 / 3; display: flex; flex-direction: column; gap: 8px; }
 .multiples { display: grid; grid-template-columns: 300px 300px; gap: 6px 22px; }
 .mini { margin: 0; }
-.mini figcaption { display: flex; justify-content: space-between; font-family: var(--font-sans); font-size: 13px; color: var(--ink); }
-.mini figcaption b { font-family: var(--font-mono); font-weight: 500; font-size: 12px; color: var(--ink-soft); }
+.mini figcaption { display: flex; justify-content: space-between; font-family: var(--font-sans); font-size: 16px; color: var(--ink); }
+.mini figcaption b { font-family: var(--font-mono); font-weight: 500; font-size: 15px; color: var(--ink-soft); }
 
 .bottom { grid-column: 1 / 3; display: grid; grid-template-columns: 1.15fr 0.85fr 1fr; gap: 28px; }
 .block { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.table { border-collapse: collapse; font-family: var(--font-mono); font-size: 11.5px; font-variant-numeric: tabular-nums; }
-.table th { text-align: left; font-family: var(--font-sans); font-weight: 500; font-size: 11px; color: var(--ink-soft); border-bottom: 1px solid var(--ink); padding: 3px 10px 3px 0; }
+.table { border-collapse: collapse; font-family: var(--font-mono); font-size: 14.5px; font-variant-numeric: tabular-nums; }
+.table th { text-align: left; font-family: var(--font-sans); font-weight: 500; font-size: 14px; color: var(--ink-soft); border-bottom: 1px solid var(--ink); padding: 3px 10px 3px 0; }
 .table td { border-bottom: 1px solid var(--fold); padding: 3px 10px 3px 0; vertical-align: top; }
 .table td:first-child { font-family: var(--font-sans); }
 .ref td { font-weight: 600; }
 .flag { color: var(--pull); font-weight: 600; }
-.noHelp { margin: 0; padding-left: 16px; font-family: var(--font-sans); font-size: 12px; line-height: 1.5; color: var(--ink); }
+.noHelp { margin: 0; padding-left: 16px; font-family: var(--font-sans); font-size: 15px; line-height: 1.5; color: var(--ink); }
 
 /* ---------------- models tab */
 .modelGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 40px; min-height: 0; }
 .relRow { display: flex; gap: 14px; }
 .relFig { margin: 0; }
-.relFig figcaption { font-family: var(--font-mono); font-size: 12px; color: var(--ink); }
+.relFig figcaption { font-family: var(--font-mono); font-size: 15px; color: var(--ink); }
 .alarmRow { display: grid; grid-template-columns: 300px 1fr; gap: 18px; align-items: start; }
 .roc { margin: 0; display: flex; flex-direction: column; gap: 4px; }

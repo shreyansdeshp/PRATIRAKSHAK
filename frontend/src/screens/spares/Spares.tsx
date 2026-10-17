@@ -180,11 +180,12 @@ function Vehicle({ coords, project, still }: { coords: [number, number][]; proje
   useEffect(() => {
     if (still || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     const t0 = performance.now();
-    const loop = (now: number) => { setT(((now - t0) / 10000) % 1); raf.current = requestAnimationFrame(loop); };
+    const loop = (now: number) => { setT((Math.max(0, now - t0) / 10000) % 1); /* rAF time can precede t0 */ raf.current = requestAnimationFrame(loop); };
     raf.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf.current);
   }, [still]);
-  const seg = Math.min(coords.length - 2, Math.floor(t * (coords.length - 1)));
+  if (coords.length < 2) return null;
+  const seg = Math.max(0, Math.min(coords.length - 2, Math.floor(t * (coords.length - 1))));
   const f = t * (coords.length - 1) - seg;
   const a = coords[seg]!, b = coords[seg + 1]!;
   const [x, y] = project([a[0] + f * (b[0] - a[0]), a[1] + f * (b[1] - a[1])]);
