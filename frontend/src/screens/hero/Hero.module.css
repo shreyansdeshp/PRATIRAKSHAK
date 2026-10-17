@@ -1,4 +1,7 @@
-.sheet { position: absolute; inset: 0; }
+.sheet { position: absolute; inset: 0;
+  background-image: repeating-radial-gradient(circle at 0% 100%, transparent 0 58px, var(--fold) 58px 59px), repeating-radial-gradient(circle at 100% 0%, transparent 0 58px, var(--fold) 58px 59px),
+    linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: auto, auto, 40px 40px, 40px 40px; }
 .loading { position: absolute; inset: 0; background: var(--paper); }
 
 /* ---------------------------------------------------------------- map sheet */
@@ -19,7 +22,7 @@
 .node.on { opacity: 1; }
 .depot { display: inline-block; width: 10px; height: 10px; background: var(--ink); }
 .vendor { display: inline-block; width: 10px; height: 10px; background: var(--paper-hi); border: 2px solid var(--ink); transform: rotate(45deg); }
-.nodeLabel { font-family: var(--font-mono); font-size: 14px; color: var(--ink); background: rgba(239, 232, 214, 0.85); padding: 0 3px; }
+.nodeLabel { font-family: var(--font-mono); font-size: 14px; color: var(--ink); background: color-mix(in srgb, var(--paper-hi) 88%, transparent); padding: 0 3px; }
 
 .base { cursor: pointer; position: absolute; transform: translate(-32px, -32px) scale(1.7); opacity: 0;
   transition: transform 700ms cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 500ms var(--ease-chart); }
@@ -33,7 +36,7 @@
 @keyframes ripple { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(3.2); opacity: 0; } }
 
 .baseLabel { position: absolute; left: 70px; top: 4px; display: flex; flex-direction: column; gap: 1px; white-space: nowrap;
-  background: rgba(244, 239, 227, 0.9); padding: 4px 8px 5px; border-left: 2px solid var(--ink); }
+  background: color-mix(in srgb, var(--paper-hi) 92%, transparent); padding: 4px 8px 5px; border-left: 2px solid var(--ink); }
 .baseName { font-family: var(--font-serif); font-weight: 600; font-size: 24px; line-height: 1.05; color: var(--ink); }
 .baseMeta { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; color: var(--ink-soft); }
 .baseCount { font-family: var(--font-sans); font-size: 16px; color: var(--ink); opacity: 0; transition: opacity 600ms; }

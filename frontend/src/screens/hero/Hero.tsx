@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { CornerTag, NumberTick, ProvenanceChip, RegistrationMarks, StatusGlyph } from "../../components/primitives";
+import { CornerTag, NumberTick, ProvenanceChip, StatusGlyph } from "../../components/primitives";
 import { loadSnapshot } from "../../data/client";
 import type { AircraftState, FleetState, Meta, Route, World } from "../../data/types";
 import { ChartMap } from "../../map/ChartMap";
@@ -59,7 +59,6 @@ export function Hero() {
 
   return (
     <div className={`${h.sheet} ${still ? h.still : ""}`} data-testid="hero" data-step={step}>
-      <RegistrationMarks />
 
       {/* ---------------------------------------------------------------- map sheet */}
       <div className={h.mapSheet}>

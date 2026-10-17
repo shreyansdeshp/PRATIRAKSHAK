@@ -5,7 +5,7 @@
 
 .scale {
   position: absolute; left: 16px; bottom: 14px; z-index: 6; display: grid; grid-template-columns: auto; position: absolute;
-  font-family: var(--font-mono); font-size: 13px; color: var(--ink); background: rgba(244, 239, 227, 0.85); padding: 4px 6px 2px;
+  font-family: var(--font-mono); font-size: 13px; color: var(--ink); background: color-mix(in srgb, var(--paper-hi) 88%, transparent); padding: 4px 6px 2px;
 }
 .scale span { position: absolute; bottom: -1px; left: 6px; }
 .scale .scaleEnd { left: auto; right: 2px; }

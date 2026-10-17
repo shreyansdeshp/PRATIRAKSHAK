@@ -2,7 +2,13 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: var(--paper);
+  background-color: var(--paper);
+  /* side design: radar rings + fine grid, visible in the letterbox beside the stage */
+  background-image:
+    repeating-radial-gradient(circle at 0% 100%, transparent 0 58px, var(--fold) 58px 59px),
+    repeating-radial-gradient(circle at 100% 0%, transparent 0 58px, var(--fold) 58px 59px),
+    linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: auto, auto, 40px 40px, 40px 40px;
 }
 
 .stage {

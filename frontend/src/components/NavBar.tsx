@@ -7,7 +7,7 @@ import s from "./NavBar.module.css";
 
 export const NAV_H = 56;
 
-const readTheme = () => { try { return localStorage.getItem("theme") ?? "iaf"; } catch { return "iaf"; } };
+const readTheme = () => { try { return localStorage.getItem("theme") ?? "light"; } catch { return "light"; } };
 
 /** One readable taskbar on every page (outside the scaled stage, so it never shrinks). */
 export function NavBar() {
@@ -29,8 +29,8 @@ export function NavBar() {
           </button>
         ))}
       </div>
-      <button type="button" className={s.theme} onClick={() => setTheme(theme === "iaf" ? "paper" : "iaf")} title="Switch colour theme">
-        {theme === "iaf" ? "Air Force theme" : "Paper theme"}
+      <button type="button" className={s.theme} onClick={() => setTheme(theme === "light" ? "dark" : "light")} title="Switch light / dark mode">
+        {theme === "light" ? "☾ Dark mode" : "☀ Light mode"}
       </button>
     </nav>
   );
