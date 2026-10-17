@@ -50,7 +50,9 @@ def build_graph() -> dict[str, Any]:
         gains: Counter[str] = Counter()
         if path.exists():
             b = lgb.Booster(model_file=str(path))
-            for f, g in zip(b.feature_name(), b.feature_importance("gain"), strict=True):
+            # models were trained on arrays (names are Column_i); the real names live in feature_spec.json
+            names = read_json(path.parent / "feature_spec.json")["features"]
+            for f, g in zip(names, b.feature_importance("gain"), strict=True):
                 if "__" in f:
                     gains[f.split("__")[0]] += float(g)
         g_tot = sum(gains.values()) or 1.0

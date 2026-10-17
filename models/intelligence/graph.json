@@ -180,7 +180,7 @@
    "system": "hydraulics",
    "label": "System A pressure",
    "unit": "psi",
-   "importance": 0.0,
+   "importance": 0.003,
    "provenance": "REAL-ANCHORED"
   },
   {
@@ -189,7 +189,7 @@
    "system": "hydraulics",
    "label": "System B pressure",
    "unit": "psi",
-   "importance": 0.0,
+   "importance": 0.0029,
    "provenance": "REAL-ANCHORED"
   },
   {
@@ -198,7 +198,7 @@
    "system": "hydraulics",
    "label": "Fluid temperature",
    "unit": "°C",
-   "importance": 0.0,
+   "importance": 0.0037,
    "provenance": "REAL-ANCHORED"
   },
   {
@@ -207,7 +207,7 @@
    "system": "hydraulics",
    "label": "Fluid level",
    "unit": "%",
-   "importance": 0.0,
+   "importance": 0.5726,
    "provenance": "SIMULATED"
   },
   {
@@ -216,7 +216,7 @@
    "system": "hydraulics",
    "label": "Pump case-drain flow",
    "unit": "L/min",
-   "importance": 0.0,
+   "importance": 0.4178,
    "provenance": "REAL-ANCHORED"
   },
   {
@@ -231,7 +231,7 @@
    "system": "landing_gear",
    "label": "Brake wear-pin length",
    "unit": "mm",
-   "importance": 0.0,
+   "importance": 0.816,
    "provenance": "SIMULATED"
   },
   {
@@ -240,7 +240,7 @@
    "system": "landing_gear",
    "label": "Brake temperature",
    "unit": "°C",
-   "importance": 0.0,
+   "importance": 0.0398,
    "provenance": "SIMULATED"
   },
   {
@@ -249,7 +249,7 @@
    "system": "landing_gear",
    "label": "Strut pressure",
    "unit": "bar",
-   "importance": 0.0,
+   "importance": 0.1293,
    "provenance": "SIMULATED"
   },
   {
@@ -258,7 +258,7 @@
    "system": "landing_gear",
    "label": "Tyre pressure",
    "unit": "bar",
-   "importance": 0.0,
+   "importance": 0.0139,
    "provenance": "SIMULATED"
   },
   {
@@ -267,7 +267,7 @@
    "system": "landing_gear",
    "label": "Hard-landing count (day)",
    "unit": "count",
-   "importance": 0.0,
+   "importance": 0.001,
    "provenance": "SIMULATED"
   },
   {
@@ -282,7 +282,7 @@
    "system": "flight_controls",
    "label": "Actuator response lag",
    "unit": "ms",
-   "importance": 0.0,
+   "importance": 0.0275,
    "provenance": "SIMULATED"
   },
   {
@@ -291,7 +291,7 @@
    "system": "flight_controls",
    "label": "Backlash",
    "unit": "mrad",
-   "importance": 0.0,
+   "importance": 0.4099,
    "provenance": "SIMULATED"
   },
   {
@@ -300,7 +300,7 @@
    "system": "flight_controls",
    "label": "Position error",
    "unit": "%",
-   "importance": 0.0,
+   "importance": 0.4401,
    "provenance": "SIMULATED"
   },
   {
@@ -309,7 +309,7 @@
    "system": "flight_controls",
    "label": "Servo current",
    "unit": "A",
-   "importance": 0.0,
+   "importance": 0.1226,
    "provenance": "SIMULATED"
   },
   {
@@ -324,7 +324,7 @@
    "system": "electrical",
    "label": "Generator output",
    "unit": "V AC",
-   "importance": 0.0,
+   "importance": 0.2608,
    "provenance": "SIMULATED"
   },
   {
@@ -333,7 +333,7 @@
    "system": "electrical",
    "label": "Generator temperature",
    "unit": "°C",
-   "importance": 0.0,
+   "importance": 0.017,
    "provenance": "SIMULATED"
   },
   {
@@ -342,7 +342,7 @@
    "system": "electrical",
    "label": "Battery voltage",
    "unit": "V DC",
-   "importance": 0.0,
+   "importance": 0.0491,
    "provenance": "SIMULATED"
   },
   {
@@ -351,7 +351,7 @@
    "system": "electrical",
    "label": "Bus ripple",
    "unit": "mV",
-   "importance": 0.0,
+   "importance": 0.6722,
    "provenance": "SIMULATED"
   },
   {
@@ -360,7 +360,7 @@
    "system": "electrical",
    "label": "Electrical load",
    "unit": "%",
-   "importance": 0.0,
+   "importance": 0.0009,
    "provenance": "SIMULATED"
   },
   {
@@ -375,7 +375,7 @@
    "system": "avionics",
    "label": "Transmitter power (rel.)",
    "unit": "dB",
-   "importance": 0.0,
+   "importance": 0.2554,
    "provenance": "SIMULATED"
   },
   {
@@ -384,7 +384,7 @@
    "system": "avionics",
    "label": "BIT fault count (day)",
    "unit": "count",
-   "importance": 0.0,
+   "importance": 0.0009,
    "provenance": "SIMULATED"
   },
   {
@@ -393,7 +393,7 @@
    "system": "avionics",
    "label": "LRU temperature",
    "unit": "°C",
-   "importance": 0.0,
+   "importance": 0.0612,
    "provenance": "SIMULATED"
   },
   {
@@ -402,7 +402,7 @@
    "system": "avionics",
    "label": "Cooling airflow",
    "unit": "%",
-   "importance": 0.0,
+   "importance": 0.6825,
    "provenance": "SIMULATED"
   },
   {
@@ -417,7 +417,7 @@
    "system": "fuel",
    "label": "Boost-pump pressure",
    "unit": "kPa",
-   "importance": 0.0,
+   "importance": 0.1834,
    "provenance": "SIMULATED"
   },
   {
@@ -426,7 +426,7 @@
    "system": "fuel",
    "label": "Flow imbalance",
    "unit": "%",
-   "importance": 0.0,
+   "importance": 0.0715,
    "provenance": "SIMULATED"
   },
   {
@@ -435,7 +435,7 @@
    "system": "fuel",
    "label": "Filter ΔP",
    "unit": "kPa",
-   "importance": 0.0,
+   "importance": 0.742,
    "provenance": "SIMULATED"
   },
   {
@@ -444,7 +444,7 @@
    "system": "fuel",
    "label": "Tank temperature",
    "unit": "°C",
-   "importance": 0.0,
+   "importance": 0.0031,
    "provenance": "SIMULATED"
   },
   {
@@ -459,7 +459,7 @@
    "system": "structure",
    "label": "Cumulative fatigue index",
    "unit": "idx",
-   "importance": 0.0,
+   "importance": 0.603,
    "provenance": "SIMULATED"
   },
   {
@@ -468,7 +468,7 @@
    "system": "structure",
    "label": "Corrosion index",
    "unit": "idx",
-   "importance": 0.0,
+   "importance": 0.0783,
    "provenance": "SIMULATED"
   },
   {
@@ -477,7 +477,7 @@
    "system": "structure",
    "label": "Vibration level",
    "unit": "g",
-   "importance": 0.0,
+   "importance": 0.3183,
    "provenance": "SIMULATED"
   },
   {
@@ -486,7 +486,7 @@
    "system": "structure",
    "label": "Crack-indicator flag",
    "unit": "flag",
-   "importance": 0.0,
+   "importance": 0.0005,
    "provenance": "SIMULATED"
   },
   {

@@ -17,8 +17,8 @@
   },
   {
    "path": "data/intelligence.json",
-   "bytes": 33297,
-   "sha256": "9751e60bc15b5a69"
+   "bytes": 33384,
+   "sha256": "894608cac6b0c77b"
   },
   {
    "path": "data/meta.json",
@@ -211,5 +211,5 @@
    "sha256": "3f504d3eabb32a6d"
   }
  ],
- "total_bytes": 4531578
+ "total_bytes": 4531665
 }
