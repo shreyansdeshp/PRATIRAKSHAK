@@ -1,0 +1,6 @@
+{
+  "beats": [
+    { "id": "s7", "path": "/stress", "param": "sc=surge", "caption": "Double the flying. Against the best alternative, Pratirakshak keeps 3 points more of the fleet ready and cuts unplanned failures from 121 to 11." },
+    { "id": "s7-strike", "path": "/stress", "param": "sc=strike", "caption": "A strike takes out most of Aravalli's hangars. Availability is no better than threshold alarms — but unplanned failures fall from 39 to 6." }
+  ]
+}
