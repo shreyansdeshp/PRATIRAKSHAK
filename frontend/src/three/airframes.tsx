@@ -110,6 +110,20 @@ function flagTexture(): THREE.CanvasTexture {
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
 }
 
+/** Tricolour roundel: saffron / white / green rings around a navy Ashoka chakra. */
+function roundelTexture(): THREE.CanvasTexture {
+  const c = document.createElement("canvas"); c.width = 256; c.height = 256;
+  const g = c.getContext("2d")!;
+  const cx = 128, cy = 128;
+  const disc = (r: number, col: string) => { g.fillStyle = col; g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.fill(); };
+  disc(124, "#FF9933"); disc(90, "#FFFFFF"); disc(56, "#138808");
+  g.strokeStyle = "#06038D"; g.lineWidth = 4; g.beginPath(); g.arc(cx, cy, 36, 0, Math.PI * 2); g.stroke();
+  g.lineWidth = 1.6;
+  for (let i = 0; i < 24; i++) { const a = (i / 24) * Math.PI * 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + Math.cos(a) * 36, cy + Math.sin(a) * 36); g.stroke(); }
+  g.fillStyle = "#06038D"; g.beginPath(); g.arc(cx, cy, 5, 0, Math.PI * 2); g.fill();
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
+}
+
 function lettersTexture(text: string): THREE.CanvasTexture {
   const c = document.createElement("canvas"); c.width = 512; c.height = 192;
   const g = c.getContext("2d")!;
@@ -165,6 +179,7 @@ export function Airframe({ type, exploded = 0, bodyHealth = 100, showBody = fals
 
   const flag = useMemo(() => flagTexture(), []);
   const iaf = useMemo(() => lettersTexture("IAF"), []);
+  const roundel = useMemo(() => roundelTexture(), []);
   const fin = s.tail.fin;
   const finX = fin.reduce((a, q) => a + q[0], 0) / fin.length + s.tail.x;
   const finY = fin.reduce((a, q) => a + q[1], 0) / fin.length + s.tail.y;
@@ -194,7 +209,7 @@ export function Airframe({ type, exploded = 0, bodyHealth = 100, showBody = fals
         <group key={side}>
           <Decal texture={flag} position={[finX, finY, 0.058]} size={[flagW, flagH]} side={side} />
           <Decal texture={iaf} position={[bx, 0.02, bR + 0.012]} size={[0.95, 0.36]} side={side} />
-          <Decal texture={iaf} position={[nx, -0.02, nR + 0.05]} size={[0.56, 0.21]} side={side} />
+          <Decal texture={roundel} position={[nx, -0.01, nR + 0.05]} size={[0.34, 0.34]} side={side} />
         </group>
       ))}
       <mesh geometry={geo.canopy} position={[s.canopy.x, profileR(s, 1 - (s.canopy.x + L / 2) / L) * 0.72, 0]} scale={[s.canopy.len / 2, s.canopy.r, s.canopy.r * 0.9]}>
