@@ -26,7 +26,7 @@
 - [ ] 11 Fleet, base, aircraft showroom
 - [ ] 12 Decision, spares, planning screens
 - [ ] 13 Stress, counterfactuals, intelligence, results, lifecycle, vendor, offline, method
-- [ ] 14 Polish & delivery
+- [ ] 14 Polish (REDUCED by user 2026-10-17: motion pass, copy pass, empty/error states, README only — NO recording, voiceover, video or final 4K shot set; the team does those)
 
 ## This stage's plan (10–20 lines, written before coding)
 **Stage 7 — Simulation & results**
@@ -382,6 +382,7 @@ Tests  1 passed (1)
 | 2026-10-17 | In the sim an engine action = quick engine change (fresh REAL replay trajectory) | Keeps engine truth REAL after maintenance | Yes |
 | 2026-10-17 | Sim parallelism ≤ 6 workers, single-threaded, below-normal priority, shared caches | 12 heavy workers crashed the user's laptop twice | Yes |
 | 2026-10-17 | S8 (late detection) tells the failure/in-flight-abort story; availability goes *up* with delay over 90 days (horizon effect) and is shown with that caveat | Honest reading of the data | — |
+| 2026-10-17 | **Scope (user instruction):** recording, voiceover and the video are done by the team. Stage 14 = motion + copy + empty/error states + README. Storyline mode (beats, captions, keys) is still built so the team can record; the Playwright `record` script and `docs/voiceover.md` are dropped; stage reviews keep one round of 1920×1080 screenshots only | User decision | Yes (user) |
 
 ## Defaults used because the user hadn't specified (SPEC §3.4)
 - Base names / aircraft names / fleet mix: SPEC defaults (to be written to `config/world.yaml` in Stage 2).
