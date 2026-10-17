@@ -1,7 +1,9 @@
+import { DevData } from "../screens/dev/DevData";
 import styles from "./App.module.css";
 
-/** Stage 0 placeholder: an empty chart sheet. Screens arrive from Stage 9 on. */
+/** Placeholder shell until Stage 9 adds the router and screens; /dev/data checks the data layer. */
 export function App() {
+  if (window.location.pathname.startsWith("/dev/data")) return <DevData />;
   return (
     <main className={styles.sheet} data-testid="sheet">
       <span className={`${styles.reg} ${styles.tl}`} aria-hidden />

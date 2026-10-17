@@ -1,0 +1,34 @@
+{
+ "project": "Pratirakshak",
+ "tagline": "Predict. Prepare. Protect.",
+ "problem_statement": "SIH26249",
+ "version": "0.1.0",
+ "seed": 26249,
+ "demo_seed": 5,
+ "sim_start": "2026-06-01",
+ "horizon_days": 90,
+ "snapshot": "D+0 06:00Z",
+ "provenance_legend": {
+  "REAL": "NASA C-MAPSS engine data or another public dataset, used as recorded.",
+  "REAL-ANCHORED": "Synthetic, but calibrated on a real dataset (UCI hydraulic rig, Open-Meteo/ERA5 climate, OSRM/OSM roads).",
+  "SIMULATED": "Synthetic, produced by our generator or simulator.",
+  "ILLUSTRATIVE": "Placeholder values for the story (costs in ₵, names, stock levels)."
+ },
+ "roles": {
+  "commander": [
+   "world",
+   "state",
+   "history",
+   "decisions",
+   "plan",
+   "intelligence",
+   "models",
+   "results",
+   "demo",
+   "twin"
+  ],
+  "vendor": [
+   "vendor"
+  ]
+ }
+}

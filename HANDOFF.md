@@ -3,10 +3,10 @@
 > Running state of the build. Update at the **start** and **end** of every stage and whenever you stop. A fresh Claude Code session must be able to resume from this file + `SPEC.md` alone.
 
 ## Status
-- **Current stage:** 8 — Export & API (next)
-- **Last completed stage:** 7 — Simulation & results
-- **Last commit:** see `git log -1` (Stage 7: fleet simulation and results)
-- **Date/time of last update:** 2026-10-17 08:45
+- **Current stage:** 9 — Front-end foundation (next)
+- **Last completed stage:** 8 — Export & API
+- **Last commit:** see `git log -1` (Stage 8: snapshot export, vendor subset, API, offline)
+- **Date/time of last update:** 2026-10-17 09:20
 - **Demo seed:** **5** (median rule: base-scenario P3 − best-baseline ready-% gain closest to the median)
 - **Global seed:** 26249
 - **Remote:** `https://github.com/shreyansdeshp/PRATIRAKSHAK.git` (branch `main`); commits authored as `shreyansdeshp <sndeshpande_b25@it.vjti.ac.in>` (repo-local git config). Push after every stage commit.
@@ -20,7 +20,7 @@
 - [x] 5 Intelligence (trust, explanations, mission fit)
 - [x] 6 Decision, spares, scheduling
 - [x] 7 Simulation & results
-- [ ] 8 Export & API
+- [x] 8 Export & API
 - [ ] 9 Front-end foundation
 - [ ] 10 Hero & storyline engine
 - [ ] 11 Fleet, base, aircraft showroom
@@ -29,7 +29,15 @@
 - [ ] 14 Polish (REDUCED by user 2026-10-17: motion pass, copy pass, empty/error states, README only — NO recording, voiceover, video or final 4K shot set; the team does those)
 
 ## This stage's plan (10–20 lines, written before coding)
-**Stage 7 — Simulation & results**
+**Stage 8 — Export & API**
+1. `export/build.py` (`./tasks.ps1 export`): writes the static snapshot to `frontend/public/data/` — `meta`, `world` (bases + env summary, types, aircraft, nodes, parts, stock, routes; road geometry copied to `data/routes/`), `state` (per tail: status, limiting, risk, health, 8 systems with RUL p10/p50/p90, P(fail), provenance, confidence, drivers; trust per sensor), `history` (60-day system-sensor sparklines + REAL last-60-cycle engine headline sensors with healthy baseline), `decisions`, `plan`, `missions`, `intelligence` (graph, harness, engine importance), `models` (engine + system metrics, calibration), `results` (summary, curves, paired, ablation, sensitivity, counterfactuals, trimmed demo events), `twin` (default 60-day health fans per tail), `manifest` (files, bytes, sha256).
+2. `vendor.json`: a **separate** subset built server-side — demand id, LRU, qty, destination, deadline, priority, source, mode, ETA, route — no tail ids, health or readiness. Commander files are never referenced by the vendor shell.
+3. `export/schema.py`: light JSON Schemas (required keys/types) validated at export; `docs/SNAPSHOT_SCHEMA.md` documents every file. Deterministic bytes (no wall-clock timestamps); total < 25 MB.
+4. `api/app.py` (FastAPI): `/api/health`, `/api/twin` (Monte-Carlo what-if from the simulator's forward model: usage ×, defer n days, environment), `/api/resimulate` (one seed of a scenario × policy), `/api/decision` (re-run the rule at a chosen θ / criticality), `/api/vendor/demands` (vendor subset only). CORS for the dev server.
+5. Front-end data layer `src/data/client.ts`: static-first loader with optional API (timeout → silent fallback); `public/sw.js` service worker caching app shell + `/data/*` (registered in production builds).
+6. Checks: Playwright with **no API running** loads every snapshot through the data layer (`/dev/data` page); pytest asserts the vendor snapshot has no tail ids / health / readiness fields. Commit + push.
+
+**Stage 7 — Simulation & results** (done)
 1. `config/scenarios.yaml`: base · surge (sortie demand ×2, sensor-fault hazard ×1.5) · strike (ARV day 20: bays −60 %, ARV store lost, 3 aircraft damaged) · supply (HIM roads closed all horizon + vendor dispatch +72 h) · weather (dust/humidity/wet up) · late detection d ∈ {1,3,7} (P3 acts on data d days old).
 2. `sim/engine.py`: 90-day daily sim from the D+0 truth (`d0_latent.json`; engines continue their REAL replay trajectories, cycles/day from sorties × env acceleration). Each day: sorties from missions spread over available aircraft → damage step → failures (in flight = mission abort; cascade chance) → observations with faults → policy → greedy scheduling with bay/tech-hour/floor limits → services, spares consumption, replenishment from the vendor hub after lead time, orders in transit. **Common random numbers**: a separate RNG per (seed, day, purpose).
 3. Policies: P0 run-to-failure; P1 fixed-interval (the fleet's legacy 0.6 × usage-adjusted life; engines at 0.6 × median subset life) — one fair setting; P2 raw-sensor threshold alarms (3-day mean beyond 70 % of the failure signature; engines HPC z-alarm) with no spares-awareness; P3 Pratirakshak (daily RUL estimates → rule → orders ahead → bundled greedy plan; VERIFY_SENSOR on untrusted drivers). Unplanned failures handled identically for all.
@@ -104,6 +112,13 @@
 9. Check: fresh venv `pip install` + `npm ci` + Playwright render test; paste output; commit.
 
 ## What I did (this session)
+**Stage 8**
+- `export/build.py` + `schema.py` + `__main__.py` (`./tasks.ps1 export`): 13 JSON files + 29 route GeoJSONs in `frontend/public/data/` (**4.11 MB**), validated against light JSON Schemas; `docs/SNAPSHOT_SCHEMA.md`. No future truth exported (engine life lengths, latent damage stay in the backend). Engine sparklines = condition-normalised deviation from healthy baseline in sensor units (raw values jump between the 6 operating conditions).
+- `vendor.json` built separately from demand records: 3 P1 expedites + 22 restock demands from the D+0 plan; no tail ids / health / readiness (test `test_vendor_snapshot.py`).
+- `twin.json`: default 60-day condition fans (200 Monte-Carlo draws of the simulator's forward model) per tail.
+- `api/app.py` (FastAPI): `/api/health`, `/api/twin` (usage ×, defer + service, environment), `/api/resimulate`, `/api/decision`, `/api/vendor/demands`; verified with the test client (added pinned dev dep `httpx==0.28.1`, lock refreshed).
+- Front-end: `src/data/client.ts` (static-first, 1.2 s API probe, silent fallback), `public/sw.js` (cache-first snapshot + app shell, registered in production), `/dev/data` check page.
+
 **Stage 7**
 - `config/scenarios.yaml`; `sim/engine.py` (daily simulator, CRN via RNG per (seed, day, purpose), P0–P3, unplanned handling identical for all, spares consumption + vendor replenishment, greedy hangar plan in the loop), `sim/runner.py` (worker setup + caches), `sim/__main__.py` (`./tasks.ps1 sim`; grid, CIs, paired diffs, demo seed, ablations, sensitivity, counterfactuals, report; `--report-only`).
 - **Laptop crash (twice) — my fault:** first version launched 12 workers that each rebuilt the engine pre-processing (~0.5–1 GB each) with multi-threaded BLAS/OpenMP → RAM + all 16 threads saturated → hard power-off (Windows Kernel-Power 41 at 07:51, no bugcheck). Fix: engine arrays cached once (`data/interim/sim_engine_cache.pkl`), workers measured at **≈ 210 MB peak**, 1 maths thread each, below-normal priority, default ≤ 6 workers (5 on this 16-thread machine). Full run: 310 sims in ~3–4.5 min.
@@ -160,6 +175,17 @@
 - Remote set to the user's GitHub repo; local `main` rebased onto its existing 2 commits (README only); README expanded.
 
 ## Acceptance checks — **real output pasted**
+**Stage 8** — Check (1): the front-end data layer loads from static files with the API off; Check (2): the vendor snapshot contains no tail-level health.
+```
+> npx playwright test e2e/data.spec.ts        (all requests to localhost:8000 aborted)
+all 13 snapshot files loaded
+  ok 1 data.spec.ts:4:1 › data layer loads all snapshots with the API off (856ms)
+  1 passed (17.2s)
+> python -m pytest -q                          → 21 passed (incl. test_vendor_snapshot: no PR-xnnn, no health/status/readiness keys)
+> python -m pratirakshak.export
+snapshot: 41 files, 4.11 MB (limit 25 MB) → frontend/public/data/
+```
+
 **Stage 7** — Check (1): the results table regenerates with one command and has intervals across seeds; Check (2): `reports/results.md` records the demo seed and where Pratirakshak does not help.
 ```
 > python -m pratirakshak.sim
@@ -438,7 +464,7 @@ Tests  1 passed (1)
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
 ## Next steps (ordered, concrete)
-1. Stage 8: write plan here. `export/`: snapshot bundle in `frontend/public/data/` (meta, world, state, decisions, plans, scenarios/curves, results, story beats, roles) + JSON Schema in `docs/SNAPSHOT_SCHEMA.md`; vendor snapshot = demands only (no tail ids, no readiness); simplify route geometry; size < 25 MB. FastAPI (`api/app.py`): twin what-if (reuse `synth/model.py`), quick re-simulation, decision re-evaluation; front-end falls back to static files. Service worker for offline. Checks: data layer loads with API off; vendor snapshot has no tail-level health (test).
+1. Stage 9: write plan here. Tokens already in `tokens.css`; add stage scaler (1920×1080 letterboxed), router (Zustand + simple path router), primitives (FlightStrip, HealthBar, StatusGlyph, Chip/ProvenanceChip, SheetHeader, RegistrationMarks, NumberTick), D3 chart kit (fan, timeline strip, dumbbell, slope, reliability, sparkline, small multiples), MapLibre custom paper-chart style + offline fallback (Natural Earth GeoJSON bundled; Terrarium hillshade online); `/dev/primitives` page. Checks: one screenshot of `/dev/primitives` reviewed; fallback map renders with the network blocked.
 
 ## How to run (keep current)
 ```
@@ -450,7 +476,8 @@ Tests  1 passed (1)
 # intel     ./tasks.ps1 intelligence  → trust, explanations, mission fit, graph (~2 min)
 # plan      ./tasks.ps1 plan   → data/processed/plan/ (D+0 decisions, CP-SAT schedule, spares requests)
 # sim       ./tasks.ps1 sim    → data/processed/results/, reports/results.md (~4 min, ≤ 6 workers; --report-only to rewrite report)
-# export    ./tasks.ps1 export                    (Stage 8)
+# export    ./tasks.ps1 export → frontend/public/data/ (4.1 MB snapshot; vendor.json separate)
+# api       python -m uvicorn pratirakshak.api.app:app --port 8000   (optional; UI falls back to static)
 # dev       ./tasks.ps1 dev   (UI only for now: cd frontend; npm run dev → http://localhost:5173)
 # shots     ./tasks.ps1 shots  → docs/shots/
 # test      ./tasks.ps1 test   | make test

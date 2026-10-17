@@ -18,3 +18,8 @@ createRoot(root).render(
     <App />
   </StrictMode>,
 );
+
+// Offline mode (SPEC U5): cache the app shell + snapshot in production builds.
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js").catch(() => undefined);
+}
