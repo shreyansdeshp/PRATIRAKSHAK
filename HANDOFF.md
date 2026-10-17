@@ -532,8 +532,8 @@ Tests  1 passed (1)
 
 ## Parallel work (from 2026-10-17 ~11:40)
 Remaining sheets are split between Claude Code (`main`, this folder) and Antigravity (`antigravity` branch, worktree `D:\githubrepos\pratikrakshak-ag`). **Protocol and ownership: `docs/FRONTEND_CONVENTIONS.md`.** Antigravity logs in `HANDOFF-ANTIGRAVITY.md`.
-- Claude: 04 Decision, 05 Spares, 07 Stress, 08 Late, 10 Results, 14 Method, Stage 14 polish/README, merging `antigravity` → `main`, any backend/snapshot change.
-- Antigravity: 06 Plan, 09 Intelligence, 11 Offline, 12 Vendor, 13 Lifecycle.
+- Claude: 04 Decision, 05 Spares, 07 Stress, 08 Late, 09 Intelligence, 10 Results, 11 Offline, 14 Method, Stage 14 polish/README, merging `antigravity` → `main`, any backend/snapshot change.
+- Antigravity: 06 Plan (done, merged), 12 Vendor (finishing), 13 Lifecycle. (09 + 11 reassigned to Claude after Antigravity switched from Opus to Gemini Flash.)
 - All routes are pre-wired to placeholder files (one per sheet); story beats are per-sheet files in `src/story/beats/`; ports overridable (`PREVIEW_PORT`/`DEV_PORT`; Antigravity uses 4273/5273).
 
 ## Next steps (ordered, concrete)

@@ -11,9 +11,9 @@ Two agents build the remaining sheets in parallel: **Claude Code** works in `D:\
 | 06 Planning timeline | `/plan` | `src/screens/plan/` | **Antigravity** |
 | 07 Stress test | `/stress` | `src/screens/stress/` | Claude |
 | 08 Late detection | `/late` | `src/screens/late/` | Claude |
-| 09 Intelligence | `/intel` | `src/screens/intel/` | **Antigravity** |
+| 09 Intelligence | `/intel` | `src/screens/intel/` | Claude (reassigned 2026-10-17) |
 | 10 Results | `/results` | `src/screens/results/` | Claude |
-| 11 Offline mode | `/offline` | `src/screens/offline/` | **Antigravity** |
+| 11 Offline mode | `/offline` | `src/screens/offline/` | Claude (reassigned 2026-10-17) |
 | 12 Spares vendor | `/vendor` | `src/screens/vendor/` | **Antigravity** |
 | 13 Lifecycle | `/lifecycle` | `src/screens/lifecycle/` | **Antigravity** |
 | 14 Method & provenance | `/method` | `src/screens/method/` | Claude |
