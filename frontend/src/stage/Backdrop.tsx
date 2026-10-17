@@ -38,7 +38,7 @@ export function Backdrop() {
       </g>
       <g fill="var(--ink-mute)" fontSize={13} letterSpacing={2}>
         <text x={30} y={118}>N 34°09′</text><text x={30} y={448}>N 28°36′</text><text x={30} y={778}>N 13°00′</text>
-        <text x={1500} y={118} textAnchor="middle">E 77°35′</text><text x={1500} y={448} textAnchor="middle">E 77°12′</text><text x={1500} y={778} textAnchor="middle">E 80°10′</text>
+        <text x={1500} y={448} textAnchor="middle">E 77°12′</text><text x={1500} y={778} textAnchor="middle">E 80°10′</text>
         <text x={24} y={870}>VHF 121.5 · SEED 26249</text>
         <text x={1576} y={870} textAnchor="end">SIH26249 · FICTIONAL EXERCISE</text>
       </g>

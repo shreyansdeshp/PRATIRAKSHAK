@@ -121,7 +121,6 @@ export function Hero() {
           <span className={h.kicker}>SIH26249 · AIR POWER — PREDICTIVE MAINTENANCE &amp; FLEET AVAILABILITY</span>
           <h1 className={h.wordmark}>Pratirakshak</h1>
           <p className={h.motto}>Predict. Prepare. Protect.</p>
-          <p className={h.lede}>Fleet readiness command console: when each system will fail, how sure we are, and what to do today.</p>
         </div>
         <div className={h.preTitle} style={{ display: "none" }}>
           <span className={h.kicker}>SHEET 00</span>

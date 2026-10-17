@@ -48,12 +48,12 @@
   border-top: 3px double var(--ink); border-bottom: 3px double var(--ink); padding: 12px 0; transition: opacity 600ms; }
 .preTitleText { font-family: var(--font-serif); font-weight: 600; font-size: 34px; line-height: 1; }
 .snapshotLine { font-family: var(--font-mono); font-size: 15px; color: var(--ink-soft); }
-.lockup { position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 250px;
+.lockup { position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 0;
   border-top: 3px double var(--ink); border-bottom: 3px double var(--ink); padding: 14px 0 16px;
   opacity: 0; transform: translateY(8px); transition: opacity 1200ms var(--ease-chart), transform 1200ms var(--ease-chart); }
 .lockupOn { opacity: 1; transform: none; }
-.wordmark { font-family: var(--font-serif); font-weight: 600; font-size: 50px; letter-spacing: 0.035em; text-transform: uppercase; line-height: 1; margin: 6px 0 0; }
-.motto { margin: 0; font-family: var(--font-serif); font-style: italic; font-size: 28px; color: var(--olive); }
+.wordmark { font-family: var(--font-serif); font-weight: 600; font-size: 50px; letter-spacing: 0; white-space: nowrap; text-transform: uppercase; line-height: 1; margin: 6px 0 0; }
+.motto { margin: 0; font-family: var(--font-serif); font-style: italic; font-size: 34px; white-space: nowrap; color: var(--olive); }
 .lede { margin: 6px 0 0; font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); line-height: 1.45; }
 
 .totals { display: flex; flex-direction: column; opacity: 0; transition: opacity 800ms; }
