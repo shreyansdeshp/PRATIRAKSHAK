@@ -1,0 +1,6 @@
+{
+  "beats": [
+    { "id": "s06-gantt", "path": "/plan", "caption": "The 30-day hangar plan: bundled visits across four bases, built by constraint solver." },
+    { "id": "s06-timeline", "path": "/plan", "caption": "PR-G295: three in-flight failures under P0, zero under P3 — same aircraft, same horizon." }
+  ]
+}
