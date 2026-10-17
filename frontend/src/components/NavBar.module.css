@@ -1,6 +1,6 @@
 .bar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; gap: 18px; padding: 0 20px;
   background: var(--nav-bg); color: var(--nav-ink); font-family: var(--font-sans); }
-.brand { background: none; border: none; color: var(--nav-ink); font-family: var(--font-serif); font-weight: 700; font-size: 20px; letter-spacing: 0.08em; cursor: pointer; }
+.brand { display: inline-flex; align-items: center; gap: 10px; background: none; border: none; color: var(--nav-ink); font-family: var(--font-serif); font-weight: 700; font-size: 20px; letter-spacing: 0.08em; cursor: pointer; }
 .items { display: flex; gap: 2px; flex: 1; overflow-x: auto; scrollbar-width: none; }
 .item { background: none; border: none; border-bottom: 3px solid transparent; color: var(--nav-ink); opacity: 0.75; font-size: 15px; padding: 14px 10px 13px; cursor: pointer; white-space: nowrap; }
 .item:hover { opacity: 1; }

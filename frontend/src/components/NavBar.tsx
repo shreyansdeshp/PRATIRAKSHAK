@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useApp } from "../store/app";
 import { useStory } from "../story/story";
+import { Crest } from "./Crest";
 import { SHEETS } from "./SheetIndex";
 import s from "./NavBar.module.css";
 
@@ -21,7 +22,7 @@ export function NavBar() {
   if (!show) return null;
   return (
     <nav className={s.bar} style={{ height: NAV_H }} aria-label="Sheets">
-      <button type="button" className={s.brand} onClick={() => navigate("/")}>PRATIRAKSHAK</button>
+      <button type="button" className={s.brand} onClick={() => navigate("/")}><Crest size={34} />PRATIRAKSHAK</button>
       <div className={s.items}>
         {SHEETS.map((sh) => (
           <button key={sh.no} type="button" className={`${s.item} ${route.screen === sh.screen ? s.active : ""}`} onClick={() => navigate(sh.path)}>

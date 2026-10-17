@@ -14,6 +14,5 @@
   transform-origin: center center;
   background: var(--paper);
   overflow: hidden;
-  /* framed document: gold hairline, navy gap, gold hairline, then a soft drop shadow */
-  box-shadow: 0 0 0 2px var(--nav-accent), 0 0 0 8px var(--nav-bg), 0 0 0 9px color-mix(in srgb, var(--nav-accent) 55%, transparent), 0 24px 70px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 2px 18px rgba(0, 0, 0, 0.18);
 }
