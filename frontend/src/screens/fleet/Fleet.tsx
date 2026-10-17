@@ -1,4 +1,4 @@
-import { CornerTag, HealthBar, NumberTick, ProvenanceChip, RegistrationMarks, SheetHeader, StatTile, StatusGlyph } from "../../components/primitives";
+import { CornerTag, HealthBar, NumberTick, RegistrationMarks, SheetHeader, StatTile, StatusGlyph } from "../../components/primitives";
 import { SheetIndex } from "../../components/SheetIndex";
 import type { FleetState, Rollup, World } from "../../data/types";
 import { useSnapshots } from "../../data/useSnapshots";
@@ -117,7 +117,6 @@ export function Fleet() {
             ))}
           </ul>
           <p className={f.foot}>Risk = chance the limiting system fails within {state.window_days} days. Status: <StatusGlyph status="READY" /> below 10 % · <StatusGlyph status="WATCH" /> 10–30 % · <StatusGlyph status="PULL" /> 30 % or more.</p>
-          <div className={f.prov}><span>Engines <ProvenanceChip kind="REAL" /></span><span>Other systems <ProvenanceChip kind="SIMULATED" /></span></div>
         </aside>
       </div>
       <CornerTag />

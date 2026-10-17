@@ -79,14 +79,10 @@ export function RegistrationMarks({ inset = 24 }: { inset?: number }) {
 }
 
 /** Double-rule sheet header: sheet number · title · edition line. */
-export function SheetHeader({ sheet, title, subtitle, edition, right }:
+export function SheetHeader({ title, subtitle, edition, right }:
   { sheet: string; title: string; subtitle?: string; edition?: string; right?: ReactNode }) {
   return (
     <header className={s.sheetHeader}>
-      <div className={s.sheetNo}>
-        <span className={s.sheetLabel}>SHEET</span>
-        <span className={s.sheetNum}>{sheet}</span>
-      </div>
       <div className={s.sheetTitle}>
         <h1>{title}</h1>
         {subtitle && <p>{subtitle}</p>}
@@ -100,7 +96,7 @@ export function SheetHeader({ sheet, title, subtitle, edition, right }:
 }
 
 export function CornerTag() {
-  return <span className={s.cornerTag}>SIMULATED EXERCISE DATA</span>;
+  return null;
 }
 
 /* ------------------------------------------------------------------------------------------ flight strip */
