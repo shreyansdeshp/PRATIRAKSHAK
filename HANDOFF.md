@@ -530,6 +530,12 @@ Tests  1 passed (1)
 - [ ] npm 11 blocks dependency install scripts by default (`esbuild` postinstall skipped). Build works regardless (esbuild ships platform binaries as optional deps). If a later dependency needs its install script, approve it with `npm approve-scripts <pkg>`.
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
+## Parallel work (from 2026-10-17 ~11:40)
+Remaining sheets are split between Claude Code (`main`, this folder) and Antigravity (`antigravity` branch, worktree `D:\githubrepos\pratikrakshak-ag`). **Protocol and ownership: `docs/FRONTEND_CONVENTIONS.md`.** Antigravity logs in `HANDOFF-ANTIGRAVITY.md`.
+- Claude: 04 Decision, 05 Spares, 07 Stress, 08 Late, 10 Results, 14 Method, Stage 14 polish/README, merging `antigravity` → `main`, any backend/snapshot change.
+- Antigravity: 06 Plan, 09 Intelligence, 11 Offline, 12 Vendor, 13 Lifecycle.
+- All routes are pre-wired to placeholder files (one per sheet); story beats are per-sheet files in `src/story/beats/`; ports overridable (`PREVIEW_PORT`/`DEV_PORT`; Antigravity uses 4273/5273).
+
 ## Next steps (ordered, concrete)
 1. Stage 12: write plan here. S4 `/decision/:tail` decision card (the rule restated for this tail; plain-language reason from decisions.json; key sensors with sparklines vs healthy baseline; RUL fan + P(fail in window) vs θ; confidence high/medium/low with reasons, shown prominently; sensor-trust badges; alternatives with consequences; spare route summary). S5 `/spares/:tail` (terrain map; base ↔ 2–3 nearest sources with ETA chips; animated navigation line along the cached OSRM polyline with a moving marker; alternative routes lighter; elevation profile strip from the DEM; table of stock/ETA/mode; SOURCE vs PULL verdict banner; cannibalisation option; vendor hub). S6 `/plan` (Gantt per base: hangar slots, bundled jobs, readiness floor; planned-vs-unplanned: two timelines of the same aircraft from demo.json P0 vs P3 with hatched unplanned blocks + mission-impact markers; bar comparison of hours and ₵ from results.json). Story beats for S4–S6. Checks: decision card numbers come from the snapshot (test); planned-vs-unplanned uses real timeline data (test); one screenshot review of S4–S6.
 

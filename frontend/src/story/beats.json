@@ -48,27 +48,6 @@
       "path": "/",
       "heroStep": 7,
       "caption": "Pratirakshak. Predict. Prepare. Protect."
-    },
-    {
-      "id": "s1",
-      "path": "/fleet",
-      "caption": "The fleet readiness board: ready to deploy by type and base, with the readiness floor marked on every cell."
-    },
-    {
-      "id": "s2",
-      "path": "/base/HIM",
-      "caption": "Himshikhar: 3,600 metres up. Every aircraft is a flight strip — health, limiting system, next action."
-    },
-    {
-      "id": "s3",
-      "path": "/aircraft/PR-S149",
-      "caption": "PR-S149, a Shikshak trainer. Eight systems, each with its own health — and hydraulics is the problem."
-    },
-    {
-      "id": "s3-part",
-      "path": "/aircraft/PR-S149",
-      "param": "part=hydraulics",
-      "caption": "Hydraulics: pressure down about 20 psi, fluid 23 °C hot — effect sizes taken from a real hydraulic test rig."
     }
   ]
 }

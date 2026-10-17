@@ -3,7 +3,16 @@ import { create } from "zustand";
 import beatsFile from "./beats.json";
 
 export interface Beat { id: string; path: string; heroStep?: number; caption: string; param?: string }
-export const BEATS: Beat[] = beatsFile.beats;
+
+/**
+ * Storyline beats = beats.json (sheets 00–03) + one file per later sheet in ./beats/NN-name.json, merged in filename
+ * order. Each screen owner adds only their own beats file, so parallel work never conflicts.
+ */
+const extra = import.meta.glob<{ beats: Beat[] }>("./beats/*.json", { eager: true, import: "default" });
+export const BEATS: Beat[] = [
+  ...beatsFile.beats,
+  ...Object.keys(extra).sort().flatMap((k) => extra[k]!.beats),
+];
 
 interface StoryState {
   active: boolean;
@@ -29,3 +38,9 @@ export const useStory = create<StoryState>((set) => ({
     set({ index: idx, heroStep: BEATS[idx]?.heroStep ?? 7 });
   },
 }));
+
+/** Current beat's extra query parameters (e.g. "part=hydraulics") while storyline mode is on; empty otherwise. */
+export function useBeatParams(): URLSearchParams {
+  const p = useStory((s) => (s.active ? BEATS[s.index]?.param ?? "" : ""));
+  return new URLSearchParams(p);
+}

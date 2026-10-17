@@ -1,0 +1,9 @@
+{
+  "beats": [
+    {
+      "id": "s1",
+      "path": "/fleet",
+      "caption": "The fleet readiness board: ready to deploy by type and base, with the readiness floor marked on every cell."
+    }
+  ]
+}

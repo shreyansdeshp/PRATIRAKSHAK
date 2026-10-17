@@ -9,6 +9,7 @@ import { SheetIndex } from "../../components/SheetIndex";
 import type { AircraftState, FleetState, SystemState, World } from "../../data/types";
 import { useSnapshots } from "../../data/useSnapshots";
 import { useApp } from "../../store/app";
+import { useBeatParams, useStory } from "../../story/story";
 import { Airframe, hotspots, type SystemKey, type TypeId } from "../../three/airframes";
 import s from "./Showroom.module.css";
 
@@ -32,7 +33,9 @@ export function Showroom({ tail }: { tail: string }) {
   const [open, setOpen] = useState<SystemKey | null>(null);
   const params = new URLSearchParams(window.location.search);
   const still = params.has("still");
+  const beatPart = useBeatParams().get("part");
   useEffect(() => { setOpen((params.get("part") as SystemKey) ?? null); }, [tail]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (beatPart !== null) setOpen(beatPart as SystemKey); else if (useStory.getState().active) setOpen(null); }, [beatPart]);
 
   if (!data) return <div className={s.loading} />;
   const { world, state, history, plan } = data;
