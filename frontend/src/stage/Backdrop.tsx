@@ -10,6 +10,9 @@ export function Backdrop() {
   return (
     <div aria-hidden style={{ position: "absolute", inset: 0, background: "#f3f5f8" }}>
       <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
+        {/* navy corner fill inside the bands */}
+        <polygon points="0,900 0,750 150,900" fill="#0e2547" />
+        <polygon points="1600,0 1600,150 1450,0" fill="#0e2547" />
         {/* diagonal tricolour bands cutting opposite corners (saffron · white · green, Ashoka-blue edges) */}
         {[["#FF9933", 0], ["#FFFFFF", 1], ["#138808", 2]].map(([c, i]) => {
           const k = Number(i), w = 34, o = 150 + k * w, ob = 150 + (2 - k) * w; // bottom-left reversed so saffron stays on top
