@@ -23,10 +23,11 @@
 .chip_ILLUSTRATIVE { border-style: dotted; color: var(--ink-mute); border-color: var(--ink-mute); }
 
 /* ---------------------------------------------------------------- sheet furniture */
-.reg { position: absolute; width: 24px; height: 24px; pointer-events: none; }
-.reg::before, .reg::after { content: ""; position: absolute; background: var(--ink); }
-.reg::before { left: 11.5px; top: 0; width: 1px; height: 24px; }
-.reg::after { top: 11.5px; left: 0; height: 1px; width: 24px; }
+.reg { position: absolute; width: 22px; height: 22px; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f4f6f8 0%, #aab2bb 45%, #6d7680 100%);
+  border: 1.5px solid #3b434c; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.35); }
+.reg::before { content: ""; position: absolute; left: 50%; top: 50%; width: 15px; height: 3px; margin: -1.5px 0 0 -7.5px; background: #2b3138; border-radius: 1px;
+  transform: rotate(var(--rot, 0deg)); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
 .sheetHeader {
   display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: 24px;

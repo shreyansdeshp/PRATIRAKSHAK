@@ -67,13 +67,13 @@ export function ProvenanceChip({ kind }: { kind: Provenance }) {
 
 /* ------------------------------------------------------------------------------------------ sheet furniture */
 export function RegistrationMarks({ inset = 24 }: { inset?: number }) {
-  const st = (pos: CSSProperties) => <span className={s.reg} style={pos} aria-hidden />;
+  const st = (pos: CSSProperties, rot: number) => <span className={s.reg} style={{ ...pos, ['--rot' as string]: `${rot}deg` }} aria-hidden />;
   return (
     <>
-      {st({ top: inset, left: inset })}
-      {st({ top: inset, right: inset })}
-      {st({ bottom: inset, left: inset })}
-      {st({ bottom: inset, right: inset })}
+      {st({ top: inset, left: inset }, 35)}
+      {st({ top: inset, right: inset }, -20)}
+      {st({ bottom: inset, left: inset }, 70)}
+      {st({ bottom: inset, right: inset }, 10)}
     </>
   );
 }
