@@ -1,0 +1,52 @@
+{
+ "systems": {
+  "episodes": 1094,
+  "detection_rate": 0.7029,
+  "by_type": {
+   "stuck": {
+    "episodes": 326,
+    "detection_rate": 0.8497
+   },
+   "drift": {
+    "episodes": 337,
+    "detection_rate": 0.5816
+   },
+   "dropout": {
+    "episodes": 279,
+    "detection_rate": 0.5914
+   },
+   "spike": {
+    "episodes": 152,
+    "detection_rate": 0.8618
+   }
+  },
+  "median_delay_steps": 2.0,
+  "false_alarm_rate_per_sensor_step": 0.00199,
+  "clean_sensor_steps": 737721
+ },
+ "engines": {
+  "episodes": 43,
+  "detection_rate": 1.0,
+  "by_type": {
+   "dropout": {
+    "episodes": 15,
+    "detection_rate": 1.0
+   },
+   "drift": {
+    "episodes": 12,
+    "detection_rate": 1.0
+   },
+   "spike": {
+    "episodes": 7,
+    "detection_rate": 1.0
+   },
+   "stuck": {
+    "episodes": 9,
+    "detection_rate": 1.0
+   }
+  },
+  "median_delay_cycles": 22.0,
+  "false_alarm_rate_per_sensor_step": 0.00701,
+  "clean_sensor_steps": 54773
+ }
+}

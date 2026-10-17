@@ -1,0 +1,443 @@
+[
+ {
+  "id": "HIMKAVACH",
+  "name": "High-altitude air-defence detachment",
+  "base": "HIM",
+  "type": "GAR",
+  "aircraft_needed": 4,
+  "length_days": 5,
+  "criticality": "operational",
+  "theta": 0.1,
+  "environment": {
+   "cold": 0.6,
+   "altitude": 0.9,
+   "dust": 0.4
+  },
+  "candidates": [
+   {
+    "tail": "PR-G281",
+    "p_complete": 1.0,
+    "worst_system": "avionics",
+    "worst_p": 0.0,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-G354",
+    "p_complete": 1.0,
+    "worst_system": "flight_controls",
+    "worst_p": 0.0,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-G321",
+    "p_complete": 0.9996,
+    "worst_system": "electrical",
+    "worst_p": 0.0004,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0004,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-G340",
+    "p_complete": 0.9993,
+    "worst_system": "fuel",
+    "worst_p": 0.0004,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0003,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0004,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-G261",
+    "p_complete": 0.997,
+    "worst_system": "electrical",
+    "worst_p": 0.003,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.003,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-G333",
+    "p_complete": 0.9702,
+    "worst_system": "hydraulics",
+    "worst_p": 0.0298,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0298,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-G306",
+    "p_complete": 0.8993,
+    "worst_system": "electrical",
+    "worst_p": 0.0745,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0283,
+     "electrical": 0.0745,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-G295",
+    "p_complete": 0.687,
+    "worst_system": "avionics",
+    "worst_p": 0.2993,
+    "excluded": true,
+    "reasons": [
+     "already pulled (limited by avionics)",
+     "risk over mission limit θ=0.10: avionics 30%"
+    ],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0196,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.2993,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   }
+  ],
+  "assigned": [
+   "PR-G281",
+   "PR-G354",
+   "PR-G321",
+   "PR-G340"
+  ],
+  "shortfall": 0,
+  "note": "Work on assigned aircraft that does not threaten this mission can be deferred until after it; spare aircraft: PR-G261, PR-G333, PR-G306.",
+  "window_days_default": 14
+ },
+ {
+  "id": "SAGARDRISHTI",
+  "name": "Coastal strike exercise",
+  "base": "KAV",
+  "type": "PRA",
+  "aircraft_needed": 4,
+  "length_days": 3,
+  "criticality": "routine",
+  "theta": 0.2,
+  "environment": {
+   "heat": 0.5,
+   "humidity": 0.6,
+   "salinity": 0.7
+  },
+  "candidates": [
+   {
+    "tail": "PR-P351",
+    "p_complete": 1.0,
+    "worst_system": "avionics",
+    "worst_p": 0.0,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-P363",
+    "p_complete": 1.0,
+    "worst_system": "avionics",
+    "worst_p": 0.0,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-P371",
+    "p_complete": 1.0,
+    "worst_system": "avionics",
+    "worst_p": 0.0,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-P322",
+    "p_complete": 0.9995,
+    "worst_system": "landing_gear",
+    "worst_p": 0.0005,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0005,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-P321",
+    "p_complete": 0.9994,
+    "worst_system": "electrical",
+    "worst_p": 0.0006,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0006,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-P387",
+    "p_complete": 0.999,
+    "worst_system": "landing_gear",
+    "worst_p": 0.0007,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0007,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0003,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-P355",
+    "p_complete": 0.9731,
+    "worst_system": "fuel",
+    "worst_p": 0.0267,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0001,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0267,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-P312",
+    "p_complete": 0.5861,
+    "worst_system": "landing_gear",
+    "worst_p": 0.4139,
+    "excluded": true,
+    "reasons": [
+     "already pulled (limited by landing_gear)",
+     "risk over mission limit θ=0.20: landing_gear 41%"
+    ],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.4139,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   }
+  ],
+  "assigned": [
+   "PR-P351",
+   "PR-P363",
+   "PR-P371",
+   "PR-P322"
+  ],
+  "shortfall": 0,
+  "note": "Work on assigned aircraft that does not threaten this mission can be deferred until after it; spare aircraft: PR-P321, PR-P387, PR-P355.",
+  "window_days_default": 14
+ },
+ {
+  "id": "AIRBRIDGE",
+  "name": "Spares airlift to Himshikhar",
+  "base": "SAH",
+  "type": "VAH",
+  "aircraft_needed": 2,
+  "length_days": 2,
+  "criticality": "operational",
+  "theta": 0.1,
+  "environment": {
+   "altitude": 0.9,
+   "cold": 0.5
+  },
+  "candidates": [
+   {
+    "tail": "PR-V106",
+    "p_complete": 1.0,
+    "worst_system": "avionics",
+    "worst_p": 0.0,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-V108",
+    "p_complete": 1.0,
+    "worst_system": "electrical",
+    "worst_p": 0.0,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-V136",
+    "p_complete": 1.0,
+    "worst_system": "landing_gear",
+    "worst_p": 0.0,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   },
+   {
+    "tail": "PR-V103",
+    "p_complete": 0.9998,
+    "worst_system": "avionics",
+    "worst_p": 0.0002,
+    "excluded": false,
+    "reasons": [],
+    "per_system": {
+     "engines": 0.0,
+     "hydraulics": 0.0,
+     "landing_gear": 0.0,
+     "flight_controls": 0.0,
+     "electrical": 0.0,
+     "avionics": 0.0002,
+     "fuel": 0.0,
+     "structure": 0.0
+    }
+   }
+  ],
+  "assigned": [
+   "PR-V106",
+   "PR-V108"
+  ],
+  "shortfall": 0,
+  "note": "Work on assigned aircraft that does not threaten this mission can be deferred until after it; spare aircraft: PR-V136, PR-V103.",
+  "window_days_default": 14
+ }
+]

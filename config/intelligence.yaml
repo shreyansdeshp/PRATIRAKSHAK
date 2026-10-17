@@ -1,0 +1,59 @@
+# Intelligence layer settings (SPEC §8). Design choices, documented on the Method page.
+
+trust:
+  window_days: 14               # systems: daily readings; engines: last 30 cycles
+  engine_window_cycles: 30
+  stuck_run: 3                  # ≥ this many identical consecutive readings of a noisy analog sensor → stuck
+  variance_collapse_frac: 0.2   # window std < frac × expected noise → flat-lined
+  spike_z: 6.0                  # |x − window median| > spike_z × noise → spike
+  residual_z_warn: 4.0          # |mean sibling residual| / (σ/√n) beyond this → drifting / inconsistent
+  out_of_range_slack: 1.5       # valid range = healthy ± slack × |effect| (+ environment terms)
+  penalties:                    # trust = 100 × Π(1 − penalty)
+    stuck: 0.9
+    flat: 0.6
+    out_of_range: 0.8
+    spike: 0.5
+    residual_max: 0.85          # scaled by how far beyond residual_z_warn (saturates at +6 z)
+  untrusted_below: 60           # trust < this → sensor flagged; a critical decision driven by it becomes VERIFY_SENSOR
+  harness:
+    airframes: 120
+    days: 240
+    engine_units_per_subset: 10
+    engine_fault_prob_per_sensor: 0.08
+
+confidence:                     # confidence in the DECISION ("is risk above θ?"), not in a point estimate
+  theta: 0.30                   # default decision threshold (same as systems.yaml risk.pull)
+  margin_high: 0.25             # |P(fail in window) − θ| ≥ this → clearly on one side
+  margin_low: 0.08              # closer than this → coin-flip territory
+  disagreement_low_cycles: 25   # |LightGBM p50 − CNN-GRU p50| on engines
+  min_trust_high: 85
+  min_trust_low: 60
+
+missions:                       # mission templates for mission-fit (SPEC U2) — ILLUSTRATIVE
+  - id: HIMKAVACH
+    name: High-altitude air-defence detachment
+    base: HIM
+    type: GAR
+    aircraft_needed: 4
+    length_days: 5
+    environment: {cold: 0.6, altitude: 0.9, dust: 0.4}
+    criticality: operational
+    theta: 0.10                 # stricter risk limit for operational missions
+  - id: SAGARDRISHTI
+    name: Coastal strike exercise
+    base: KAV
+    type: PRA
+    aircraft_needed: 4
+    length_days: 3
+    environment: {heat: 0.5, humidity: 0.6, salinity: 0.7}
+    criticality: routine
+    theta: 0.20
+  - id: AIRBRIDGE
+    name: Spares airlift to Himshikhar
+    base: SAH
+    type: VAH
+    aircraft_needed: 2
+    length_days: 2
+    environment: {altitude: 0.9, cold: 0.5}
+    criticality: operational
+    theta: 0.10

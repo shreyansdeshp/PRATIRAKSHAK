@@ -40,11 +40,13 @@ class FaultState:
     stuck_value: np.ndarray
     offset: np.ndarray      # accumulated drift / spike offset
     sign: np.ndarray
+    applied: np.ndarray     # (N, M) fault code that affected the latest observation
 
     @classmethod
     def empty(cls, n: int, m: int) -> FaultState:
         z = np.zeros((n, m))
-        return cls(np.zeros((n, m), dtype=np.int8), z.copy(), z.copy(), z.copy(), np.ones((n, m)))
+        return cls(np.zeros((n, m), dtype=np.int8), z.copy(), z.copy(), z.copy(), np.ones((n, m)),
+                   np.zeros((n, m), dtype=np.int8))
 
 
 @dataclass
@@ -157,6 +159,7 @@ class SynthModel:
         out = np.where(stuck, fs.stuck_value, y)
         out = np.where(drift | spike, y + fs.offset, out)
         out = np.where(dropout, np.nan, out)
+        fs.applied = fs.code.copy()  # ground truth for TODAY's reading (recorded before the tick clears it)
         # tick
         active = fs.code > 0
         fs.days_left = np.where(active, fs.days_left - 1, fs.days_left)

@@ -3,10 +3,10 @@
 > Running state of the build. Update at the **start** and **end** of every stage and whenever you stop. A fresh Claude Code session must be able to resume from this file + `SPEC.md` alone.
 
 ## Status
-- **Current stage:** 5 — Intelligence (next)
-- **Last completed stage:** 4 — Other systems + aircraft combiner
-- **Last commit:** see `git log -1` (Stage 4: synthetic systems, hydraulics anchor, combiner, D+0 fleet)
-- **Date/time of last update:** 2026-10-17 06:50
+- **Current stage:** 6 — Decision, spares, scheduling (next)
+- **Last completed stage:** 5 — Intelligence
+- **Last commit:** see `git log -1` (Stage 5: sensor trust, explanations, mission fit)
+- **Date/time of last update:** 2026-10-17 07:40
 - **Demo seed:** not chosen yet (Stage 7)
 - **Global seed:** 26249
 - **Remote:** `https://github.com/shreyansdeshp/PRATIRAKSHAK.git` (branch `main`); commits authored as `shreyansdeshp <sndeshpande_b25@it.vjti.ac.in>` (repo-local git config). Push after every stage commit.
@@ -17,7 +17,7 @@
 - [x] 2 World generator
 - [x] 3 Engine RUL models
 - [x] 4 Other systems + aircraft combiner
-- [ ] 5 Intelligence (trust, explanations, mission fit)
+- [x] 5 Intelligence (trust, explanations, mission fit)
 - [ ] 6 Decision, spares, scheduling
 - [ ] 7 Simulation & results
 - [ ] 8 Export & API
@@ -29,7 +29,16 @@
 - [ ] 14 Polish & delivery
 
 ## This stage's plan (10–20 lines, written before coding)
-**Stage 4 — Other systems + aircraft combiner**
+**Stage 5 — Intelligence (trust, explanations, mission fit)**
+1. `config/intelligence.yaml`: trust window 14 days, rule thresholds and penalties, confidence rules, mission templates (length days, environment, criticality → θ, type, count).
+2. `intelligence/trust.py`: per-sensor relation model = linear regression of each sensor on its system siblings (+ stress), fitted on **fault-free** synthetic data ("expected relations on healthy segments"); trust 0–100 from stuck-at run, variance collapse, dropout rate, out-of-range, spike, and sibling-residual z (drift). Fault vs degradation: degradation moves siblings consistently (small residual); a fault breaks the relation. Engines: same method on z-scored C-MAPSS inputs with the pairs Nf↔NRf, Nc↔NRc, P30↔Ps30 inside the sibling set.
+3. Fault-injection harness: fresh synthetic airframes with the generator's fault process (ground-truth log) + engine replay units with injected stuck/drift/dropout → detection rate (per type), median delay, false-alarm rate per sensor-day. Run once.
+4. `intelligence/explain.py`: engines → occlusion on the serving model at each tail's D+0 window (12 headline sensors only), plain text with raw-unit deviation vs healthy baseline over the window; systems → largest standardised deviations from healthy (with env correction). Confidence high/medium/low from interval width, LightGBM-vs-CNN-GRU agreement (engines) and minimum trust of key sensors, with reasons.
+5. Global sensor importance + sensor → part → LRU → action graph data (`intelligence/graph.json`).
+6. `intelligence/mission.py`: `P(complete) = Π(1 − P(fail_i within mission length))` with environment-adjusted RUL; ranked shortlist with exclusion reasons for each template.
+7. Checks: harness detection + false-alarm rate (once); explanations use only headline engine sensors with plain names (asserted). Commit + push.
+
+**Stage 4 — Other systems + aircraft combiner** (done)
 1. `config/systems.yaml`: per system life (days at nominal use), gamma-process variability, inception point + acceleration, maintenance restore, sensors (unit, healthy value, effect at failure, nonlinearity, noise, environment terms) per SPEC §7.2; sensor-fault hazards (stuck/drift/dropout/spike); window 14 days, RUL cap 150 days, risk watch/pull limits. `config/couplings.yaml`: usage, intensity, environment, system→system and hard-landing couplings (§7.3), plus engine-cycle acceleration from dust/heat.
 2. `synth/anchor_hydraulic.py` (**REAL-ANCHORED**): UCI hydraulic data (CC BY 4.0, 73 MB, gitignored) → cycle features; LightGBM classifiers for pump leakage / accumulator / cooler on a block split (no temporal leak), real validation; extract pressure noise and severe-leak pressure drop and cooler temperature effect → calibrate synthetic hydraulics. NASA battery/actuator data: skipped (size/format), published ranges instead, marked SIMULATED.
 3. `synth/model.py`: vectorised forward model — drivers → damage d (gamma increments, inception, accel, couplings) → observed daily sensors with injected faults (ground-truth fault log) → failure when d ≥ 1; `service()` reset with small infant-failure probability. Same model is reused by the Stage 7 simulator and the Stage 8 twin.
@@ -79,6 +88,12 @@
 9. Check: fresh venv `pip install` + `npm ci` + Playwright render test; paste output; commit.
 
 ## What I did (this session)
+**Stage 5**
+- `intelligence/trust.py` (sibling-regression relations fitted on fault-free data; stuck / flat / dropout / out-of-range / isolated-spike / residual-drift components; single-fault localisation), `harness.py` (fault-injection harness + fleet scoring at D+0), `explain.py`, `mission.py`, `graph.py`, `__main__.py`; `config/intelligence.yaml`.
+- Fixed along the way (each found by the harness / checks, not by tuning): (1) generator recorded the fault code *after* the end-of-day tick → 1-day spikes and every episode's last day were missing from ground truth; (2) noise estimate inflated by service steps → robust MAD noise; (3) "spike" fired on real step changes → must be an isolated one-step excursion not shared by siblings (false alarms 5.5 % → 0.20 % per sensor-day); (4) engine trust windows were left-padded → looked "stuck" on young engines; (5) confidence was "low" for every pull because relative width explodes near RUL 0 → confidence now measures the *decision*: distance of P(fail) from θ + sensor trust + model agreement (interval width kept as a stated reason).
+- Outputs: `data/processed/state/{trust_d0.parquet, explanations.json, mission_fit.json}`, `models/intelligence/{trust_harness,trust_relations,graph}.json`, `reports/trust_harness.md`.
+- Story hooks found: **PR-G295** (Garjan) is PULL on avionics but its driving sensor has trust 3/100 → Stage 6 should turn it into VERIFY_SENSOR (U6 "a bad sensor doesn't trigger a false pull"). **PR-S149** hydraulics pull is driven by pressure −19 psi (the REAL-anchored effect size) + fluid temp +23 °C.
+
 **Stage 4**
 - `config/systems.yaml`, `config/couplings.yaml`; `synth/model.py` (gamma-process damage, couplings, sensor model, injected stuck/drift/dropout/spike faults with ground-truth log, `service()`), `synth/train.py` (240 synthetic airframes × 900 days, per-system LightGBM + abs-residual conformal, `legacy_intervals()`), `synth/anchor_hydraulic.py`, `synth/fleet.py` (D+0 state), `decide/combine.py` + `tests/test_combine.py`.
 - **Hydraulics REAL anchor**: UCI #447 downloaded (73 MB, gitignored). Block-split validation: pump leak 0.921 acc, accumulator 0.594, cooler 0.991, valve 0.907 (paper also calls accumulator the hard target). Rig calibration: severe leak −0.47 % pressure, cooler failure +20.0 °C fluid temp → synthetic hydraulics effects; rig noise is lab-grade so configured noise is the floor. My first version clamped the pressure effect to ≥ 2 % — removed, the data value is used.
@@ -112,6 +127,25 @@
 - Remote set to the user's GitHub repo; local `main` rebased onto its existing 2 commits (README only); README expanded.
 
 ## Acceptance checks — **real output pasted**
+**Stage 5** — Check (1): fault-injection harness, detection + false-alarm rate (run once after the fixes).
+```
+> python -m pratirakshak.intelligence
+  systems: 1094 faults · detection 70.3% · median delay 2.0 d · false alarms 0.20% per sensor-day
+  engines: 43 faults · detection 100.0% · median delay 22.0 cycles · false alarms 0.70% per sensor-cycle
+  by type (systems): {'stuck': '85% of 326', 'drift': '58% of 337', 'dropout': '59% of 279', 'spike': '86% of 152'}
+  fleet at D+0: 3220 sensors scored, 35 untrusted
+explanations …
+  engine driver sensors used: ['BPR', 'Nc', 'Nf', 'P30', 'Ps30', 'T24', 'T30', 'T50', 'W31', 'W32', 'htBleed', 'phi'] (all headline: True)
+mission fit …
+  HIMKAVACH: assigned ['PR-G281', 'PR-G354', 'PR-G321', 'PR-G340'] (shortfall 0); excluded 1/8
+  SAGARDRISHTI: assigned ['PR-P351', 'PR-P363', 'PR-P371', 'PR-P322'] (shortfall 0); excluded 1/8
+  AIRBRIDGE: assigned ['PR-V106', 'PR-V108'] (shortfall 0); excluded 0/4
+graph: 95 nodes, 195 edges; top engine sensors ['Ps30', 'T50', 'T30', 'htBleed', 'Nc']
+```
+Explanation check (asserted in code: engine drivers ⊆ 12 headline sensors and text contains the plain name). Example (most-driven engine, PR-G340):
+`HPC outlet static pressure (Ps30) is +0.298 psia from its healthy baseline over the last 10 cycles; resetting it to healthy would add 25 cycles to the estimate / LPT outlet temperature (T50) is +9.35 °R … / HPC outlet temperature (T30) is +5.34 °R …`
+Decision confidence for the 7 PULL aircraft (after the confidence fix): 3 high, 3 medium, 1 low (PR-G295: driving sensor trust 3/100).
+
 **Stage 4** — Check (1): estimate-vs-synthetic-truth error per system (SIMULATED), from `reports/system_models.md`.
 ```
 | System | Failures simulated | Test rows | RMSE (days) | MAE (days) | MAE when RUL ≤ 30 d | PICP 80 % | MPIW 80 % (days) |
@@ -275,6 +309,10 @@ Tests  1 passed (1)
 | 2026-10-17 | Engine "system" for a 2-engine Vahak: p = 1 − Π(1 − p_engine), RUL/health of the worse engine | Either engine failing grounds the aircraft | Yes |
 | 2026-10-17 | Health = 100 · clip(RUL_p50 / ref) (ref 125 cycles engines, 150 days systems) | Monotone, explainable; limiting system shown beside it | Yes |
 | 2026-10-17 | Battery/actuator NASA data not used | Large MATLAB archives; time better spent on front-end; labelled SIMULATED | Yes |
+| 2026-10-17 | Trust = product of component penalties; relations = linear+quadratic regression on siblings (+ stress) fitted on fault-free data; single-fault-per-group localisation | Transparent, data-driven thresholds; separates sensor fault (relation breaks) from degradation (siblings move together) | Yes |
+| 2026-10-17 | Confidence = decision confidence (margin of P(fail) from θ, min trust of driving sensors, LightGBM-vs-CNN-GRU agreement on engines) | Relative interval width made every near-failure decision "low" | Yes (`config/intelligence.yaml`) |
+| 2026-10-17 | Engine explanations: occlusion on serving LightGBM at each tail's D+0 window; only sensors that lower the estimate are drivers | Model-consistent; empty list = "no sensor pulling the estimate down" | Yes |
+| 2026-10-17 | Mission fit adjusts RUL by the ratio of degradation-rate multipliers (mission vs home environment) from couplings.yaml; 3 ILLUSTRATIVE mission templates | Same physics as the generator | Yes |
 
 ## Defaults used because the user hadn't specified (SPEC §3.4)
 - Base names / aircraft names / fleet mix: SPEC defaults (to be written to `config/world.yaml` in Stage 2).
@@ -311,6 +349,9 @@ Tests  1 passed (1)
 | 4 | 2026-10-17 | Non-engine 80 % PICP | 0.797–0.834 | SIMULATED truth |
 | 4 | 2026-10-17 | UCI hydraulic real validation (acc) | pump 0.921 · accumulator 0.594 · cooler 0.991 · valve 0.907 | REAL, block split |
 | 4 | 2026-10-17 | D+0 fleet | 53 READY · 12 WATCH · 7 PULL | after world fixes |
+| 5 | 2026-10-17 | Trust harness, systems | detection 70.3 %, FA 0.20 %/sensor-day, delay 2 d | SIMULATED |
+| 5 | 2026-10-17 | Trust harness, engines | detection 100 % (43 faults), FA 0.70 %/sensor-cycle, delay 22 cycles | REAL signals + injected faults |
+| 5 | 2026-10-17 | Fleet sensors untrusted at D+0 | 35 / 3220 | |
 
 ## Open issues / known defects
 - [ ] **FD003 interval under-covers** (80 % nominal → 64 % on test). Likely cause: only 16 val units / 160 calibration windows, and FD003's long lifetime tail (up to 525 cycles) makes val and test truncations less exchangeable. Not tuned (rule 15). Effect: Shikshak engine risk is somewhat over-confident. Options if time allows: calibrate on val ∪ part of replay, or widen with a per-subset factor, and say so. Shown on the Results screen as flagged.
@@ -320,10 +361,7 @@ Tests  1 passed (1)
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
 ## Next steps (ordered, concrete)
-1. Stage 5: write plan here. Sensor trust (`intelligence/trust.py`): per-sensor score 0–100 from stuck-at / variance collapse / dropout rate / out-of-range / residual vs redundant partner (hyd A↔B, gen V↔bus ripple, Nf↔NRf, Nc↔NRc, P30↔Ps30); fault-vs-degradation rule (inconsistency with partner vs consistent monotone drift). Fault-injection harness on synthetic airframes (ground-truth fault log exists) → one detection rate + false-alarm rate.
-2. Explanations (`intelligence/explain.py`): top-3 drivers per decision using only the 12 headline engine sensors (engine occlusion from Stage 3) and system sensors, in plain language with units vs healthy baseline ("HPC outlet temperature +18 °R above healthy over the last 40 cycles"); confidence = interval width + ensemble agreement + trust.
-3. Global sensor-importance ranking (sensor → part → spare → decision graph data). Mission fit: `P(complete) = Π(1 − P(fail_i within mission length))`, ranked shortlist with exclusion reasons.
-4. Check: harness prints detection + false-alarm rate once; explanation strings use only headline sensors with plain names.
+1. Stage 6: write plan here. `config/policies.yaml` (θ per mission criticality, bundling tolerance, readiness floor, costs pointer); `config/costs.yaml` (ILLUSTRATIVE planned vs unplanned hours/₵, AOG, mission abort, cascade). `decide/rule.py`: the single decision rule per tail-system → action (SERVE_NORMALLY / MONITOR_CLOSELY / SCHEDULE_SERVICE / EXPEDITE_SPARE / PULL_FROM_LINE / VERIFY_SENSOR when the driving sensor is untrusted) with reason card. `decide/spares.py`: nearest 2–3 sources by ETA (road with seasonal closure, airlift needing a ready Vahak), SOURCE vs PULL (ETA + install ≤ lower-bound RUL), cannibalisation option. `plan/scheduler.py`: CP-SAT over horizon (slots, tech-hours, readiness floor, bundling) + greedy fallback, report gap. Checks: hand-checkable SOURCE/PULL test (ETA 30 h vs deadline 20 h → PULL; 10 h → SOURCE); scheduler never exceeds slot/hour limits (test).
 
 ## How to run (keep current)
 ```
@@ -331,6 +369,8 @@ Tests  1 passed (1)
 # data      ./tasks.ps1 fetch; ./tasks.ps1 data   → docs/DATA_NOTES.md, data/processed/splits.json
 # world     ./tasks.ps1 world  → data/processed/world/, data/routes/  (network optional after first run)
 # train     ./tasks.ps1 train [-Fast]  → models/engine/, reports/engine_*.md  (~34 min full, CPU; -Fast ≈ 1/4)
+# synth     ./tasks.ps1 synth  → models/systems/, data/processed/state/ (~40 s; needs UCI data for a fresh anchor, else committed anchor)
+# intel     ./tasks.ps1 intelligence  → trust, explanations, mission fit, graph (~2 min)
 # sim       ./tasks.ps1 sim                       (Stage 7)
 # export    ./tasks.ps1 export                    (Stage 8)
 # dev       ./tasks.ps1 dev   (UI only for now: cd frontend; npm run dev → http://localhost:5173)

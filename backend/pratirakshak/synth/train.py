@@ -72,7 +72,7 @@ def legacy_intervals(model: SynthModel, type_of: list[str], base_of: list[str], 
 def simulate(model: SynthModel, n: int, days: int, seed: int, d0: np.ndarray | None = None,
              base_of: list[str] | None = None, type_of: list[str] | None = None, start_doy: np.ndarray | None = None,
              engine_d0: np.ndarray | None = None, renew: bool = True, service_interval: np.ndarray | None = None,
-             dss0: np.ndarray | None = None) -> SimRecord:
+             dss0: np.ndarray | None = None, faults: bool = True) -> SimRecord:
     """`service_interval` (N, S): if given, a system is serviced whenever its days-since-service reaches it."""
     world = load_config("world")
     rng = np.random.default_rng(seed)
@@ -87,7 +87,7 @@ def simulate(model: SynthModel, n: int, days: int, seed: int, d0: np.ndarray | N
     inten = np.array([types[t]["intensity"] for t in type_of])
     d = rng.uniform(0, 0.7, size=(n, len(SYSTEMS))) if d0 is None else d0.copy()
     eng = rng.uniform(0, 0.7, size=n) if engine_d0 is None else engine_d0.copy()
-    fs = FaultState.empty(n, len(model.sensors))
+    fs = FaultState.empty(n, len(model.sensors)) if faults else None
     dss = np.zeros((n, len(SYSTEMS))) if dss0 is None else dss0.astype(float).copy()
     weekend = world["missions"]["weekend_factor"]
 
@@ -119,7 +119,9 @@ def simulate(model: SynthModel, n: int, days: int, seed: int, d0: np.ndarray | N
             if due.any():
                 d = model.service(d, due, rng)
                 dss = np.where(due, 0, dss)
-        rec.obs[t], rec.fault[t], rec.d[t], rec.dss[t] = y, fs.code, np.minimum(d, 1.5), dss
+        rec.obs[t], rec.d[t], rec.dss[t] = y, np.minimum(d, 1.5), dss
+        if fs is not None:
+            rec.fault[t] = fs.applied
         rec.sorties[t], rec.nominal[t] = sorties, nominal
         rec.stress[t] = np.stack([stress[e] for e in STRESSES], axis=1)
     return rec
