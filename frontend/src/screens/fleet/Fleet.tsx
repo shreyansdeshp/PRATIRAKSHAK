@@ -22,10 +22,16 @@ export function Fleet() {
   const belowFloor = world.types.flatMap((t) => world.bases.map((b) => ({ t, b, r: sum.by_base_type[`${b.id}|${t.id}`] })))
     .filter((x) => x.r && x.r.aircraft > 0 && x.r.ready / x.r.aircraft < floor);
 
+  const worst = world.bases.map((b) => ({ b, r: sum.by_base[b.id] })).filter((x) => x.r)
+    .sort((x, y) => x.r!.ready / x.r!.aircraft - y.r!.ready / y.r!.aircraft)[0];
+  const lead = limiting[0];
+  const oneLiner = `${sum.fleet.ready} of ${sum.fleet.aircraft} aircraft can fly today` + (worst ? ` — ${worst.b.name.replace(" Air Base", "")} is the tightest base` : "") +
+    (lead ? `, and ${lead[0].replace("_", " ")} is what holds most aircraft back.` : ".");
+
   return (
     <div className={f.sheet} data-testid="fleet">
       <RegistrationMarks />
-      <SheetHeader sheet="01" title="Fleet readiness board"
+      <SheetHeader sheet="01" title="Fleet readiness board" subtitle={oneLiner}
         right={<SheetIndex />} />
 
       <div className={f.tiles}>
