@@ -43,7 +43,7 @@ export function Intel() {
         <section className={s.rank}>
           <div className={s.secHead}><span>Sensor importance · {nice(sys)}</span></div>
           <p className={s.small}>{sys === "engines"
-            ? "Mean change in predicted remaining life when the sensor is reset to its healthy baseline, on real NASA C-MAPSS engines. Share of the total."
+            ? "Mean change in predicted remaining life when the sensor is reset to its healthy baseline, on NASA C-MAPSS engines. Share of the total."
             : "Share of the model's split gain taken by features built from each sensor (last value, mean, trend). Trained on simulated degradation."}</p>
           <ol className={s.bars}>
             {sensors.map((n) => (
@@ -66,7 +66,7 @@ export function Intel() {
         <section className={s.trust}>
           <div className={s.secHead}><span>Can the sensor be trusted?</span></div>
           <p className={s.small}>Before any prediction, every reading is scored for missing data, physical range, stuck values, spikes and disagreement with sibling sensors. Faults were injected into held-out data to test it.</p>
-          <HarnessBlock title="Engines (real data, injected faults)" h={intel.trust_harness.engines} unit="cycles" prov="REAL" />
+          <HarnessBlock title="Engines (NASA C-MAPSS data, injected faults)" h={intel.trust_harness.engines} unit="cycles" prov="REAL" />
           <HarnessBlock title="Other systems (simulated)" h={intel.trust_harness.systems} unit="days" prov="SIMULATED" />
           <div className={s.secHead}><span>Today in the fleet</span></div>
           <p className={s.today}><b>{intel.fleet_trust.untrusted}</b> of {intel.fleet_trust.sensors.toLocaleString("en-IN")} sensors not trusted — their readings are left out and a “verify sensor” task is raised.</p>

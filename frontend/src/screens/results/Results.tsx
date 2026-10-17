@@ -224,7 +224,7 @@ function ModelsTab({ m }: { m: Models }) {
       <section className={r.block}>
         <div className={r.secHead}><span>Hydraulics real anchor · UCI test rig ({m.hydraulics_anchor.cycles.toLocaleString("en-IN")} cycles)</span><ProvenanceChip kind="REAL" /></div>
         <table className={r.table}>
-          <thead><tr><th>Real target</th><th>Accuracy</th><th>Macro-F1</th></tr></thead>
+          <thead><tr><th>Target (UCI rig data)</th><th>Accuracy</th><th>Macro-F1</th></tr></thead>
           <tbody>{Object.entries(m.hydraulics_anchor.validation.targets).map(([k, v]) => <tr key={k}><td>{k.replace("_", " ")}</td><td>{(v.accuracy * 100).toFixed(1)} %</td><td>{v.macro_f1.toFixed(3)}</td></tr>)}</tbody>
         </table>
         <div className={r.secHead}><span>Provenance of every figure</span></div>

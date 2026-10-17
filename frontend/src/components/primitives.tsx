@@ -54,7 +54,7 @@ export function HealthBar({ value, width = 120, showValue = true, tone = "olive"
 }
 
 /* ------------------------------------------------------------------------------------------ provenance */
-const PROV_SHORT: Record<Provenance, string> = { REAL: "REAL", "REAL-ANCHORED": "REAL-ANCHORED", SIMULATED: "SIMULATED", ILLUSTRATIVE: "ILLUSTRATIVE" };
+const PROV_SHORT: Record<Provenance, string> = { REAL: "NASA C-MAPSS DATA", "REAL-ANCHORED": "PUBLIC-DATA BASED", SIMULATED: "SIMULATED", ILLUSTRATIVE: "ILLUSTRATIVE" };
 
 /** Provenance chip (SPEC §11.8): REAL / REAL-ANCHORED / SIMULATED / ILLUSTRATIVE. */
 export function ProvenanceChip({ kind }: { kind: Provenance }) {
