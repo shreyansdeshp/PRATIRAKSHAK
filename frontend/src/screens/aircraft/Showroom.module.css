@@ -68,3 +68,18 @@
 .sysList button { gap: 8px; padding: 12px 12px; font-size: 22px; font-weight: 600; }
 .sysList .sysProv { display: none; }
 .sysList .sysName { font-size: 22px; }
+
+/* part drawer: big, plain-language */
+.drawer { gap: 16px; }
+.back { font-size: 18px; padding: 6px 12px; }
+.drawerHead h2 { font-size: 42px; }
+.verdict { margin: 0; font-family: var(--font-sans); font-size: 24px; line-height: 1.35; color: var(--ink); font-weight: 600; }
+.bigNums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.bigNums div { border: 1px solid var(--fold); background: var(--paper-hi); padding: 10px 12px; display: flex; flex-direction: column; }
+.bigNums b { font-family: var(--font-sans); font-size: 40px; line-height: 1.1; text-transform: capitalize; }
+.bigNums span { font-family: var(--font-sans); font-size: 16px; color: var(--ink-soft); }
+.rulLabel { font-size: 20px; color: var(--ink); }
+.drivers p { font-size: 20px; line-height: 1.4; margin: 6px 0; }
+.drawer .kicker { font-size: 15px; letter-spacing: 0.1em; }
+.stockLine { margin: 6px 0 0; font-family: var(--font-sans); font-size: 20px; line-height: 1.4; }
+.stockLine b { font-size: 28px; }

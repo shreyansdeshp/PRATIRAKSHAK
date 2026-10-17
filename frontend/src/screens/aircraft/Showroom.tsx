@@ -3,7 +3,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
-import { Sparkline } from "../../charts/kit";
 import { CornerTag, FlightStrip, HealthBar, ProvenanceChip, RegistrationMarks, SheetHeader, StatusGlyph, type StatusLike } from "../../components/primitives";
 import { SheetIndex } from "../../components/SheetIndex";
 import type { AircraftState, FleetState, SystemState, World } from "../../data/types";
@@ -18,14 +17,11 @@ const SYS: Record<SystemKey, string> = { engines: "Engines", hydraulics: "Hydrau
 const PRESETS: Record<string, [number, number, number]> = { "Front ¾": [6.2, 2.4, 6.6], Side: [0.01, 1.0, 9.6], Top: [0.01, 10.5, 0.02], Under: [2.0, -6.0, 4.0] };
 const sysStatus = (p: number): StatusLike => (p >= 0.3 ? "PULL" : p >= 0.1 ? "WATCH" : "READY");
 
-interface History { sensor_meta: Record<string, { name: string; unit: string; system: string; kind: string }>; systems: Record<string, Record<string, (number | null)[]>>;
-  trust: Record<string, Record<string, { trust: number; reasons: string; group: string }>>;
-  engines: Record<string, { position: number; sensors: Record<string, { symbol: string; name: string; unit: string; deviation: number[] }> }[]> }
 interface Mission { id: string; name: string; base: string; type: string; candidates: { tail: string; p_complete: number; excluded: boolean; reasons: string[] }[] }
 
 /** S3 — aircraft showroom: turntable, camera presets, part health hotspots, exploded view, body health, spec sheet, part drawer. */
 export function Showroom({ tail }: { tail: string }) {
-  const { data } = useSnapshots<{ world: World & { stock: { node: string; lru: string; qty: number }[] }; state: FleetState; history: History; plan: { missions: Mission[] } }>(["world", "state", "history", "plan"]);
+  const { data } = useSnapshots<{ world: World & { stock: { node: string; lru: string; qty: number }[] }; state: FleetState; plan: { missions: Mission[] } }>(["world", "state", "plan"]);
   const navigate = useApp((st) => st.navigate);
   const [preset, setPreset] = useState("Front ¾");
   const [exploded, setExploded] = useState(false);
@@ -38,7 +34,7 @@ export function Showroom({ tail }: { tail: string }) {
   useEffect(() => { if (beatPart !== null) setOpen(beatPart as SystemKey); else if (useStory.getState().active) setOpen(null); }, [beatPart]);
 
   if (!data) return <div className={s.loading} />;
-  const { world, state, history, plan } = data;
+  const { world, state, plan } = data;
   const a = state.aircraft.find((x) => x.tail === tail) ?? state.aircraft[0]!;
   const type = world.types.find((t) => t.id === a.type)!;
   const peers = state.aircraft.filter((x) => x.base === a.base);
@@ -108,7 +104,7 @@ export function Showroom({ tail }: { tail: string }) {
 
         <aside className={s.right}>
           {open ? (
-            <PartDrawer a={a} system={sys[open]} sysKey={open} world={world} history={history} onClose={() => setOpen(null)} />
+            <PartDrawer a={a} system={sys[open]} sysKey={open} world={world} onClose={() => setOpen(null)} />
           ) : (
             <SpecSheet a={a} fit={fit} mission={mission} lifeUsed={a.airframe_life_used} meta={meta} onOpen={setOpen} />
           )}
@@ -217,59 +213,48 @@ function SpecSheet({ a, fit, mission, lifeUsed, meta, onOpen }: { a: AircraftSta
   );
 }
 
-function PartDrawer({ a, system, sysKey, world, history, onClose }: { a: AircraftState; system: SystemState; sysKey: SystemKey;
-  world: World & { stock: { node: string; lru: string; qty: number }[] }; history: History; onClose: () => void }) {
+function PartDrawer({ a, system, sysKey, world, onClose }: { a: AircraftState; system: SystemState; sysKey: SystemKey;
+  world: World & { stock: { node: string; lru: string; qty: number }[] }; onClose: () => void }) {
   const st = sysStatus(system.p_fail);
-  const sensors = sysKey === "engines"
-    ? Object.entries(history.engines[a.tail]?.[0]?.sensors ?? {}).slice(0, 6).map(([id, v]) => ({ id, name: `${v.symbol} · ${v.name}`, unit: v.unit, values: v.deviation as (number | null)[], trust: history.trust[a.tail]?.[`${id}:${v.symbol}`]?.trust, baseline: 0 }))
-    : Object.entries(history.sensor_meta).filter(([, m]) => m.system === sysKey && m.kind === "analog")
-        .map(([id, m]) => ({ id, name: m.name, unit: m.unit, values: history.systems[a.tail]?.[id] ?? [], trust: history.trust[a.tail]?.[id]?.trust, baseline: undefined as number | undefined }));
   const lrus = world.parts.filter((p) => p.system === sysKey);
   const stock = Object.fromEntries(world.stock.filter((x) => x.node === a.base).map((x) => [x.lru, x.qty]));
   const [p10, p50, p90] = system.rul_days;
   const span = Math.max(p90, 30);
+  const verdict = st === "PULL" ? "Needs action now" : st === "WATCH" ? "Keep an eye on it" : "Healthy";
+  const inStock = lrus.filter((p) => (stock[p.lru] ?? 0) > 0).length;
+  const W = 440;
   return (
     <div className={s.drawer} data-testid="part-drawer">
-      <button type="button" className={s.back} onClick={onClose}>← spec sheet</button>
+      <button type="button" className={s.back} onClick={onClose}>← Back to summary</button>
       <div className={s.drawerHead}>
-        <StatusGlyph status={st} size={16} />
+        <StatusGlyph status={st} size={26} />
         <h2>{SYS[sysKey]}</h2>
-        <ProvenanceChip kind={system.provenance} />
       </div>
-      <div className={s.drawerNums}>
-        <span><b>{Math.round(system.health)}</b> health</span>
-        <span><b>{Math.round(system.p_fail * 100)} %</b> fail risk · 14 d</span>
-        <span><b>{system.confidence.level}</b> confidence</span>
+      <p className={s.verdict}>{verdict}: {Math.round(system.p_fail * 100)} % chance of failing in the next 14 days.</p>
+      <div className={s.bigNums}>
+        <div><b>{Math.round(system.health)}</b><span>health out of 100</span></div>
+        <div><b>{Math.round(system.p_fail * 100)} %</b><span>failure risk</span></div>
+        <div><b>{system.confidence.level}</b><span>confidence</span></div>
       </div>
       <div className={s.rul}>
-        <span className={s.rulLabel}>Remaining useful life (days): 80 % range {p10.toFixed(0)}–{p90.toFixed(0)}, median {p50.toFixed(0)}</span>
-        <svg width={420} height={34} aria-hidden>
-          <line x1={0} x2={420} y1={20} y2={20} stroke="var(--fold)" />
-          <rect x={(p10 / span) * 400} y={13} width={Math.max(2, ((p90 - p10) / span) * 400)} height={14} fill="var(--series-p3)" opacity={0.2} />
-          <line x1={(p50 / span) * 400} x2={(p50 / span) * 400} y1={9} y2={31} stroke="var(--series-p3)" strokeWidth={2.5} />
-          <line x1={(14 / span) * 400} x2={(14 / span) * 400} y1={4} y2={34} stroke="var(--pull)" strokeWidth={1} />
-          <text x={(14 / span) * 400 + 4} y={10} fontSize={10} fontFamily="var(--font-sans)" fill="var(--ink-soft)">14-day window</text>
+        <span className={s.rulLabel}>Likely to last about <b>{p50.toFixed(0)} more days</b> (range {p10.toFixed(0)}–{p90.toFixed(0)})</span>
+        <svg width={W} height={52} aria-hidden>
+          <line x1={0} x2={W} y1={30} y2={30} stroke="var(--fold)" strokeWidth={2} />
+          <rect x={(p10 / span) * (W - 20)} y={20} width={Math.max(3, ((p90 - p10) / span) * (W - 20))} height={20} fill="var(--series-p3)" opacity={0.25} />
+          <line x1={(p50 / span) * (W - 20)} x2={(p50 / span) * (W - 20)} y1={14} y2={46} stroke="var(--series-p3)" strokeWidth={4} />
+          <line x1={(14 / span) * (W - 20)} x2={(14 / span) * (W - 20)} y1={6} y2={52} stroke="var(--pull)" strokeWidth={2} strokeDasharray="4 3" />
+          <text x={(14 / span) * (W - 20) + 6} y={14} fontSize={15} fontFamily="var(--font-sans)" fill="var(--pull)">14-day check</text>
         </svg>
       </div>
       <div className={s.drivers}>
-        <span className={s.kicker}>WHY · KEY SIGNALS</span>
-        {system.drivers.length ? system.drivers.map((d) => <p key={d.sensor}>{d.text}</p>) : <p>No sensor is pulling the estimate down.</p>}
-      </div>
-      <div className={s.sensors}>
-        <span className={s.kicker}>SENSORS · LAST {sysKey === "engines" ? "CYCLES (deviation from healthy)" : "60 DAYS"}</span>
-        {sensors.map((x) => (
-          <div key={x.id} className={s.sensorRow}>
-            <span className={s.sensorName}>{x.name}<em>{x.unit}</em></span>
-            <Sparkline values={x.values} width={130} height={24} baseline={x.baseline} />
-            <span className={`${s.trust} ${x.trust !== undefined && x.trust < 60 ? s.untrusted : ""}`}>trust {x.trust !== undefined ? Math.round(x.trust) : "—"}</span>
-          </div>
-        ))}
+        <span className={s.kicker}>WHAT IS DRIVING THIS</span>
+        {system.drivers.length
+          ? system.drivers.slice(0, 2).map((d) => <p key={d.sensor}>{d.text.split(";")[0]}.</p>)
+          : <p>No single sensor is pulling the estimate down.</p>}
       </div>
       <div className={s.lrus}>
-        <span className={s.kicker}>LINE-REPLACEABLE UNITS · STOCK AT {a.base}</span>
-        {lrus.map((p) => (
-          <div key={p.lru} className={s.lruRow}><span className={s.mono}>{p.lru}</span><span>{p.name}</span><b className={stock[p.lru] ? "" : s.zero}>{stock[p.lru] ?? 0}</b></div>
-        ))}
+        <span className={s.kicker}>SPARE PARTS AT {a.base}</span>
+        <p className={s.stockLine}><b>{inStock}</b> of {lrus.length} replaceable units in stock{inStock < lrus.length ? ` — ${lrus.length - inStock} would need to be flown in or trucked` : ""}.</p>
       </div>
     </div>
   );
