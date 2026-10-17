@@ -62,3 +62,34 @@
 .otherList button.on { border-color: var(--ink); }
 
 .others { display: none; } /* trimmed: one decision per sheet */
+
+/* ---- plain-language layout ---- */
+.nBanner { display: grid; grid-template-columns: 380px 1fr 280px; gap: 32px; align-items: center; padding: 20px 26px; border: 2px solid var(--ink); background: var(--paper-hi); }
+.nVerdict { display: flex; flex-direction: column; gap: 6px; }
+.nWord { display: inline-flex; align-items: center; gap: 14px; font-family: var(--font-serif); font-weight: 700; font-size: 60px; line-height: 1; }
+.nLru { font-family: var(--font-sans); font-size: 20px; color: var(--ink-soft); }
+.nReason { margin: 0; font-family: var(--font-serif); font-size: 26px; line-height: 1.4; color: var(--ink); }
+.nRisk { display: flex; flex-direction: column; gap: 2px; border-left: 2px solid var(--fold); padding-left: 22px; font-family: var(--font-sans); }
+.nRisk b { font-size: 76px; line-height: 1; color: var(--pull); }
+.nRisk span { font-size: 19px; color: var(--ink); }
+.nRisk small { font-size: 16px; color: var(--ink-soft); }
+.nCards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.nCard { display: flex; flex-direction: column; gap: 12px; padding: 18px 22px; border: 1px solid var(--fold); background: var(--paper-hi); }
+.nH2 { margin: 0; font-family: var(--font-sans); font-weight: 600; font-size: 19px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.nBig { font-family: var(--font-sans); font-weight: 600; font-size: 38px; line-height: 1.1; }
+.nSub { font-family: var(--font-sans); font-size: 20px; color: var(--ink-soft); }
+.nText { margin: 0; font-family: var(--font-sans); font-size: 22px; line-height: 1.4; }
+.nBottom { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.nCol { display: flex; flex-direction: column; gap: 12px; }
+.nAlts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.nAlts li { display: flex; flex-direction: column; gap: 3px; padding: 12px 16px; border: 1px solid var(--fold); background: var(--paper-hi); font-family: var(--font-sans); }
+.nAlts b { font-size: 24px; }
+.nAlts span { font-size: 19px; color: var(--ink-soft); line-height: 1.35; }
+.nSpare { font-family: var(--font-sans); font-weight: 700; font-size: 30px; padding: 12px 16px; border: 2px solid; }
+.nSpare.source { color: var(--ready); border-color: var(--ready); }
+.nSpare.pull { color: var(--pull); border-color: var(--pull); }
+.nCol .link { font-size: 20px; align-self: flex-start; }
+.confMeter { display: flex; gap: 6px; }
+.confMeter .confSeg { height: 14px; flex: 1; }
+
+.confMeter + .nBig { text-transform: capitalize; }
