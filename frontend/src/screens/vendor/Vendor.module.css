@@ -1,47 +1,245 @@
-.sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
-.loading { position: absolute; inset: 0; }
+.sheet {
+  position: absolute;
+  inset: 0;
+  padding: 40px 64px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+  background: var(--paper);
+}
 
-/* Different shell title */
-.vendorTitle { font-family: var(--font-serif); font-weight: 600; font-size: 28px; color: var(--ink); }
-
-/* Body: map left, deliveries right */
-.body { flex: 1; display: grid; grid-template-columns: 560px 1fr; gap: 24px; min-height: 0; overflow: hidden; }
-.mapCol { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
-.listCol { display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; }
-
-/* Deliveries list */
-.deliveries { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
-
-/* Priority badges */
-.badge { display: inline-block; padding: 1px 6px; border-radius: var(--r-1); font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
-.badgeP1 { background: var(--pull); color: var(--paper); }
-.badgeP2 { background: var(--watch); color: var(--paper); }
-.badgeP3 { background: var(--olive); color: var(--paper); }
-
-/* Hub stock */
-.stockSection { border-top: 1px solid var(--fold); padding-top: 8px; }
-.stockTitle { font-family: var(--font-sans); font-weight: 600; font-size: 13px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink-soft); margin-bottom: 6px; }
-.stockGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 4px; }
-.stockItem { display: flex; justify-content: space-between; align-items: center; padding: 2px 6px;
-  font-family: var(--font-mono); font-size: 11px; border-bottom: 1px solid var(--fold); }
-.stockItem span:last-child { font-weight: 600; }
-.stockEmpty { color: var(--pull); }
-
-/* Map overlay labels */
-.mapLabel { position: absolute; transform: translate(-50%, -100%);
-  font-family: var(--font-sans); font-size: 11px; font-weight: 600; color: var(--ink);
-  background: rgba(244, 239, 227, 0.85); padding: 1px 5px; border-radius: var(--r-1);
-  white-space: nowrap; pointer-events: none; }
-.mapLabelHub { color: var(--olive); font-size: 12px; }
-.mapLabelBase { color: var(--ink); }
-
-/* Map route line */
-.mapRoute { stroke: var(--ink-soft); stroke-width: 1.5; fill: none; stroke-dasharray: 6 4; }
+.loading {
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+}
 
 /* Summary tiles */
-.tiles { display: flex; gap: 12px; }
+.tiles {
+  display: flex;
+  gap: 12px;
+}
 
-/* Prov footer */
-.prov { display: flex; gap: 16px; font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); }
-.prov span { display: flex; align-items: center; gap: 6px; }
+/* Body: map column left, deliveries list right */
+.body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 620px 1fr;
+  gap: 24px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mapCol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+
+.mapWrapper {
+  width: 620px;
+  height: 440px;
+  border: 1px solid var(--fold);
+  background: var(--sand);
+  overflow: hidden;
+  position: relative;
+}
+
+.routesSvg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.airRoute {
+  fill: none;
+  stroke: var(--olive);
+  stroke-width: 2px;
+  stroke-dasharray: 6 4;
+}
+
+.roadRoute {
+  fill: none;
+  stroke: var(--khaki);
+  stroke-width: 2px;
+  stroke-dasharray: 3 3;
+}
+
+/* Map overlay labels */
+.mapLabel {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  background: rgba(244, 239, 227, 0.92);
+  padding: 2px 6px;
+  border-radius: var(--r-1);
+  border: 1px solid var(--fold);
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.mapLabelHub {
+  color: var(--olive);
+  font-size: 12px;
+  border-color: var(--olive);
+}
+
+.mapLabelBase {
+  color: var(--ink);
+}
+
+.mapLabelDepot {
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+/* Hub stock section */
+.stockSection {
+  border: 1px solid var(--fold);
+  background: var(--paper-hi);
+  padding: 10px 14px;
+  border-radius: var(--r-1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stockTitle {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.stockGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px 8px;
+}
+
+.stockItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  border-bottom: 1px solid var(--fold);
+}
+
+.stockLru {
+  color: var(--ink-soft);
+}
+
+.stockQty {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.stockEmpty .stockQty {
+  color: var(--pull);
+}
+
+/* Deliveries column */
+.listCol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listTitle {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.legendBar {
+  display: flex;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deliveries {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+
+/* Priority badges */
+.badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: var(--r-1);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.badgeP1 {
+  background: var(--pull);
+  color: var(--paper);
+}
+
+.badgeP2 {
+  background: var(--watch);
+  color: var(--paper);
+}
+
+.badgeP3 {
+  background: var(--olive);
+  color: var(--paper);
+}
+
+/* Footer & provenance */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 4px;
+  border-top: 1px solid var(--fold);
+}
+
+.prov {
+  display: flex;
+  gap: 20px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.prov span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
