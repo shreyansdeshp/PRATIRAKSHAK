@@ -12,7 +12,7 @@ const ACTION: Record<string, { label: string; status: StatusLike; title: (t: str
   PULL_FROM_LINE: { label: "Pull from line", status: "PULL", title: (t) => `Why ${t} is being pulled` },
   EXPEDITE_SPARE: { label: "Expedite spare", status: "WATCH", title: (t) => `Why a spare is being rushed to ${t}` },
   VERIFY_SENSOR: { label: "Verify sensor first", status: "STALE", title: (t) => `Why ${t}'s sensor is checked before any pull` },
-  SCHEDULE_SERVICE: { label: "Schedule service", status: "WATCH", title: (t) => `Why ${t} is booked for the hangar` },
+  SCHEDULE_SERVICE: { label: "Schedule service", status: "WATCH", title: (t) => `Why ${t} is booked for the garage` },
   MONITOR_CLOSELY: { label: "Monitor closely", status: "WATCH", title: (t) => `Why ${t} is on watch` },
   SWAP_TAIL_FOR_MISSION: { label: "Swap tail for mission", status: "WATCH", title: (t) => `Why ${t} sits out this mission` },
   SERVE_NORMALLY: { label: "Serve normally", status: "READY", title: (t) => `Why ${t} keeps flying` },

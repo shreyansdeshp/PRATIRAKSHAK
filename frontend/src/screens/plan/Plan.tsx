@@ -74,7 +74,7 @@ export function Plan() {
       <SheetHeader
         sheet="06"
         title="Planning timeline"
-        subtitle={`Hangar schedule · planned vs unplanned downtime · ${plan.horizon_days}-day horizon`}
+        subtitle={`Garage schedule · planned vs unplanned downtime · ${plan.horizon_days}-day horizon`}
         right={<SheetIndex />}
       />
 

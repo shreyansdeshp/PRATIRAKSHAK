@@ -16,7 +16,7 @@ const STRESS = [["heat", "Heat"], ["cold", "Cold"], ["humidity", "Humidity"], ["
 
 interface PlanVisit { id: string; tail: string; base: string; start: number | null; end: number | null; bay: number | null; pulled: boolean; tasks: { system: string; lru: string }[] }
 
-/** S2 — base view: local chart, headline numbers, every tail as a flight strip, hangar slots, spares on hand, environment. */
+/** S2 — base view: local chart, headline numbers, every tail as a flight strip, garage slots, spares on hand, environment. */
 export function BaseView({ id }: { id: string }) {
   const { data } = useSnapshots<{ world: World & { stock: { node: string; lru: string; qty: number }[] }; state: FleetState; plan: { visits: PlanVisit[]; capacity: Record<string, { bays: number }> } }>(["world", "state", "plan"]);
   const navigate = useApp((s) => s.navigate);
@@ -34,8 +34,15 @@ export function BaseView({ id }: { id: string }) {
 
   if (!data || !base) return <div className={v.loading} />;
   const { world, state, plan } = data;
-  const tails = state.aircraft.filter((a) => a.base === base.id)
+  const all = state.aircraft.filter((a) => a.base === base.id)
     .sort((a, b) => ORDER[a.status] - ORDER[b.status] || a.weighted_health - b.weighted_health);
+  // show 10 varied rows: worst of each aircraft type, then one per distinct next action, then the rest by priority
+  const picked: typeof all = [];
+  const take = (a?: (typeof all)[number]) => { if (a && !picked.includes(a) && picked.length < 10) picked.push(a); };
+  new Set(all.map((a) => a.type)).forEach((ty) => take(all.find((a) => a.type === ty)));
+  new Set(all.map((a) => a.action)).forEach((ac) => take(all.find((a) => a.action === ac)));
+  all.forEach(take);
+  const tails = picked.sort((a, b) => ORDER[a.status] - ORDER[b.status] || a.weighted_health - b.weighted_health);
   const r = state.summary.by_base[base.id]!;
   const typeName = Object.fromEntries(world.types.map((t) => [t.id, t.name]));
   const bays = plan.capacity[base.id]?.bays ?? 4;
@@ -83,7 +90,7 @@ export function BaseView({ id }: { id: string }) {
             )} />
           <div className={v.env}>
             <div className={v.envHead}>
-              <span>Environment today (D+0 normals)</span>
+              <span>Environment today</span>
               <span className={v.chips}><ProvenanceChip kind="REAL-ANCHORED" /></span>
             </div>
             <div className={v.envNums}>
@@ -123,7 +130,7 @@ export function BaseView({ id }: { id: string }) {
         </section>
 
         <section className={v.right}>
-          <h2 className={v.h2}>Planned hangar work</h2>
+          <h2 className={v.h2}>Planned garage work</h2>
           <p className={v.small}>Next 14 days · {bays} bays · each bar is an aircraft being worked on · ▣ = already pulled from flying</p>
           <TimelineStrips days={14} width={400} labelWidth={58} rowHeight={34} dayLabel={(d) => (d === 0 ? "Today" : `${d}`)}
             rows={Array.from({ length: bays }, (_, bay) => ({
@@ -134,7 +141,7 @@ export function BaseView({ id }: { id: string }) {
             {[...visits].sort((a, b) => a.start! - b.start!).slice(0, 6).map((x) => (
               <li key={x.id}><span className={v.mono}>{x.start === 0 ? "Today" : `Day ${x.start}`}</span> <b>{x.tail}</b> {x.pulled ? "▣" : ""} <em>{x.tasks.map((t) => SYS[t.system]).join(" + ")}</em></li>
             ))}
-            {visits.length === 0 && <li>No hangar work planned in the next 14 days.</li>}
+            {visits.length === 0 && <li>No garage work planned in the next 14 days.</li>}
           </ul>
           <h2 className={v.h2}>Spares at this base</h2>
           <div className={v.stock}>

@@ -71,7 +71,7 @@ export function Stress() {
               <Strip label="with" values={cur.P3.by_base[b]!} />
             </div>
           ))}
-          {markers.length > 0 && <p className={s.small}>Strike lands on day {markers[0]!.x}: Aravalli loses {Math.round(Number(def.bay_loss_fraction ?? 0) * 100)} % of its hangar bays and its store; {String(def.damaged_aircraft ?? 0)} aircraft are damaged.</p>}
+          {markers.length > 0 && <p className={s.small}>Strike lands on day {markers[0]!.x}: Aravalli loses {Math.round(Number(def.bay_loss_fraction ?? 0) * 100)} % of its garage bays and its store; {String(def.damaged_aircraft ?? 0)} aircraft are damaged.</p>}
         </section>
         {sc === "surge" ? <UsagePanel u={res.counterfactuals.usage_2x} /> : (
           <section className={s.note}>
@@ -88,7 +88,7 @@ export function Stress() {
 
 function describe(sc: string, def: Record<string, unknown>): string {
   if (sc === "surge") return `Sortie demand × ${def.sortie_multiplier ?? 2} from day ${def.from_day ?? 0}; heavier use also raises the sensor-fault rate × ${def.fault_hazard_multiplier ?? 1.5}.`;
-  if (sc === "strike") return `Day ${def.day}: strike on ${BASES[String(def.base)]} — ${Math.round(Number(def.bay_loss_fraction) * 100)} % of hangar bays and the base store lost, ${def.damaged_aircraft} aircraft damaged.`;
+  if (sc === "strike") return `Day ${def.day}: strike on ${BASES[String(def.base)]} — ${Math.round(Number(def.bay_loss_fraction) * 100)} % of garage bays and the base store lost, ${def.damaged_aircraft} aircraft damaged.`;
   if (sc === "supply") return `All roads into ${(def.road_closed_nodes as string[] | undefined)?.map((n) => BASES[n]).join(", ")} closed for the whole horizon; vendor dispatch +${def.vendor_extra_hours} h. Airlift still works.`;
   if (sc === "weather") return `Dust storms at Aravalli and Himshikhar, an intense monsoon at Sahyadri, more salt and humidity at Kaveri — every wear rate goes up.`;
   return "";
@@ -131,7 +131,7 @@ function UsagePanel({ u }: { u: Full["counterfactuals"]["usage_2x"] }) {
     <section className={s.usage}>
       <div className={s.secHead}><span>2× usage counterfactual · same fleet under Pratirakshak</span><ProvenanceChip kind="SIMULATED" /></div>
       <div className={s.usageNums}>
-        <span><b>{pair("hangar_days")}</b> hangar days</span>
+        <span><b>{pair("hangar_days")}</b> garage days</span>
         <span><b>{pair("planned_hours")}</b> planned work hours</span>
         <span><b>{pair("sensor_fault_onsets")}</b> sensor faults</span>
         <span><b>{pair("verify_actions")}</b> verify-sensor actions</span>

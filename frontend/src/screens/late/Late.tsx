@@ -50,7 +50,7 @@ export function Late() {
           note={`95 % CI [${fd.inflight_failures.lo.toFixed(1)}, ${fd.inflight_failures.hi.toFixed(1)}]`} />
         <div className={l.caveat}>
           <b>Availability is not the cost here.</b> Over 90 days the late fleet is ready {gap < 0 ? `${Math.abs(gap).toFixed(0)} aircraft-days more` : `${gap.toFixed(0)} aircraft-days less`}:
-          acting later means fewer, later hangar visits, and some deferred work falls past the horizon. The cost of late detection is the failures — and the aircraft that fail in the air.
+          acting later means fewer, later garage visits, and some deferred work falls past the horizon. The cost of late detection is the failures — and the aircraft that fail in the air.
         </div>
       </div>
 
@@ -97,10 +97,10 @@ function BaseTab({ onTime, late, d }: { onTime: Run; late: Run; d: number }) {
   const days = onTime.ready_curve.map((_, i) => i);
   return (
     <div className={l.twoUp}>
-      <ChartFrame title={`${BASES[base]} · aircraft in the hangar`} subtitle={`Demo run · failures here: ${of[base] ?? 0} on time vs ${lf[base] ?? 0} with ${d}-day-late data`} provenance="SIMULATED"
+      <ChartFrame title={`${BASES[base]} · aircraft in the garage`} subtitle={`Demo run · failures here: ${of[base] ?? 0} on time vs ${lf[base] ?? 0} with ${d}-day-late data`} provenance="SIMULATED"
         legend={[{ label: "data on time", color: "var(--series-p3)" }, { label: `${d} d late`, color: "var(--series-p1)" }]}
         table={{ columns: ["day", "on time", "late"], rows: days.filter((x) => x % 10 === 0).map((x) => [x, onTime.hangar_by_base[base]![x]!, late.hangar_by_base[base]![x]!]) }}>
-        <LineChart x={days} width={860} height={300} xLabel="day" yLabel="aircraft in hangar"
+        <LineChart x={days} width={860} height={300} xLabel="day" yLabel="aircraft in garage"
           series={[{ id: "on", label: "on time", color: "var(--series-p3)", values: onTime.hangar_by_base[base]!, emphasis: true },
                    { id: "late", label: `${d} d late`, color: "var(--series-p1)", values: late.hangar_by_base[base]! }]} />
       </ChartFrame>
