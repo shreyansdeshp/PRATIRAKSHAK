@@ -1,0 +1,6 @@
+{
+  "beats": [
+    { "id": "s12-vendor-deliveries", "path": "/vendor", "caption": "The spares vendor view: part delivery demands sorted by priority (P1 expedites to P3 restock)." },
+    { "id": "s12-vendor-routes", "path": "/vendor", "caption": "Hub logistics: Nandi vendor hub connects to bases and depots via air and road corridors." }
+  ]
+}
