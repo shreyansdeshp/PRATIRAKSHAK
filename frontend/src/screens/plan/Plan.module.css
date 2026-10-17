@@ -42,7 +42,7 @@
   text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid var(--fold); padding-bottom: 3px; margin-bottom: 6px; }
 
 /* BarCI comparison */
-.barSection { flex: 0 0 auto; }
+.barSection { flex: 0 0 auto; margin-top: 10px; display: flex; flex-direction: column; gap: 14px; }
 
 /* Visit tooltip */
 .visitTip { position: fixed; z-index: 100; background: var(--paper-hi); border: 1px solid var(--ink);

@@ -123,7 +123,9 @@ export function Plan() {
 /* ========================== Per-base Gantt ========================== */
 
 function GanttSection({ plan, filteredBases, bases }: { plan: PlanData; filteredBases: string[]; bases: World["bases"] }) {
-  const horizon = plan.horizon_days;
+  // zoom to the days that actually hold visits (the solver front-loads work), not the full horizon
+  const horizon = Math.min(plan.horizon_days, Math.max(7, Math.ceil(Math.max(0, ...plan.visits.map((v) => v.end))) + 1));
+  const tickStep = horizon <= 10 ? 1 : 5;
   const visitsByBase = useMemo(() => {
     const m: Record<string, PlanVisit[]> = {};
     for (const v of plan.visits) {
@@ -152,7 +154,7 @@ function GanttSection({ plan, filteredBases, bases }: { plan: PlanData; filtered
               <div className={p.ganttDayRow}>
                 <span />
                 <div className={p.ganttDays}>
-                  {Array.from({ length: Math.floor(horizon / 5) + 1 }, (_, i) => i * 5).map((d) => (
+                  {Array.from({ length: Math.floor(horizon / tickStep) + 1 }, (_, i) => i * tickStep).map((d) => (
                     <span key={d} className={p.ganttDayTick} style={{ left: `${(d / horizon) * 100}%` }}>
                       D+{d}
                     </span>
@@ -218,11 +220,18 @@ function GanttSection({ plan, filteredBases, bases }: { plan: PlanData; filtered
 
 /* ========================== Planned vs Unplanned Timeline ========================== */
 
-/** Pick PR-G295: has in-flight failures under P0 but planned visits under P3. */
-const TIMELINE_TAIL = "PR-G295";
+/** The tail with the most in-flight failures under P0 and no unplanned visit under P3 — the clearest before/after. */
+function pickTail(demo: DemoData): string {
+  const p0 = demo.runs.P0?.events ?? [], p3 = demo.runs.P3?.events ?? [];
+  const bad = new Set(p3.filter((e) => e.kind === "visit_start" && !e.planned).map((e) => e.tail));
+  const score = new Map<string, number>();
+  for (const e of p0) if (e.kind === "failure" && e.in_flight && !bad.has(e.tail)) score.set(e.tail, (score.get(e.tail) ?? 0) + 1);
+  return [...score.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "PR-G295";
+}
 
 function TimelineComparison({ demo }: { demo: DemoData }) {
   const horizon = 90; // demo events span 90 days; the plan is the first 30
+  const TIMELINE_TAIL = useMemo(() => pickTail(demo), [demo]);
 
   const makeBlocks = (events: DemoEvent[], tail: string) => {
     const blocks: { start: number; end: number; kind: "planned" | "unplanned"; label?: string }[] = [];
@@ -269,8 +278,8 @@ function TimelineComparison({ demo }: { demo: DemoData }) {
       >
         <TimelineStrips
           rows={[
-            { label: "P0 Run-to-failure", sub: TIMELINE_TAIL, blocks: p0.blocks, markers: p0.markers },
-            { label: "P3 Pratirakshak", sub: TIMELINE_TAIL, blocks: p3.blocks, markers: p3.markers },
+            { label: "P0 Run-to-failure", blocks: p0.blocks, markers: p0.markers },
+            { label: "P3 Pratirakshak", blocks: p3.blocks, markers: p3.markers },
           ]}
           days={horizon}
           width={780}
