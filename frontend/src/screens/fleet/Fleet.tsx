@@ -57,7 +57,7 @@ export function Fleet() {
                 <div className={f.typeCell}>
                   <span className={f.typeName}>{t.name}</span>
                   <span className={f.typeRole}>{t.role} · {t.engines} engine{t.engines > 1 ? "s" : ""}</span>
-                  <span className={f.typeData}>engine data {t.cmapss_subset} <ProvenanceChip kind="REAL" /></span>
+                  <span className={f.typeData}>engine data {t.cmapss_subset}</span>
                 </div>
                 {world.bases.map((b) => {
                   const r = sum.by_base_type[`${b.id}|${t.id}`];
