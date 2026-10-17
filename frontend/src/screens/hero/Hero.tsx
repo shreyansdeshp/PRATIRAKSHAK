@@ -4,6 +4,7 @@ import { CornerTag, NumberTick, ProvenanceChip, RegistrationMarks, StatusGlyph }
 import { loadSnapshot } from "../../data/client";
 import type { AircraftState, FleetState, Meta, Route, World } from "../../data/types";
 import { ChartMap } from "../../map/ChartMap";
+import { useApp } from "../../store/app";
 import { useStory } from "../../story/story";
 import h from "./Hero.module.css";
 
@@ -16,6 +17,7 @@ interface Geo { id: string; coords: [number, number][]; mode: "road" | "air" }
 
 export function Hero() {
   const story = useStory();
+  const navigate = useApp((st) => st.navigate);
   const params = new URLSearchParams(window.location.search);
   const fixed = params.has("step") ? Math.min(HERO_STEPS - 1, Math.max(0, Number(params.get("step")))) : null;
   const [auto, setAuto] = useState(fixed ?? 0);
@@ -86,7 +88,7 @@ export function Hero() {
                   const c = counts(b.id);
                   const changed = step >= 6 && pending?.base === b.id;
                   return (
-                    <div key={b.id} className={`${h.base} ${step >= 2 ? h.dropped : ""}`} style={{ left: x, top: y, transitionDelay: still ? "0ms" : `${i * 180}ms` }}>
+                    <div key={b.id} className={`${h.base} ${step >= 2 ? h.dropped : ""}`} onClick={() => navigate(`/base/${b.id}`)} title={`Open ${b.name}`} style={{ left: x, top: y, transitionDelay: still ? "0ms" : `${i * 180}ms` }}>
                       {step === 2 && !still && <span className={h.ripple} style={{ animationDelay: `${i * 180}ms` }} />}
                       {changed && !still && <span key="chg" className={`${h.ripple} ${h.rippleWatch}`} />}
                       <BaseRing ready={c.ready} watch={c.watch} pull={c.pull} awaiting={c.awaiting} show={step >= 5} />
@@ -152,6 +154,13 @@ export function Hero() {
             </>
           )}
         </div>
+
+        {!story.active && (
+          <div className={h.enter}>
+            <button type="button" onClick={() => navigate("/fleet")}>Open the fleet board →</button>
+            <span>or click a base · sheet index on every page · <a href="/?mode=story">guided story</a></span>
+          </div>
+        )}
 
         <div className={h.legend}>
           <span className={h.legendHead}>LEGEND</span>
