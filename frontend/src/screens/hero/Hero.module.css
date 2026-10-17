@@ -91,3 +91,8 @@
 .enter a { color: var(--ink-soft); }
 
 .prov { display: none; } /* provenance lives on every other sheet */
+
+.node { z-index: 6; }
+/* Godavari sits right under the Sahyadri card: drop its label below the marker so the card never covers it */
+.nodeBelow { flex-direction: column; align-items: center; gap: 2px; transform: translate(-50%, -5px); }
+.nodeBelow .nodeLabel { order: 2; }

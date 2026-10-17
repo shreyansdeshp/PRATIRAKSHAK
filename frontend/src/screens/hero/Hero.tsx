@@ -76,7 +76,7 @@ export function Hero() {
                 {world.nodes.filter((n) => n.kind !== "base").map((n) => {
                   const [x, y] = project([n.lon, n.lat]);
                   return (
-                    <div key={n.id} className={`${h.node} ${step >= 4 ? h.on : ""}`} style={{ left: x, top: y }}>
+                    <div key={n.id} className={`${h.node} ${step >= 4 ? h.on : ""} ${/godavari/i.test(n.name) ? h.nodeBelow : ""}`} style={{ left: x, top: y }}>
                       <span className={n.kind === "vendor_hub" ? h.vendor : h.depot} />
                       <span className={h.nodeLabel}>{n.name.replace(" Logistics", "")}</span>
                     </div>
