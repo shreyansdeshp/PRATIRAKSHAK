@@ -13,7 +13,6 @@ import { Hero } from "../screens/hero/Hero";
 import { Intel } from "../screens/intel/Intel";
 import { Late } from "../screens/late/Late";
 import { Lifecycle } from "../screens/lifecycle/Lifecycle";
-import { Method } from "../screens/method/Method";
 import { Offline } from "../screens/offline/Offline";
 import { Plan } from "../screens/plan/Plan";
 import { Results } from "../screens/results/Results";
@@ -67,7 +66,6 @@ function Screen({ screen, param }: { screen: string; param: string | null }) {
     case "offline": return <Offline />;
     case "vendor": return <Vendor />;
     case "lifecycle": return <Lifecycle />;
-    case "method": return <Method />;
     case "dev-primitives": return <Primitives />;
     default: return <NotFound name={screen} />;
   }

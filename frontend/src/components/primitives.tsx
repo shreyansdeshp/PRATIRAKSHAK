@@ -1,7 +1,6 @@
 import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 
 import type { Provenance, Status } from "../data/types";
-import { useApp } from "../store/app";
 import s from "./primitives.module.css";
 
 /* ------------------------------------------------------------------------------------------ status */
@@ -57,14 +56,12 @@ export function HealthBar({ value, width = 120, showValue = true, tone = "olive"
 /* ------------------------------------------------------------------------------------------ provenance */
 const PROV_SHORT: Record<Provenance, string> = { REAL: "REAL", "REAL-ANCHORED": "REAL-ANCHORED", SIMULATED: "SIMULATED", ILLUSTRATIVE: "ILLUSTRATIVE" };
 
-/** Provenance chip (SPEC §11.8); click opens the Method page at the provenance section. */
+/** Provenance chip (SPEC §11.8): REAL / REAL-ANCHORED / SIMULATED / ILLUSTRATIVE. */
 export function ProvenanceChip({ kind }: { kind: Provenance }) {
-  const navigate = useApp((st) => st.navigate);
   return (
-    <button type="button" className={`${s.chip} ${s[`chip_${kind.replace("-", "_")}`]}`} onClick={() => navigate("/method")}
-            title="What this label means — Method & provenance">
+    <span className={`${s.chip} ${s[`chip_${kind.replace("-", "_")}`]}`} title={kind}>
       {PROV_SHORT[kind]}
-    </button>
+    </span>
   );
 }
 

@@ -91,7 +91,6 @@ The simulator runs single-threaded workers at low priority. Keep `--workers` at 
 | 11 | Offline | Decisions without network; confidence widens with data age |
 | 12 | Vendor | The supplier's view — deliveries only, no tail-level health |
 | 13 | Lifecycle | Airframe life, engine overhaul, fleet age |
-| 14 | Method | The rule, models, assumptions, what is real, credits |
 
 Every number on screen is read from the snapshot; every panel carries a provenance chip — **REAL**, **REAL-ANCHORED**, **SIMULATED** or **ILLUSTRATIVE** (see Sheet 14).
 
