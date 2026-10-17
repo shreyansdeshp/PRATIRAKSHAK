@@ -7,7 +7,7 @@ PY := .venv/Scripts/python.exe
 endif
 FAST ?=
 
-.PHONY: setup fetch data world synth train intelligence sim export dev shots record test lint
+.PHONY: setup fetch data world synth train intelligence plan sim export dev shots record test lint
 
 setup:
 	python3.11 -m venv .venv
@@ -33,6 +33,9 @@ train:
 
 intelligence:
 	$(PY) -m pratirakshak.intelligence
+
+plan:
+	$(PY) -m pratirakshak.decide
 
 sim:
 	$(PY) -m pratirakshak.sim

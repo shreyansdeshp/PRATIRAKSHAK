@@ -1,0 +1,56 @@
+# Decision & planning policy (SPEC §1.1, §9). The single rule:
+#   if P(fail before next maintenance opportunity) ≥ θ(mission) → act now: source the spare if it arrives before the
+#   lower-bound RUL, otherwise pull the aircraft; else schedule into the cheapest slot before the earliest plausible
+#   failure, bundled with the aircraft's other jobs.
+
+theta:                          # risk threshold by the base's mission criticality that day
+  training: 0.30
+  routine: 0.25
+  operational: 0.10
+monitor_band: 0.5               # θ/2 ≤ p < θ → MONITOR_CLOSELY (+ schedule)
+schedule_lookahead_days: 30     # schedule work whose lower-bound RUL falls inside this
+bundle_tolerance_days: 7        # tasks due within this of each other share one hangar visit
+crew_hours_per_bay_day: 16      # two shifts × 8 h of work an aircraft can absorb per day in a bay
+tech_hours_factor: 1.5          # technician-hours = install hours × factor (crew of 1.5 on average)
+vendor_dispatch_hours: 24       # vendor hub picks/packs before transport
+allow_cannibalisation: true
+
+scheduler:
+  horizon_days: 30
+  max_deterministic_time: 2.0   # CP-SAT deterministic time limit (reproducible across machines; ≈ 5.6 s wall on the dev laptop)
+  lateness_weight: 1000
+  risk_weight: 100
+
+action_severity: [PULL_FROM_LINE, EXPEDITE_SPARE, VERIFY_SENSOR, SCHEDULE_SERVICE, MONITOR_CLOSELY,
+                  SWAP_TAIL_FOR_MISSION, SERVE_NORMALLY]
+
+# Which LRU a driving sensor points to (non-engine systems). Engines use part → LRU (intelligence/graph.py).
+sensor_lru:
+  hyd_press_a: HYD-PMP
+  hyd_press_b: HYD-PMP
+  hyd_case_drain: HYD-PMP
+  hyd_fluid_level: HYD-ACC
+  hyd_fluid_temp: HYD-CLR
+  lg_brake_pin: LG-BRK
+  lg_brake_temp: LG-BRK
+  lg_strut_press: LG-STR
+  lg_tyre_press: LG-TYR
+  fc_lag: FC-ACT
+  fc_backlash: FC-ACT
+  fc_servo_current: FC-SRV
+  fc_pos_error: FC-LVD
+  el_gen_v: EL-GEN
+  el_gen_temp: EL-GEN
+  el_batt_v: EL-BAT
+  el_ripple: EL-TRU
+  el_load: EL-GCU
+  av_tx_power: AV-TXR
+  av_lru_temp: AV-CLF
+  av_airflow: AV-CLF
+  fu_pump_press: FU-PMP
+  fu_filter_dp: FU-FLT
+  fu_imbalance: FU-FCU
+  fu_tank_temp: FU-QTY
+  st_fatigue: ST-NDT
+  st_vibration: ST-NDT
+  st_corrosion: ST-CRP

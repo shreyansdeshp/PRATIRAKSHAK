@@ -1,0 +1,15 @@
+# Cost & downtime model (SPEC §9.3). ALL VALUES ILLUSTRATIVE — cost units (₵), never rupees.
+planned:
+  setup_hours: 4              # tow-in, access, paperwork per hangar visit (shared by bundled tasks)
+  labour_cost_per_hour: 6     # ₵ per technician-hour
+unplanned:
+  downtime_multiplier: 3.0    # an in-service failure takes 3× the planned task hours (diagnosis, parts hunting)
+  aog_wait_hours: 24          # aircraft-on-ground wait before work starts
+  cost_multiplier: 2.5        # labour + expedited parts premium
+  mission_abort_cost: 1500    # ₵ per aborted / at-risk sortie
+  cascade_probability: 0.15   # chance an in-service failure damages a coupled system
+  cascade_cost_factor: 0.5
+expedite:
+  road_cost_per_km: 0.8       # ₵
+  air_cost_per_hour: 120      # ₵ (Vahak flight hour)
+wasted_life_cost_factor: 1.0  # ₵ value of unused component life when replaced early = factor × part cost × unused fraction

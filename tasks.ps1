@@ -1,6 +1,6 @@
 <#
   Pratirakshak — Windows task runner (same target names as the Makefile).
-  Usage:  ./tasks.ps1 setup | fetch | data | world | synth | train [-Fast] | intelligence | sim | export | dev | shots | record | test | lint
+  Usage:  ./tasks.ps1 setup | fetch | data | world | synth | train [-Fast] | intelligence | plan | sim | export | dev | shots | record | test | lint
   If scripts are blocked:  powershell -ExecutionPolicy Bypass -File tasks.ps1 <target>
 #>
 param(
@@ -37,6 +37,7 @@ switch ($Target) {
   'synth'        { Invoke-Step $Py @('-m', 'pratirakshak.synth') }
   'train'        { $a = @('-m', 'pratirakshak.models'); if ($Fast) { $a += '--fast' }; Invoke-Step $Py $a }
   'intelligence' { Invoke-Step $Py @('-m', 'pratirakshak.intelligence') }
+  'plan'         { Invoke-Step $Py @('-m', 'pratirakshak.decide') }
   'sim'          { Invoke-Step $Py @('-m', 'pratirakshak.sim') }
   'export'       { Invoke-Step $Py @('-m', 'pratirakshak.export') }
   'dev' {

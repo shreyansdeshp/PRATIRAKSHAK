@@ -1,0 +1,47 @@
+[
+ {
+  "demand_id": "D-0001",
+  "tail": "PR-S207",
+  "lru": "AV-CLF",
+  "lru_name": "Avionics cooling fan",
+  "qty": 1,
+  "destination": "SAH",
+  "deadline_hours": 0.0,
+  "priority": "P1",
+  "source": "ARV",
+  "mode": "air",
+  "eta_hours": 6.2,
+  "route_id": "air:ARV-SAH",
+  "verdict": "PULL"
+ },
+ {
+  "demand_id": "D-0002",
+  "tail": "PR-G234",
+  "lru": "EL-GEN",
+  "lru_name": "AC generator (115 V / 400 Hz)",
+  "qty": 1,
+  "destination": "ARV",
+  "deadline_hours": 0.0,
+  "priority": "P1",
+  "source": "SAH",
+  "mode": "air",
+  "eta_hours": 6.2,
+  "route_id": "air:ARV-SAH",
+  "verdict": "PULL"
+ },
+ {
+  "demand_id": "D-0003",
+  "tail": "PR-S350",
+  "lru": "EL-GCU",
+  "lru_name": "Generator control unit",
+  "qty": 1,
+  "destination": "HIM",
+  "deadline_hours": 206.6,
+  "priority": "P1",
+  "source": "ARV",
+  "mode": "air",
+  "eta_hours": 5.4,
+  "route_id": "air:ARV-HIM",
+  "verdict": "SOURCE"
+ }
+]
