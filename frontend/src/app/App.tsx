@@ -1,25 +1,32 @@
+import { ChartDefs } from "../charts/kit";
+import { CornerTag, RegistrationMarks } from "../components/primitives";
 import { DevData } from "../screens/dev/DevData";
+import { Primitives } from "../screens/dev/Primitives";
+import { Stage } from "../stage/Stage";
+import { useApp } from "../store/app";
 import styles from "./App.module.css";
 
-/** Placeholder shell until Stage 9 adds the router and screens; /dev/data checks the data layer. */
+/** App shell: routes screens inside the 1920×1080 stage. Screens arrive in Stages 10–13. */
 export function App() {
-  if (window.location.pathname.startsWith("/dev/data")) return <DevData />;
+  const route = useApp((s) => s.route);
+  if (route.screen === "dev-data") return <DevData />;
+  return (
+    <Stage>
+      <ChartDefs />
+      {route.screen === "dev-primitives" ? <Primitives /> : <Placeholder />}
+    </Stage>
+  );
+}
+
+function Placeholder() {
   return (
     <main className={styles.sheet} data-testid="sheet">
-      <span className={`${styles.reg} ${styles.tl}`} aria-hidden />
-      <span className={`${styles.reg} ${styles.tr}`} aria-hidden />
-      <span className={`${styles.reg} ${styles.bl}`} aria-hidden />
-      <span className={`${styles.reg} ${styles.br}`} aria-hidden />
-
+      <RegistrationMarks />
       <header className={styles.titleBlock}>
         <h1>Pratirakshak</h1>
         <p className={styles.motto}>Predict. Prepare. Protect.</p>
       </header>
-
-      <footer className={styles.edition}>
-        <span className="mono">SHEET 00 · SCAFFOLD · EDITION D+00</span>
-        <span className={styles.tag}>SIMULATED EXERCISE DATA</span>
-      </footer>
+      <CornerTag />
     </main>
   );
 }

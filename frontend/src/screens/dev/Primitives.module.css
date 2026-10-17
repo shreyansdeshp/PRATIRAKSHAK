@@ -1,0 +1,19 @@
+.sheet { position: absolute; inset: 0; padding: 48px 64px 40px; }
+.loading { padding: 64px; font-family: var(--font-mono); color: var(--ink-soft); }
+.grid { display: grid; grid-template-columns: 560px 640px 560px; gap: 32px; margin-top: 24px; }
+.col { display: flex; flex-direction: column; gap: 14px; }
+.h2 { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-14); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-soft); border-bottom: 1px solid var(--fold); padding-bottom: 4px; margin: 6px 0 0; }
+.row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); }
+.strips { display: flex; flex-direction: column; gap: 6px; }
+.sparks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; }
+.spark { display: flex; flex-direction: column; gap: 2px; }
+.sparkLabel { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); }
+.twoUp { display: grid; grid-template-columns: 240px 300px; gap: 20px; }
+
+.baseMark { position: absolute; transform: translate(-6px, -6px); display: flex; align-items: center; gap: 6px; }
+.baseDot { width: 12px; height: 12px; border: 2px solid var(--ink); background: var(--paper-hi); border-radius: 50%; }
+.baseLabel { font-family: var(--font-serif); font-size: 14px; font-weight: 600; color: var(--ink); background: rgba(244, 239, 227, 0.86);
+  padding: 1px 5px; display: flex; flex-direction: column; line-height: 1.15; }
+.baseLabel em { font-style: normal; font-family: var(--font-mono); font-size: 10px; font-weight: 400; color: var(--ink-soft); }

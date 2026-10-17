@@ -1,0 +1,79 @@
+/* ---------------------------------------------------------------- status glyph */
+.glyph { display: inline-flex; align-items: center; gap: 6px; line-height: 1; }
+.glyph svg { display: block; flex: none; }
+.glyphLabel { font-family: var(--font-sans); font-weight: 500; font-size: var(--fs-12); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* ---------------------------------------------------------------- health bar */
+.health { display: inline-flex; align-items: center; gap: 8px; }
+.healthTrack { position: relative; display: inline-block; height: 6px; background: var(--sand); border-radius: var(--r-1); overflow: hidden; }
+.healthFill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 var(--r-1) var(--r-1) 0; transition: width var(--t-status) var(--ease-chart); }
+.healthValue { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: var(--fs-12); color: var(--ink-soft); min-width: 24px; text-align: right; }
+
+/* ---------------------------------------------------------------- provenance chip */
+.chip {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; line-height: 1;
+  padding: 3px 6px 2px; border-radius: var(--r-1); cursor: pointer; background: transparent;
+  border: 1px solid var(--ink-soft); color: var(--ink-soft);
+}
+.chip:hover { background: var(--sand); }
+.chip_REAL { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip_REAL:hover { background: var(--charcoal); }
+.chip_REAL_ANCHORED { border-color: var(--ink); color: var(--ink); box-shadow: inset 3px 0 0 var(--ink); padding-left: 8px; }
+.chip_SIMULATED { border-style: dashed; }
+.chip_ILLUSTRATIVE { border-style: dotted; color: var(--ink-mute); border-color: var(--ink-mute); }
+
+/* ---------------------------------------------------------------- sheet furniture */
+.reg { position: absolute; width: 24px; height: 24px; pointer-events: none; }
+.reg::before, .reg::after { content: ""; position: absolute; background: var(--ink); }
+.reg::before { left: 11.5px; top: 0; width: 1px; height: 24px; }
+.reg::after { top: 11.5px; left: 0; height: 1px; width: 24px; }
+
+.sheetHeader {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: 24px;
+  padding-bottom: 12px; border-bottom: 3px double var(--ink);
+}
+.sheetNo { display: flex; flex-direction: column; align-items: center; border: 1px solid var(--ink); padding: 4px 10px; min-width: 64px; }
+.sheetLabel { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; color: var(--ink-soft); }
+.sheetNum { font-family: var(--font-mono); font-size: var(--fs-20); line-height: 1.1; }
+.sheetTitle h1 { font-family: var(--font-serif); font-weight: 600; font-size: var(--fs-44); line-height: 1; letter-spacing: 0.01em; }
+.sheetTitle p { margin: 6px 0 0; font-family: var(--font-sans); font-size: var(--fs-16); color: var(--ink-soft); }
+.sheetRight { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.edition { font-family: var(--font-mono); font-size: var(--fs-12); color: var(--ink-soft); letter-spacing: 0.06em; }
+
+.cornerTag {
+  position: absolute; right: 56px; bottom: 30px; z-index: 30;
+  font-family: var(--font-sans); font-weight: 500; font-size: 11px; letter-spacing: 0.14em;
+  border: 1px solid var(--ink-soft); color: var(--ink-soft); padding: 3px 8px; border-radius: var(--r-1); background: var(--paper);
+}
+
+/* ---------------------------------------------------------------- flight strip */
+.strip {
+  position: relative; display: flex; align-items: stretch; min-height: 44px;
+  background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1);
+  font-family: var(--font-sans); transition: background 200ms var(--ease-chart);
+}
+.stripCompact { min-height: 34px; }
+.strip[role="button"] { cursor: pointer; }
+.strip[role="button"]:hover, .strip[role="button"]:focus-visible { background: #fffdf6; outline: none; border-color: var(--khaki); }
+.stripActive { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.stripEdge { width: 6px; flex: none; border-radius: var(--r-1) 0 0 var(--r-1); transition: background var(--t-status) var(--ease-chart); }
+.stripCall { display: flex; align-items: center; gap: 8px; padding: 0 14px 0 10px; border-right: 1px solid var(--fold); min-width: 150px; }
+.callsign { font-family: var(--font-mono); font-size: var(--fs-16); font-weight: 500; letter-spacing: 0.02em; }
+.callSub { font-family: var(--font-mono); font-size: var(--fs-12); color: var(--ink-soft); }
+.stripField { display: flex; flex-direction: column; justify-content: center; padding: 3px 12px; border-right: 1px solid var(--fold); flex: 1; min-width: 0; }
+.stripField:last-child { border-right: none; }
+.fieldLabel { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); line-height: 1.2; }
+.fieldValue { font-size: var(--fs-14); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------------------------------------------------------------- stat tile */
+.stat { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; border-left: 1px solid var(--fold); }
+.statAccent { border-left: 3px solid var(--ink); }
+.statLabel { font-family: var(--font-sans); font-size: var(--fs-12); color: var(--ink-soft); letter-spacing: 0.02em; }
+.statValue { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-44); line-height: 1.05; color: var(--ink); }
+.statUnit { font-size: var(--fs-20); font-weight: 400; color: var(--ink-soft); margin-left: 4px; }
+.statNote { font-family: var(--font-sans); font-size: var(--fs-12); color: var(--ink-mute); }
+
+/* ---------------------------------------------------------------- legend */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; list-style: none; margin: 0; padding: 0;
+  font-family: var(--font-sans); font-size: var(--fs-12); color: var(--ink-soft); }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }

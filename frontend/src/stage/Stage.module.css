@@ -1,0 +1,17 @@
+.viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  transform-origin: center center;
+  background: var(--paper);
+  overflow: hidden;
+}

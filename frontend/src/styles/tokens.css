@@ -1,23 +1,39 @@
 /* Pratirakshak design tokens — SPEC §11.2. "Aviation chart meets flight strip".
    Light paper ground only: no dark/navy themes, no glow, no gradients (except map hillshade). */
 :root {
+  color-scheme: light;
+
   /* ground */
   --paper: #f4efe3;
+  --paper-hi: #faf7ef;      /* raised sheet */
   --sand: #e7dfcb;
   --fold: #d6ccb1;
   --ink: #1e2224;
   --ink-soft: #4a4f52;
+  --ink-mute: #6b6f6a;      /* 5.0:1 on paper */
 
   /* structure */
   --olive: #4b5632;
   --khaki: #a89f7a;
   --charcoal: #2e3234;
+  --water: #c9d3d0;         /* pale, desaturated chart water */
 
-  /* status — always paired with a glyph; differ by lightness + shape */
-  --ready: #2f6b3f;   /* ● */
-  --watch: #a66a00;   /* ▲ */
-  --pull: #b83a26;    /* ■ */
-  --stale: #8c8c85;   /* ◇ hatched */
+  /* status — fills from SPEC; always paired with a glyph; differ by lightness + shape.
+     Text variants meet 4.5:1 on paper (validated: watch-ink 5.3:1, stale-ink 4.7:1). */
+  --ready: #2f6b3f;   /* ● 5.6:1 */
+  --watch: #a66a00;   /* ▲ fill (3.9:1 — never used for text) */
+  --pull: #b83a26;    /* ■ 5.0:1 */
+  --stale: #8c8c85;   /* ◇ hatched fill (2.95:1 — never used for text) */
+  --watch-ink: #8a5800;
+  --stale-ink: #6b6b65;
+
+  /* data series — policy identity (emphasis form: P3 accent, P0 recessive ink).
+     Validated with the dataviz validator on #F4EFE3, all-pairs: CVD ΔE ≥ 9.5, normal-vision ΔE ≥ 21.4, contrast ≥ 3:1. */
+  --series-p3: #2a78d6;
+  --series-p2: #14996b;
+  --series-p1: #d9622b;
+  --series-p0: #4a4f52;
+  --grid: #ddd4bf;          /* hairline grid, one step off the paper */
 
   /* type */
   --font-serif: "Source Serif 4", "Newsreader", Georgia, serif;
