@@ -24,7 +24,7 @@ export function Primitives() {
   const strips = ["PR-S149", "PR-G295", "PR-S350", "PR-G118"].map((t) => state.aircraft.find((a) => a.tail === t)!).filter(Boolean);
   const curves = results.curves.base!;
   const days = curves.P0.fleet.map((_, i) => i);
-  const tw = twin.tails["PR-S149"];
+  const tw = twin.tails["PR-G118"];
   const eng = history.engines["PR-G340"]?.[0];
   const fd = models.engine.find((m: any) => m.subset === "FD001");
   const timeline = (pol: string, tail: string): Block[] =>
@@ -90,7 +90,7 @@ export function Primitives() {
             <LineChart x={days} width={640} height={250} yFormat={(v) => `${Math.round(v)}%`} xLabel="day" yLabel="ready %"
               series={(["P0", "P1", "P2", "P3"] as PolicyId[]).map((k) => ({ id: k, label: k, color: POLICY_COLOR[k], values: curves[k].fleet.map((v) => v * 100), emphasis: k === "P3" }))} />
           </ChartFrame>
-          <ChartFrame title="PR-S149 hydraulics — projected condition" subtitle="Twin: 200 runs of the simulator's forward model" provenance="SIMULATED">
+          <ChartFrame title="PR-G118 hydraulics — projected condition" subtitle="Twin: 200 runs of the simulator's forward model" provenance="SIMULATED">
             <FanChart x={twin.days} p10={tw.systems.hydraulics.p10} p50={tw.systems.hydraulics.p50} p90={tw.systems.hydraulics.p90}
               width={640} height={190} yLabel="condition (0–100)" threshold={{ value: 0, label: "failure" }} yDomain={[-5, 100]} />
           </ChartFrame>
@@ -105,7 +105,7 @@ export function Primitives() {
         </section>
 
         <section className={p.col}>
-          <ChartMap camera={{ center: [80, 22.5], zoom: 3.55 }} width={560} height={420} interactive={false}
+          <ChartMap camera={{ center: [80.5, 22.4], zoom: 3.1 }} width={560} height={360} interactive={false}
             overlay={(project) => world.bases.map((base) => {
               const [x, y] = project([base.lon, base.lat]);
               const r = state.summary.by_base[base.id]!;
@@ -121,7 +121,7 @@ export function Primitives() {
               <Reliability size={240} series={[{ label: "LightGBM + conformal", color: "var(--series-p3)", points: fd.intervals.lgbm }]} />
             </ChartFrame>
             <ChartFrame title="Ready %, P3 vs best baseline" subtitle="paired by seed" provenance="SIMULATED">
-              <Dumbbell width={300} domain={[60, 95]} aLabel="best baseline" bLabel="Pratirakshak"
+              <Dumbbell width={300} labelWidth={64} domain={[55, 95]} format={(v) => v.toFixed(0)} aLabel="best baseline" bLabel="Pratirakshak"
                 rows={Object.keys(results.paired).map((sc) => ({ label: sc, a: results.summary[sc]![results.paired[sc]!.best_baseline]!.ready_pct!.mean, b: results.summary[sc]!.P3!.ready_pct!.mean }))} />
             </ChartFrame>
           </div>

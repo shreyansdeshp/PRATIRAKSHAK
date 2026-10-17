@@ -11,15 +11,15 @@ Every external asset (data, fonts, tiles, 3D models, icons) is recorded here wit
 | NASA PCoE Li-ion Battery Ageing | Saha & Goebel — NASA Prognostics Data Repository | — | — | Battery degradation shape | **not used** (size/format); SIMULATED defaults instead |
 | NASA PCoE electromechanical actuator data | NASA Prognostics Data Repository | — | — | Actuator signatures | **not used**; SIMULATED defaults instead |
 | Open-Meteo historical archive API (ERA5, ERA5-Land, ECMWF IFS) | `https://archive-api.open-meteo.com/v1/archive` — terms checked 2026-10-17: free for non-commercial use, no key, 600/min · 5,000/h · 10,000/day | Data: CC BY 4.0 | Weather data by Open-Meteo.com (Zippenfenig, P. 2023, Zenodo). Hersbach et al. (2023) ERA5; Muñoz Sabater (2019) ERA5-Land. Generated using Copernicus Climate Change Service information. | Base climatology + elevation (4 requests, cached) | in use (Stage 2) |
-| Natural Earth | naturalearthdata.com | Public domain | Made with Natural Earth. | Offline fallback map | to add (Stage 9) |
+| Natural Earth 1:50m land, admin-0 countries, rivers; 1:10m admin-1 (India states) | naturalearthdata.com via github.com/nvkelso/natural-earth-vector (raw downloads gitignored; simplified extracts in `frontend/public/fallback-map/`) | Public domain | Made with Natural Earth. | Basemap vectors (online and offline) | in use (Stage 9) |
 
 ## Maps, terrain, routing
 
 | Asset | Source | Licence | Attribution | Status |
 |---|---|---|---|---|
-| AWS Terrain Tiles (Terrarium) | `elevation-tiles-prod` | _verify_ | _to add_ | to verify (Stage 9) |
-| OpenFreeMap vector tiles | openfreemap.org | _verify_ | _to add_ | to verify (Stage 9) |
-| EOX Sentinel-2 cloudless | s2maps.eu | _verify (non-commercial terms)_ | _to add_ | to verify (Stage 9) |
+| AWS Terrain Tiles (Terrarium encoding) | `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png` — live DEM online; 49 tiles at z6 pre-rendered into `fallback-map/hillshade.png` | Open data; attribution per registry + tilezen/joerd | Terrain Tiles was accessed on 2026-10-17 from https://registry.opendata.aws/terrain-tiles. Data: SRTM, GMTED2010 courtesy of the U.S. Geological Survey; ETOPO1 (NOAA); Mapzen. | in use (Stage 9) |
+| OpenFreeMap vector tiles | openfreemap.org | — | — | **not used so far** (bundled Natural Earth + HTML labels instead; no glyph server, works offline) |
+| EOX Sentinel-2 cloudless | s2maps.eu | _verify (non-commercial terms)_ | _to add_ | not used so far |
 | OSRM public demo server (precomputed once, 28 routes cached in `data/routes/road/`) | `router.project-osrm.org`, sponsored by FOSSGIS — policy checked 2026-10-17: ≤ 1 request/s, reasonable non-commercial use, no uptime guarantee | Route geometry derived from OpenStreetMap: ODbL 1.0 | Routing: OSRM (FOSSGIS demo server). Map data © OpenStreetMap contributors, ODbL. | in use (Stage 2) |
 
 ## Fonts (self-hosted via @fontsource)
@@ -35,5 +35,8 @@ Every external asset (data, fonts, tiles, 3D models, icons) is recorded here wit
 Procedural only (built in code). Status glyphs are Unicode shapes. No third-party models or icon sets so far.
 
 ## Software
+
+Front-end libraries (exact pins in `frontend/package.json`): React 18.3.1, MapLibre GL JS 4.7.1 (BSD-3-Clause), D3 7.9.0 (ISC), Zustand 5.0.1 (MIT), Framer Motion 11.11.17 (MIT), Vite 5.4.11, Playwright 1.49.1. Chart colours validated with the dataviz palette validator (all-pairs CVD and contrast on the paper surface).
+
 
 Open-source libraries listed in `requirements.txt` / `frontend/package.json` under their own licences.

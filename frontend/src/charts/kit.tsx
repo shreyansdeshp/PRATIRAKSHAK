@@ -264,15 +264,17 @@ export function TimelineStrips({ rows, days, width = 900, rowHeight = 26, labelW
 
 /* ------------------------------------------------------------------------------------------ dumbbell / slope */
 /** Before → after per row on one scale (e.g. without vs with Pratirakshak). */
-export function Dumbbell({ rows, domain, width = 520, rowHeight = 30, aLabel, bLabel, aColor = "var(--series-p0)", bColor = "var(--series-p3)", format = (v: number) => v.toFixed(1) }:
+export function Dumbbell({ rows, domain, width = 520, rowHeight = 30, aLabel, bLabel, aColor = "var(--series-p0)", bColor = "var(--series-p3)",
+  format = (v: number) => v.toFixed(1), labelWidth = 150 }:
   { rows: { label: string; a: number; b: number }[]; domain: [number, number]; width?: number; rowHeight?: number;
-    aLabel: string; bLabel: string; aColor?: string; bColor?: string; format?: (v: number) => string }) {
-  const m = { l: 150, r: 60, t: 8 };
+    aLabel: string; bLabel: string; aColor?: string; bColor?: string; format?: (v: number) => string; labelWidth?: number }) {
+  const m = { l: labelWidth, r: 48, t: 8 };
   const xs = scaleLinear().domain(domain).range([m.l, width - m.r]);
   const height = m.t + rows.length * rowHeight + 22;
+  const nTicks = Math.max(2, Math.floor((width - m.l - m.r) / 60));  // ≥ 60 px per tick label
   return (
     <svg width={width} height={height} role="img" aria-label={`${aLabel} versus ${bLabel}`}>
-      {xs.ticks(5).map((t) => (
+      {xs.ticks(nTicks).map((t) => (
         <g key={t}>
           <line x1={xs(t)} x2={xs(t)} y1={m.t} y2={height - 22} stroke={GRID} strokeWidth={1} shapeRendering="crispEdges" />
           <text x={xs(t)} y={height - 8} textAnchor="middle" className={k.tick}>{format(t)}</text>
