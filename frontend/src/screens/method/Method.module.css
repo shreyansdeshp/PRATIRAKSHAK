@@ -1,0 +1,26 @@
+.sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 18px; }
+.loading { position: absolute; inset: 0; }
+.cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; }
+.cols section { display: flex; flex-direction: column; gap: 10px; }
+.cols h2 { margin: 6px 0 0; font-family: var(--font-sans); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft);
+  border-bottom: 1px solid var(--fold); padding-bottom: 4px; }
+.cols p { margin: 0; font-family: var(--font-serif); font-size: 15px; line-height: 1.5; color: var(--ink); }
+.rule { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-family: var(--font-sans); font-size: 12px; }
+.rule span { border: 1px solid var(--fold); background: var(--paper-hi); padding: 5px 8px; border-radius: var(--r-1); text-align: center; }
+.rule span small { color: var(--ink-mute); font-family: var(--font-mono); font-size: 10px; }
+.rule .key { border-color: var(--ink); font-weight: 600; }
+.rule i { font-style: normal; color: var(--ink-mute); }
+.actions, .limits { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 3px; font-family: var(--font-sans); font-size: 13px; }
+.actions li { display: grid; grid-template-columns: 140px 1fr; gap: 8px; border-bottom: 1px solid var(--grid); padding: 3px 0; }
+.actions span { color: var(--ink-soft); }
+.limits li { padding: 4px 0 4px 14px; position: relative; font-family: var(--font-serif); font-size: 15px; line-height: 1.45; }
+.limits li::before { content: "—"; position: absolute; left: 0; color: var(--ink-mute); }
+.assume { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-family: var(--font-serif); font-size: 15px; line-height: 1.5; }
+.assume small { font-family: var(--font-mono); font-size: 10px; color: var(--ink-mute); margin-left: 4px; }
+.prov { border-collapse: collapse; font-family: var(--font-sans); font-size: 13px; }
+.prov td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--grid); vertical-align: middle; }
+.prov td:first-child { white-space: nowrap; }
+.legend { margin: 0; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-sans); font-size: 12px; }
+.legend dt { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-soft); }
+.legend dd { margin: 0; color: var(--ink-soft); }
+.cols p.credits { font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); }
