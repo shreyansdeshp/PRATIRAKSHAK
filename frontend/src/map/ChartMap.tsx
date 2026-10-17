@@ -50,11 +50,23 @@ export function ChartMap({ camera, width, height, overlay, terrain = false, inte
     mapRef.current = map;
     const bump = () => setTick((t) => t + 1);
     map.on("move", bump);
-    map.on("load", () => {
-      if (terrain && online) map.setTerrain({ source: "dem", exaggeration: 1.4 });
+    // Overlays only need the projection, which is valid once the style is parsed. "load" can wait a long time for
+    // every live DEM tile (high zooms), so it must not gate the overlay layer.
+    let signalled = false;
+    const markReady = () => {
+      if (signalled) return;
+      signalled = true;
       setReady(true);
       bump();
       onReady?.(map, online);
+    };
+    map.once("style.load", markReady);
+    // screenshots wait for "idle" (all visible tiles drawn) via this attribute
+    map.on("idle", () => ref.current?.parentElement?.setAttribute("data-map-idle", "1"));
+    map.on("dataloading", () => ref.current?.parentElement?.setAttribute("data-map-idle", "0"));
+    map.on("load", () => {
+      if (terrain && online) map.setTerrain({ source: "dem", exaggeration: 1.4 });
+      markReady();
     });
     return () => { map.remove(); mapRef.current = null; setReady(false); };
     // camera/terrain are initial values; later changes go through flyTo

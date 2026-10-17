@@ -3,10 +3,10 @@
 > Running state of the build. Update at the **start** and **end** of every stage and whenever you stop. A fresh Claude Code session must be able to resume from this file + `SPEC.md` alone.
 
 ## Status
-- **Current stage:** 11 — Fleet, base, aircraft showroom (next)
-- **Last completed stage:** 10 — Hero & storyline engine
-- **Last commit:** see `git log -1` (Stage 10: hero and storyline engine)
-- **Date/time of last update:** 2026-10-17 10:30
+- **Current stage:** 12 — Decision, spares, planning screens (next)
+- **Last completed stage:** 11 — Fleet, base, aircraft showroom
+- **Last commit:** see `git log -1` (Stage 11: fleet board, base view, 3D showroom)
+- **Date/time of last update:** 2026-10-17 11:25
 - **Demo seed:** **5** (median rule: base-scenario P3 − best-baseline ready-% gain closest to the median)
 - **Global seed:** 26249
 - **Remote:** `https://github.com/shreyansdeshp/PRATIRAKSHAK.git` (branch `main`); commits authored as `shreyansdeshp <sndeshpande_b25@it.vjti.ac.in>` (repo-local git config). Push after every stage commit.
@@ -23,13 +23,16 @@
 - [x] 8 Export & API
 - [x] 9 Front-end foundation
 - [x] 10 Hero & storyline engine
-- [ ] 11 Fleet, base, aircraft showroom
+- [x] 11 Fleet, base, aircraft showroom
 - [ ] 12 Decision, spares, planning screens
 - [ ] 13 Stress, counterfactuals, intelligence, results, lifecycle, vendor, offline, method
 - [ ] 14 Polish (REDUCED by user 2026-10-17: motion pass, copy pass, empty/error states, README only — NO recording, voiceover, video or final 4K shot set; the team does those)
 
 ## This stage's plan (10–20 lines, written before coding)
-**Stage 10 — Hero & storyline engine**
+**Stage 11 — Fleet, base, aircraft showroom** (plan was in Next steps at the end of Stage 10)
+S1 `/fleet` board; S2 `/base/:id`; S3 `/aircraft/:tail` with R3F + drei (exact pins), 4 procedural airframes, turntable, camera presets, garage carousel, spec sheet, 8 status hotspots with leader lines, part drawer, exploded view, body-health overlay; story beats for S1–S3. Checks: one fps reading; one screenshot review of S1–S3.
+
+**Stage 10 — Hero & storyline engine** (done)
 1. `screens/hero/Hero.tsx` at `/`: map sheet (≈1400 px, neat line, graticule) + right marginalia (title block, legend with glyphs, fleet totals, data-age line). Eight steps on a ~25 s timeline: 0 blank sheet → 1 relief + graticule fade in → 2 base symbols drop in with one soft ripple → 3 aircraft counts tick up → 4 logistics arcs trace (base↔base airlift arcs, base→nearest depot/vendor roads from cached OSRM geometry) → 5 status rings settle (ready/watch/pull share per base, glyph legend; one Himshikhar tail still "awaiting 06:00Z data" ◇) → 6 Himshikhar's data arrives: that tail settles to its real D+0 status (WATCH) with one ripple → 7 title lock-up "PRATIRAKSHAK · Predict. Prepare. Protect." (cover still).
 2. Honesty: every number comes from `state.json`; the "status change" is the last base's snapshot arriving (remote link), not an invented prior state.
 3. `?step=N` renders a step statically (no animation, deterministic) for screenshots; `prefers-reduced-motion` → instant.
@@ -123,6 +126,16 @@ Tokens + validated chart palette; 1920×1080 stage scaler; path router (Zustand)
 9. Check: fresh venv `pip install` + `npm ci` + Playwright render test; paste output; commit.
 
 ## What I did (this session)
+**Stage 11**
+- Libraries (exact pins): three 0.169.0 (+@types/three), @react-three/fiber 8.17.10, @react-three/drei 9.115.0 (transitive `three-mesh-bvh` prints a deprecation warning; not used directly).
+- `components/SheetIndex.tsx` (00–14 sheet nav, hidden when story chrome is off), `data/useSnapshots.ts`.
+- **S1** `screens/fleet/Fleet.tsx`: stat tiles; type × base flight-strip matrix (ready/total, status bar with 2 px gaps, readiness-floor tick at 50 %, "below floor" flagged in words — Shikshak @ Kaveri); fleet column with average health; "what limits readiness" bars; most-at-risk list (links to S3).
+- **S2** `screens/base/BaseView.tsx`: base switcher; local chart (live DEM relief online, airfield symbol, 2 fastest roads to depots from cached OSRM geometry); environment profile (Open-Meteo normals + illustrative dust/salt, with chips); headline tiles; every tail as a compact flight strip (worst first); CP-SAT hangar slots as a bay Gantt (14 d) + visit list; spares on hand + out-of-stock list.
+- **S3** `three/airframes.tsx` + `screens/aircraft/Showroom.tsx`: 4 procedural airframes (Garjan delta + canards, Prahar swept + spine, Vahak high-wing twin nacelles + T-tail, Shikshak straight-wing tandem trainer), matte paper-grey with ink edges; studio floor + contact shadow; turntable (OrbitControls auto-rotate); presets Front ¾ / Side / Top / Under; exploded view (engine aft, gear down, avionics bay forward); body-health tint + legend; 8 hotspots (status glyph + health, leader line); spec sheet (health, readiness, mission fit from the mission templates, airframe life used, 14-day risk = 1 − Π(1 − pᵢ), 8-system list); part drawer (health, risk, confidence, RUL range vs 14-day window, driver sentences, sensor sparklines with trust, LRUs with stock at the base). `?still=1` and `?part=<system>` for deterministic shots.
+- Story beats added for S1, S2, S3, S3 part (12 beats total).
+- `ChartMap` fix found in review: the overlay waited for MapLibre `load`, which never fired at zoom 6.3 while live DEM tiles streamed → the S2 airfield/roads were missing. Overlay now appears on `style.load`; added `data-map-idle` for screenshot waits.
+- Review fixes: S3 system-list chips overlapping health bars; S2 strip list overflowing the margin ("Risk 14 d" label wrapping).
+
 **Stage 10**
 - `screens/hero/Hero.tsx` (S0): 1380 px map sheet + marginalia; 8 steps on a ~19 s timeline (autoplay), `?step=N` deterministic stills; base symbol = airfield in a readiness ring (real ready/watch/pull counts, 2 px gaps); airlift arcs (base↔base great circles) + each base's fastest road to a depot/vendor (cached OSRM geometry); depots/vendor hub; fleet totals tick up; title lock-up = cover still (`docs/shots/s0_step7.png`).
 - **Honest "status change" beat:** no invented prior state — Himshikhar's 06:00Z snapshot arrives last (remote link); until then one real WATCH tail (PR-G306, electrical, 16 % risk in 14 d) shows as ◇ awaiting data; then it settles to its real D+0 status with one ripple.
@@ -199,6 +212,17 @@ Tokens + validated chart palette; 1920×1080 stage scaler; path router (Zustand)
 - Remote set to the user's GitHub repo; local `main` rebased onto its existing 2 commits (README only); README expanded.
 
 ## Acceptance checks — **real output pasted**
+**Stage 11** — Check (1): one fps reading of the 3D scene; Check (2): one screenshot review of S1–S3.
+```
+> npx playwright test e2e/stage11-fps.spec.ts      (Chromium with --enable-gpu --use-angle=d3d11)
+showroom fps: 60 · renderer: ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)
+  ok 1 stage11-fps.spec.ts › fps while the turntable rotates        (60 = vsync cap; SPEC target ≥ 50)
+> npx playwright test e2e/stage11.spec.ts
+  ok s1_fleet · s2_base_HIM · s3_aircraft_PR-S149 · s3_part_hydraulics @shot  → docs/shots/
+Review: 3 defects fixed in one pass (S2 map overlay missing, S2 list overflow, S3 chip overlap); S2/S3 re-shot: 2 passed;
+hero + stage9 tests re-run after the ChartMap change: 11 passed.
+```
+
 **Stage 10** — Check (1): `npm run shots` produces the S0 frames at 1920×1080; Check (2): one visual review (one revision pass).
 ```
 > npx playwright test e2e/hero.spec.ts
@@ -507,7 +531,7 @@ Tests  1 passed (1)
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
 ## Next steps (ordered, concrete)
-1. Stage 11: write plan here. S1 `/fleet` readiness board (type × base flight-strip rows, average health bars, ready counts, readiness-floor markers, limiting-system summary); S2 `/base/:id` (local chart of the base, headline numbers, flight-strip list of every tail with health bar / glyph / limiting system / next action, hangar slot occupancy from plan.json, spares-on-hand strip, environment profile); S3 `/aircraft/:tail` showroom — install three@0.169.0, @react-three/fiber@8.17.10, @react-three/drei@9.115.0 (exact pins); 4 procedural airframes (delta / swept / high-wing transport / straight-wing trainer), studio floor + contact shadow, turntable, camera presets, carousel of flight strips, spec sheet (health, readiness, mission fit, age/life, risk 7 d), 8 hotspots with leader lines coloured by status, part drawer (sensors + trust, RUL fan, LRUs, spares ETA), exploded view, body-health overlay. Add story beats for S1–S3. Checks: one fps reading of the 3D scene; one screenshot review of S1–S3.
+1. Stage 12: write plan here. S4 `/decision/:tail` decision card (the rule restated for this tail; plain-language reason from decisions.json; key sensors with sparklines vs healthy baseline; RUL fan + P(fail in window) vs θ; confidence high/medium/low with reasons, shown prominently; sensor-trust badges; alternatives with consequences; spare route summary). S5 `/spares/:tail` (terrain map; base ↔ 2–3 nearest sources with ETA chips; animated navigation line along the cached OSRM polyline with a moving marker; alternative routes lighter; elevation profile strip from the DEM; table of stock/ETA/mode; SOURCE vs PULL verdict banner; cannibalisation option; vendor hub). S6 `/plan` (Gantt per base: hangar slots, bundled jobs, readiness floor; planned-vs-unplanned: two timelines of the same aircraft from demo.json P0 vs P3 with hatched unplanned blocks + mission-impact markers; bar comparison of hours and ₵ from results.json). Story beats for S4–S6. Checks: decision card numbers come from the snapshot (test); planned-vs-unplanned uses real timeline data (test); one screenshot review of S4–S6.
 
 ## How to run (keep current)
 ```

@@ -115,7 +115,7 @@ export function BaseView({ id }: { id: string }) {
                 fields={[
                   { label: "Health", value: <HealthBar value={a.weighted_health} width={64} />, width: 120 },
                   { label: "Limited by", value: SYS[a.limiting_system], width: 132 },
-                  { label: "Risk 14 d", value: `${Math.round(a.limiting_p * 100)} %`, width: 76 },
+                  { label: "Risk", value: `${Math.round(a.limiting_p * 100)} %`, width: 70 },
                   { label: "Next action", value: a.action.replace(/_/g, " ").toLowerCase() },
                 ]} />
             ))}

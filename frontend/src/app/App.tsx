@@ -2,6 +2,7 @@ import { ChartDefs } from "../charts/kit";
 import { CornerTag, RegistrationMarks } from "../components/primitives";
 import { DevData } from "../screens/dev/DevData";
 import { Primitives } from "../screens/dev/Primitives";
+import { Showroom } from "../screens/aircraft/Showroom";
 import { BaseView } from "../screens/base/BaseView";
 import { Fleet } from "../screens/fleet/Fleet";
 import { Hero } from "../screens/hero/Hero";
@@ -30,6 +31,7 @@ function Screen({ screen, param }: { screen: string; param: string | null }) {
     case "hero": return <Hero />;
     case "fleet": return <Fleet />;
     case "base": return <BaseView id={param ?? "HIM"} />;
+    case "aircraft": return <Showroom tail={param ?? "PR-S149"} />;
     case "dev-primitives": return <Primitives />;
     default: return <Placeholder name={screen} />;
   }
