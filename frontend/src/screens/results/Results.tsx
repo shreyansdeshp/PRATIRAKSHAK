@@ -5,6 +5,7 @@ import { CornerTag, ProvenanceChip, RegistrationMarks, SheetHeader } from "../..
 import { SheetIndex } from "../../components/SheetIndex";
 import type { CI, PolicyId, Results as ResultsData } from "../../data/types";
 import { useSnapshots } from "../../data/useSnapshots";
+import { useBeatParams } from "../../story/story";
 import r from "./Results.module.css";
 
 const POLICIES: PolicyId[] = ["P0", "P1", "P2", "P3"];
@@ -30,7 +31,8 @@ const signed = (c: CI, d = 1) => `${c.mean >= 0 ? "+" : ""}${c.mean.toFixed(d)}`
 /** S10 — results & validation (SPEC §10). Two sheet tabs; every number computed from the snapshot. */
 export function Results() {
   const { data } = useSnapshots<{ results: Full; models: Models }>(["results", "models"]);
-  const initial = new URLSearchParams(window.location.search).get("tab") === "models" ? "models" : "fleet";
+  const beat = useBeatParams();
+  const initial = (beat.get("tab") ?? new URLSearchParams(window.location.search).get("tab")) === "models" ? "models" : "fleet";
   const [tab, setTab] = useState<"fleet" | "models">(initial);
   if (!data) return <div className={r.loading} />;
   const { results, models } = data;
