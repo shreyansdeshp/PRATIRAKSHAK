@@ -40,7 +40,7 @@ export function App() {
   return (
     <>
     <NavBar />
-    <Stage top={navShown ? NAV_H : 0}>
+    <Stage top={navShown ? NAV_H : 0} clear={route.screen === "hero"}>
       <ChartDefs />
       {loadError ? <SheetError detail={loadError} /> : (
         <Boundary key={`${route.screen}/${route.param ?? ""}`}><Screen screen={route.screen} param={route.param} /></Boundary>
