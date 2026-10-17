@@ -104,7 +104,7 @@ export function BaseView({ id }: { id: string }) {
                 <span className={v.stressN}>{(env[k] ?? 0).toFixed(2)}</span>
               </div>
             ))}
-            <p className={v.envNote}>Stress index 0–1 drives wear in the simulator. Climate: Open-Meteo / ERA5 normals. Dust and salt indices are illustrative <ProvenanceChip kind="ILLUSTRATIVE" /></p>
+            <p className={v.envNote}>Stress index 0–1 drives wear in the simulator. Climate: Open-Meteo / ERA5 normals. Dust and salt indices are illustrative.</p>
           </div>
         </section>
 

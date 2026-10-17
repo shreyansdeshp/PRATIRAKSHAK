@@ -48,3 +48,13 @@
 .right .visitList .mono { font-size: 17px; margin-right: 6px; }
 .right .part { font-size: 17px; padding: 4px 9px; }
 .right .part b { font-size: 19px; }
+
+/* larger environment panel */
+.env { gap: 6px; }
+.envHead { font-size: 24px; }
+.envNums { font-size: 20px; gap: 22px; }
+.envNums b { font-size: 34px; }
+.stress { grid-template-columns: 150px 1fr 56px; font-size: 20px; gap: 12px; }
+.stressBar { height: 14px; }
+.stressN { font-size: 19px; }
+.envNote { font-size: 17px; }
