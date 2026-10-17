@@ -1,0 +1,13 @@
+{
+ "system": "structure",
+ "provenance": "SIMULATED (validated against synthetic ground truth)",
+ "rows_train": 35811,
+ "rows_test": 11978,
+ "failures_observed": 100,
+ "rmse_days": 10.975,
+ "mae_days": 3.411,
+ "mae_days_when_rul_le_30": 28.801,
+ "picp80": 0.8239,
+ "mpiw80_days": 1.31,
+ "best_iteration": 76
+}

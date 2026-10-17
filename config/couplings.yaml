@@ -1,0 +1,48 @@
+# How shared drivers and other systems speed up each system's degradation (SPEC §7.3). SIMULATED design.
+# Daily damage rate multiplier for system s:
+#   m_s = (sorties / reference_sorties_per_day)^usage[s]      (life_days in systems.yaml are at the reference rate)
+#         × (1 + intensity[s] · (intensity − 0.5))
+#         × (1 + Σ_e environment[e][s] · stress_e)
+#         × (1 + Σ_src systems[src][s] · d_src)
+#         × (1 + hard_landings[s] · hard_landing_count)
+# Couplings act upstream in the generator; the aircraft-level risk combiner then assumes conditional independence.
+
+reference_sorties_per_day: 1.0   # fleet reference: a type flying 1.6 sorties/day wears faster than one flying 0.8
+
+usage:
+  hydraulics: 1.0
+  landing_gear: 1.2       # brakes/tyres wear per landing
+  flight_controls: 1.0
+  electrical: 0.8
+  avionics: 0.7
+  fuel: 1.0
+  structure: 1.0
+
+intensity:                # g-load / throttle profile of the type (0–1)
+  structure: 0.8          # repeated high-g → fatigue
+  flight_controls: 0.4
+  hydraulics: 0.3
+  landing_gear: 0.3
+
+environment:
+  heat:     {avionics: 0.6, electrical: 0.3, fuel: 0.2}
+  dust:     {avionics: 0.5, fuel: 0.6}
+  cold:     {hydraulics: 0.5, electrical: 0.5, landing_gear: 0.2}
+  humidity: {electrical: 0.3, structure: 0.4}
+  salinity: {structure: 1.2, landing_gear: 0.3}
+  altitude: {hydraulics: 0.3, electrical: 0.3}
+  wet:      {structure: 0.2}
+
+systems:                  # source damage → target rate (hydraulics → flight-control actuators, electrical → avionics, …)
+  hydraulics: {flight_controls: 1.0, landing_gear: 0.4}
+  electrical: {avionics: 0.8}
+  engines:    {fuel: 0.3, electrical: 0.2}
+
+hard_landings:            # per hard landing that day
+  landing_gear: 0.08
+  structure: 0.03
+hard_landing_rate_per_sortie: 0.04   # × (0.5 + intensity)
+
+engine_cycle_acceleration:  # C-MAPSS cycles consumed per sortie × (1 + Σ coef · stress): hot/dusty bases wear engines faster
+  dust: 0.30
+  heat: 0.15

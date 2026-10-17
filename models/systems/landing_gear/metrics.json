@@ -1,0 +1,13 @@
+{
+ "system": "landing_gear",
+ "provenance": "SIMULATED (validated against synthetic ground truth)",
+ "rows_train": 39156,
+ "rows_test": 12989,
+ "failures_observed": 1518,
+ "rmse_days": 16.181,
+ "mae_days": 11.84,
+ "mae_days_when_rul_le_30": 7.363,
+ "picp80": 0.8336,
+ "mpiw80_days": 41.85,
+ "best_iteration": 303
+}

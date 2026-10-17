@@ -1,0 +1,13 @@
+{
+ "system": "flight_controls",
+ "provenance": "SIMULATED (validated against synthetic ground truth)",
+ "rows_train": 37881,
+ "rows_test": 12687,
+ "failures_observed": 877,
+ "rmse_days": 16.106,
+ "mae_days": 11.118,
+ "mae_days_when_rul_le_30": 8.573,
+ "picp80": 0.821,
+ "mpiw80_days": 40.32,
+ "best_iteration": 188
+}

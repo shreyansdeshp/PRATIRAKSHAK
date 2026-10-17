@@ -1,0 +1,62 @@
+{
+ "source": "UCI ML Repository #447 (Helwig, Pignanelli, Schütze 2015), CC BY 4.0",
+ "provenance": "REAL",
+ "cycles": 2205,
+ "validation": {
+  "split": "30 % of 50-cycle blocks held out (seeded)",
+  "n_train": 1505,
+  "n_test": 700,
+  "targets": {
+   "pump_leak": {
+    "accuracy": 0.9214,
+    "macro_f1": 0.8767,
+    "classes": [
+     "0",
+     "1",
+     "2"
+    ]
+   },
+   "accumulator_bar": {
+    "accuracy": 0.5943,
+    "macro_f1": 0.5519,
+    "classes": [
+     "100",
+     "115",
+     "130",
+     "90"
+    ]
+   },
+   "cooler_pct": {
+    "accuracy": 0.9914,
+    "macro_f1": 0.9923,
+    "classes": [
+     "100",
+     "20",
+     "3"
+    ]
+   },
+   "valve_pct": {
+    "accuracy": 0.9071,
+    "macro_f1": 0.8835,
+    "classes": [
+     "100",
+     "73",
+     "80",
+     "90"
+    ]
+   }
+  }
+ },
+ "calibration": {
+  "pressure_rel_noise": 9.9e-05,
+  "pressure_rel_change_severe_leak": -0.004736,
+  "flow_rel_noise": 0.000765,
+  "flow_rel_change_severe_leak": -0.042289,
+  "temperature_noise_c": 0.0288,
+  "temperature_rise_cooler_failure_c": 20.0089,
+  "n_cycles_healthy": 49,
+  "n_cycles_severe_leak": 40,
+  "n_cycles_cooler_failure": 40,
+  "severe_state_as_damage": 0.8
+ }
+}

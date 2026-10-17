@@ -34,4 +34,28 @@ Where each world/simulation parameter comes from. Provenance tags follow SPEC §
 
 ## Typical system ranges (Stage 4)
 
-_To be filled in Stage 4, with public sources for: hydraulic systems ≈ 3000 psi, 28 V DC bus, 115 V / 400 Hz AC generation, tyre and strut pressures, brake wear limits._
+`config/systems.yaml` holds every sensor's healthy value, effect at failure, nonlinearity and noise.
+
+| Quantity | Value used | Basis |
+|---|---|---|
+| Hydraulic system pressure | 3000 psi healthy | Conventional military/transport aircraft hydraulic class. SAE AS5440 (formerly MIL-H-5440) covers 3000 psi systems. |
+| Hydraulic pressure noise / leak effect, fluid-temperature effect | from the UCI rig (see below) | `REAL-ANCHORED` |
+| DC bus / battery | 27.8 V healthy | 28 V DC aircraft power, MIL-STD-704 |
+| AC generation | 115 V (400 Hz) | 115/200 V 400 Hz aircraft AC power, MIL-STD-704 |
+| Tyre pressure, strut pressure, brake wear-pin length, actuator lag/backlash, fuel-pump pressure, radar power fade, structural indices | round illustrative numbers | `ILLUSTRATIVE`. No specific source; they only need to be plausible and consistent. |
+
+**Hydraulics anchor (UCI #447, real test-rig data):**
+- Pressure noise: relative cycle-to-cycle noise under identical conditions.
+- Leak effect: mean pressure change from no leak to severe internal pump leakage.
+- Temperature effect: rise in fluid temperature when the cooler is near failure.
+- Mapping: the "severe" rig state counts as damage 0.8. The rig's laboratory noise is below in-flight levels, so the configured noise is kept as a floor.
+- Values: `data/processed/anchors/hydraulics.json` and `reports/system_models.md`.
+
+**Not used:** the NASA PCoE Li-ion battery and electromechanical-actuator datasets (multi-hundred-MB MATLAB archives; not worth the time for this build). Battery and actuator degradation shapes use the gamma-process defaults instead and are labelled `SIMULATED`.
+
+## Fleet maintenance history (Stage 4)
+
+- `legacy_service_fraction` = 0.6. The fleet's existing practice before Pratirakshak is fixed-interval servicing of each system every 0.6 × its life at that tail's usage. The 60-day history before D+0 is simulated with this practice, and each system starts at a random phase of its cycle.
+- Result at D+0: 53 READY, 12 WATCH, 7 PULL out of 72.
+- Earlier settings left the history unmaintained and gave a fleet with a third of aircraft pulled. That was not plausible, so they were replaced. The predictions were accurate both times; only the world setup changed.
+- Usage is measured against a fleet reference of 1 sortie/day (`couplings.yaml`), so a trainer flying 1.6 sorties/day wears faster than a transport flying 0.8.

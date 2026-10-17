@@ -1,0 +1,13 @@
+{
+ "system": "fuel",
+ "provenance": "SIMULATED (validated against synthetic ground truth)",
+ "rows_train": 37884,
+ "rows_test": 12605,
+ "failures_observed": 979,
+ "rmse_days": 15.916,
+ "mae_days": 11.228,
+ "mae_days_when_rul_le_30": 7.582,
+ "picp80": 0.8071,
+ "mpiw80_days": 38.97,
+ "best_iteration": 191
+}

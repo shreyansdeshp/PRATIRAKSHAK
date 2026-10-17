@@ -3,10 +3,10 @@
 > Running state of the build. Update at the **start** and **end** of every stage and whenever you stop. A fresh Claude Code session must be able to resume from this file + `SPEC.md` alone.
 
 ## Status
-- **Current stage:** 4 — Other systems + aircraft combiner (next)
-- **Last completed stage:** 3 — Engine RUL models
-- **Last commit:** see `git log -1` (Stage 3: engine RUL models)
-- **Date/time of last update:** 2026-10-17 06:05
+- **Current stage:** 5 — Intelligence (next)
+- **Last completed stage:** 4 — Other systems + aircraft combiner
+- **Last commit:** see `git log -1` (Stage 4: synthetic systems, hydraulics anchor, combiner, D+0 fleet)
+- **Date/time of last update:** 2026-10-17 06:50
 - **Demo seed:** not chosen yet (Stage 7)
 - **Global seed:** 26249
 - **Remote:** `https://github.com/shreyansdeshp/PRATIRAKSHAK.git` (branch `main`); commits authored as `shreyansdeshp <sndeshpande_b25@it.vjti.ac.in>` (repo-local git config). Push after every stage commit.
@@ -16,7 +16,7 @@
 - [x] 1 Data ingest & verification
 - [x] 2 World generator
 - [x] 3 Engine RUL models
-- [ ] 4 Other systems + aircraft combiner
+- [x] 4 Other systems + aircraft combiner
 - [ ] 5 Intelligence (trust, explanations, mission fit)
 - [ ] 6 Decision, spares, scheduling
 - [ ] 7 Simulation & results
@@ -29,7 +29,16 @@
 - [ ] 14 Polish & delivery
 
 ## This stage's plan (10–20 lines, written before coding)
-**Stage 3 — Engine RUL models** (one training run; accuracy only needs to be reasonable — rule 15)
+**Stage 4 — Other systems + aircraft combiner**
+1. `config/systems.yaml`: per system life (days at nominal use), gamma-process variability, inception point + acceleration, maintenance restore, sensors (unit, healthy value, effect at failure, nonlinearity, noise, environment terms) per SPEC §7.2; sensor-fault hazards (stuck/drift/dropout/spike); window 14 days, RUL cap 150 days, risk watch/pull limits. `config/couplings.yaml`: usage, intensity, environment, system→system and hard-landing couplings (§7.3), plus engine-cycle acceleration from dust/heat.
+2. `synth/anchor_hydraulic.py` (**REAL-ANCHORED**): UCI hydraulic data (CC BY 4.0, 73 MB, gitignored) → cycle features; LightGBM classifiers for pump leakage / accumulator / cooler on a block split (no temporal leak), real validation; extract pressure noise and severe-leak pressure drop and cooler temperature effect → calibrate synthetic hydraulics. NASA battery/actuator data: skipped (size/format), published ranges instead, marked SIMULATED.
+3. `synth/model.py`: vectorised forward model — drivers → damage d (gamma increments, inception, accel, couplings) → observed daily sensors with injected faults (ground-truth fault log) → failure when d ≥ 1; `service()` reset with small infant-failure probability. Same model is reused by the Stage 7 simulator and the Stage 8 twin.
+4. `synth/train.py`: 240 synthetic airframes × 900 days (renewal on failure, random base climate / type usage) → per-system LightGBM RUL (14-day rolling features + days since service + usage/stress), split by airframe 60/20/20, abs-residual conformal (reuse `models/conformal.py`), metrics vs synthetic truth (SIMULATED).
+5. `decide/combine.py`: health 0–100, `R = 1 − Π(1 − p_i)`, readiness gating (critical systems incl. role-dependent avionics), limiting system, criticality-weighted health, task bundling within a tolerance window.
+6. `synth/__main__.py`: fleet state at D+0 (60-day history per tail from its base climate + usage; engines from committed replay predictions at their start cycle, cycles → days via usage) → `data/processed/state/`.
+7. Checks: one estimate-vs-synthetic-truth table per system; unit test for `R` and gating. Commit + push.
+
+**Stage 3 — Engine RUL models** (done) (one training run; accuracy only needs to be reasonable — rule 15)
 1. `config/models.yaml`: window 30, R_max 125, inputs = 14 sensors (12 headline + NRf/NRc), quantiles {.05,.1,.15,.2,.25,.5,.75,.8,.85,.9,.95}, H = 20 cycles, θ = 0.3, ensemble seeds 3 (`--fast`: 1 seed, fewer epochs).
 2. `models/engine_data.py`: KMeans(k=6) on op settings (FD002/FD004) + per-condition z-score, both **fit on train units only**; capped RUL; left-padded windows; val calibration windows = 10 seeded truncation points per val unit (mimics the test construction); test = last window per engine. Healthy baseline (RUL > 125 rows) per sensor stored for explanations.
 3. Baseline A: Ridge on last-window summary (last/mean/slope + cycle). Baseline B: LightGBM on rolling features (last/mean/std/slope/delta + cycle), early stopping on val.
@@ -70,6 +79,12 @@
 9. Check: fresh venv `pip install` + `npm ci` + Playwright render test; paste output; commit.
 
 ## What I did (this session)
+**Stage 4**
+- `config/systems.yaml`, `config/couplings.yaml`; `synth/model.py` (gamma-process damage, couplings, sensor model, injected stuck/drift/dropout/spike faults with ground-truth log, `service()`), `synth/train.py` (240 synthetic airframes × 900 days, per-system LightGBM + abs-residual conformal, `legacy_intervals()`), `synth/anchor_hydraulic.py`, `synth/fleet.py` (D+0 state), `decide/combine.py` + `tests/test_combine.py`.
+- **Hydraulics REAL anchor**: UCI #447 downloaded (73 MB, gitignored). Block-split validation: pump leak 0.921 acc, accumulator 0.594, cooler 0.991, valve 0.907 (paper also calls accumulator the hard target). Rig calibration: severe leak −0.47 % pressure, cooler failure +20.0 °C fluid temp → synthetic hydraulics effects; rig noise is lab-grade so configured noise is the floor. My first version clamped the pressure effect to ≥ 2 % — removed, the data value is used.
+- Fleet-plausibility fixes (world setup, not model tuning; predictions matched truth throughout): (1) usage is relative to a fleet reference of 1 sortie/day, not the tail's own rate; (2) the D−60…D0 history runs the fleet's existing fixed-interval practice (`legacy_service_fraction` 0.6, random phase). Before: 33 PULL / 72; after: **53 READY · 12 WATCH · 7 PULL**.
+- Outputs: `data/processed/state/{d0_systems,d0_aircraft,sensor_history}.parquet`, `d0_latent.json` (truth, for the simulator), `data/processed/anchors/hydraulics.json`, `models/systems/<system>/{conformal,feature_spec,metrics}.json` (+ gitignored `lgbm.txt`), `reports/system_models.md`.
+
 **Stage 3**
 - `models/engine_data.py` (Normaliser: KMeans k=6 for FD002/FD004 + per-condition z-score, fitted on train units; left-padded windows; 10 seeded truncation windows per val unit for calibration), `engine_seq.py` (CNN-GRU, 11-quantile pinball head, cycle channel), `conformal.py` (CQR, abs-residual conformal, `p_fail_within` = piecewise-linear CDF through the quantiles with split-normal tails), `engine.py` (orchestration), `__main__.py` (reports).
 - One `--fast` smoke run on FD001 to debug the pipeline, then **one full run** (3-seed ensemble, ~34 min CPU total).
@@ -97,6 +112,33 @@
 - Remote set to the user's GitHub repo; local `main` rebased onto its existing 2 commits (README only); README expanded.
 
 ## Acceptance checks — **real output pasted**
+**Stage 4** — Check (1): estimate-vs-synthetic-truth error per system (SIMULATED), from `reports/system_models.md`.
+```
+| System | Failures simulated | Test rows | RMSE (days) | MAE (days) | MAE when RUL ≤ 30 d | PICP 80 % | MPIW 80 % (days) |
+| hydraulics | 854 | 12,561 | 15.60 | 10.22 | 8.018 | 0.797 | 34.7 |
+| landing_gear | 1518 | 12,989 | 16.18 | 11.84 | 7.363 | 0.834 | 41.9 |
+| flight_controls | 877 | 12,687 | 16.11 | 11.12 | 8.573 | 0.821 | 40.3 |
+| electrical | 1023 | 12,798 | 16.54 | 11.65 | 8.141 | 0.818 | 40.3 |
+| avionics | 1270 | 12,846 | 19.45 | 14.26 | 7.577 | 0.810 | 46.6 |
+| fuel | 979 | 12,605 | 15.92 | 11.23 | 7.582 | 0.807 | 39.0 |
+| structure | 100 | 11,978 | 10.97 | 3.41 | 28.801 | 0.824 | 1.3 |   ← rare failures; low MAE = mostly capped rows (caveat in report)
+```
+Check (2): unit tests for `R = 1 − Π(1−p)` and readiness gating.
+```
+> python -m pytest -q
+................                                                         [100%]   (16 passed: 7 combiner + 9 earlier)
+```
+D+0 fleet (python -m pratirakshak.synth --skip-train):
+```
+status  PULL  READY  WATCH
+ARV        2     16      2
+HIM        1     12      2
+KAV        3     10      6
+SAH        1     15      2
+Limiting systems: {'electrical': 21, 'avionics': 15, 'fuel': 14, 'landing_gear': 13, 'flight_controls': 7, 'hydraulics': 2}
+Weighted health: mean 77.1, min 50.7
+```
+
 **Stage 3** — Check (1): one metrics table for all four subsets from a single training run.
 ```
 > python -m pratirakshak.models
@@ -227,6 +269,12 @@ Tests  1 passed (1)
 | 2026-10-17 | `P(RUL ≤ H)` = linear CDF through the 11 conformal quantiles + split-normal tails; H = 20 cycles, θ = 0.3 for the alarm report | Simple, monotone, uses the calibrated quantiles directly | Yes (`config/models.yaml`) |
 | 2026-10-17 | Per-decision drivers = occlusion of each sensor to its healthy baseline on the **serving** model | Explanation comes from the model that makes the decision; SHAP (LightGBM) kept as global cross-check | Yes |
 | 2026-10-17 | `model.pt`/`lgbm.txt` gitignored; replay predictions + metrics committed | Downstream stages run without retraining; weights regenerate with `./tasks.ps1 train` | Yes |
+| 2026-10-17 | Non-engine systems: damage d (failure at 1), gamma process with inception/acceleration; daily observations; p_fail window 14 days; RUL cap 150 days | Simple, documented, reusable by sim + twin | Yes (`config/systems.yaml`) |
+| 2026-10-17 | Usage multiplier relative to fleet reference 1 sortie/day | Usage must matter across types (SPEC 2× usage counterfactual) | Yes |
+| 2026-10-17 | Pre-D+0 history uses the fleet's existing fixed-interval practice (0.6 × usage-adjusted life, random phase) | Unmaintained history gave an implausible 46 % PULL fleet; this is also the P1 baseline logic for Stage 7 | Yes |
+| 2026-10-17 | Engine "system" for a 2-engine Vahak: p = 1 − Π(1 − p_engine), RUL/health of the worse engine | Either engine failing grounds the aircraft | Yes |
+| 2026-10-17 | Health = 100 · clip(RUL_p50 / ref) (ref 125 cycles engines, 150 days systems) | Monotone, explainable; limiting system shown beside it | Yes |
+| 2026-10-17 | Battery/actuator NASA data not used | Large MATLAB archives; time better spent on front-end; labelled SIMULATED | Yes |
 
 ## Defaults used because the user hadn't specified (SPEC §3.4)
 - Base names / aircraft names / fleet mix: SPEC defaults (to be written to `config/world.yaml` in Stage 2).
@@ -247,7 +295,7 @@ Tests  1 passed (1)
 | Lifetimes (train, cycles) | ≈130–360 (SPEC §3.3) | FD001 128–362, FD002 128–378, FD003 145–525, FD004 128–543 | FD003/FD004 longer tail |
 | Shortest test sequence | some < 30 | FD001 31, FD002 21, FD003 38, FD004 19 | left-pad needed for FD002/FD004 |
 | Tile source availability & licence | — | | |
-| UCI hydraulic / NASA battery / actuator data availability & licence | — | | |
+| UCI hydraulic / NASA battery / actuator data availability & licence | — | UCI #447: available, **CC BY 4.0**, 73 MB zip (sha256 24128aad…79af1f2), 2,205 cycles, 17 sensors — matches docs. NASA battery/actuator: not pursued | UCI page + documentation.txt, 2026-10-17 |
 | Open-Meteo terms | free, keyless | Non-commercial free tier: 600/min, 5,000/h, 10,000/day; data CC BY 4.0; cite Open-Meteo + ERA5/ERA5-Land + Copernicus line | open-meteo.com/en/terms + historical-weather-api docs, 2026-10-17. Daily `relative_humidity_2m_mean` confirmed working by a live call |
 | OSRM demo server policy | polite use | ≤ 1 request/s, reasonable non-commercial use, no uptime guarantee; data © OSM (ODbL) | GitHub wiki "Demo-server", 2026-10-17. 28 requests sent once at 1.1 s spacing, all `Ok` |
 | Base elevations | SPEC ~600/220/3300/100 | DEM: 693 / 245 / 3623 / 90 m | HIM differs because of the nudge into the Indus valley |
@@ -259,6 +307,10 @@ Tests  1 passed (1)
 | 3 | 2026-10-17 | 80 % PICP (serving) FD001/2/3/4 | 0.810 / 0.795 / 0.640 / 0.802 | FD003 flagged (< 0.75) |
 | 3 | 2026-10-17 | Replay alarm (H=20, θ=0.3) | 142 engines, 0 missed, 0 premature, median lead 22–24.5 cycles | held-out engines |
 | 3 | 2026-10-17 | CNN-GRU vs LightGBM RMSE | worse by 1.5–18.5 % | main not served |
+| 4 | 2026-10-17 | Non-engine RUL RMSE (days, cap 150) | 15.6–19.5 (structure 11.0, caveated) | SIMULATED truth |
+| 4 | 2026-10-17 | Non-engine 80 % PICP | 0.797–0.834 | SIMULATED truth |
+| 4 | 2026-10-17 | UCI hydraulic real validation (acc) | pump 0.921 · accumulator 0.594 · cooler 0.991 · valve 0.907 | REAL, block split |
+| 4 | 2026-10-17 | D+0 fleet | 53 READY · 12 WATCH · 7 PULL | after world fixes |
 
 ## Open issues / known defects
 - [ ] **FD003 interval under-covers** (80 % nominal → 64 % on test). Likely cause: only 16 val units / 160 calibration windows, and FD003's long lifetime tail (up to 525 cycles) makes val and test truncations less exchangeable. Not tuned (rule 15). Effect: Shikshak engine risk is somewhat over-confident. Options if time allows: calibrate on val ∪ part of replay, or widen with a per-subset factor, and say so. Shown on the Results screen as flagged.
@@ -268,11 +320,10 @@ Tests  1 passed (1)
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
 ## Next steps (ordered, concrete)
-1. Stage 4: write plan here. `config/couplings.yaml` (driver → system matrix, SPEC §7.3). `synth/`: per-aircraft per-day drivers (sorties from missions, intensity, environment, age), latent health per non-engine system (gamma process with inception point, drift × drivers × couplings), sensor model with faults (stuck/drift/dropout/spike), ground-truth failure day; maintenance reset effect.
-2. Engines: advance each aircraft's replay unit by sorties ÷ k cycles per day; read the committed `replay_predictions.parquet` for RUL quantiles/`P(fail)`.
-3. Real anchors: check UCI hydraulic (licence, size) and NASA battery data; use them only if quick, otherwise published ranges, marked SIMULATED (rule: no pretending).
-4. Non-engine RUL: one LightGBM per system on rolling features + abs-residual conformal (reuse `models/conformal.py`), validated against synthetic truth.
-5. Combiner: health 0–100, `R = 1 − Π(1 − p_i)`, readiness gating + limiting system, weighted health, bundling window. Checks: per-system estimate-vs-truth error table (SIMULATED); unit test for `R` and gating.
+1. Stage 5: write plan here. Sensor trust (`intelligence/trust.py`): per-sensor score 0–100 from stuck-at / variance collapse / dropout rate / out-of-range / residual vs redundant partner (hyd A↔B, gen V↔bus ripple, Nf↔NRf, Nc↔NRc, P30↔Ps30); fault-vs-degradation rule (inconsistency with partner vs consistent monotone drift). Fault-injection harness on synthetic airframes (ground-truth fault log exists) → one detection rate + false-alarm rate.
+2. Explanations (`intelligence/explain.py`): top-3 drivers per decision using only the 12 headline engine sensors (engine occlusion from Stage 3) and system sensors, in plain language with units vs healthy baseline ("HPC outlet temperature +18 °R above healthy over the last 40 cycles"); confidence = interval width + ensemble agreement + trust.
+3. Global sensor-importance ranking (sensor → part → spare → decision graph data). Mission fit: `P(complete) = Π(1 − P(fail_i within mission length))`, ranked shortlist with exclusion reasons.
+4. Check: harness prints detection + false-alarm rate once; explanation strings use only headline sensors with plain names.
 
 ## How to run (keep current)
 ```

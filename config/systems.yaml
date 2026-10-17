@@ -1,0 +1,120 @@
+# Seven non-engine systems (SPEC §7). SIMULATED (hydraulics REAL-ANCHORED where marked `anchor:`).
+# Damage d grows from 0 (new) to 1 (failure). Each sensor reads: healthy + effect · d^power + Σ env_coef · stress + noise.
+# Values are plausible engineering ranges for illustration (sources in docs/PARAMETER_SOURCES.md), not any real airframe.
+
+window_days: 14          # "next maintenance opportunity": p_i = P(failure within window)
+rul_cap_days: 150        # RUL targets capped (piecewise-linear), like the engine model
+feature_window_days: 14  # rolling window for non-engine RUL features
+history_days: 60         # sensor history kept per tail at D+0 (sparklines, trust scoring)
+legacy_service_fraction: 0.6   # the fleet's EXISTING practice before Pratirakshak: fixed-interval service of each system
+                               # every 0.6 × its life at that tail's usage. D+0 history (D−60…D0) is simulated with it;
+                               # each system starts at a random phase of that cycle. Structure damage follows airframe hours.
+risk:
+  watch: 0.10            # any critical p_i ≥ watch → WATCH ▲
+  pull: 0.30             # any critical p_i ≥ pull  → PULL ■ (the decision rule's θ default; Stage 6 may vary by mission)
+health_ref:              # health = 100 · clip(RUL_p50 / ref, 0, 1)
+  engines_cycles: 125
+  systems_days: 150
+
+sensor_faults:           # injected so sensor-trust scoring (Stage 5) has something real to catch
+  hazard_per_sensor_day: 0.0015
+  types: {stuck: 0.30, drift: 0.30, dropout: 0.25, spike: 0.15}
+  mean_duration_days: 12
+  drift_per_day_frac_of_effect: 0.04
+  spike_magnitude_frac_of_effect: 0.8
+
+systems:
+  hydraulics:
+    life_days: 420
+    variability: 40          # gamma-process shape per unit of mean damage: higher = more predictable
+    inception: 0.35          # damage beyond which degradation accelerates
+    acceleration: 1.5
+    restore: 0.95            # fraction of damage removed by a service (LRU replacement)
+    infant_failure_p: 0.01
+    lru: [HYD-PMP, HYD-ACC, HYD-VLV, HYD-CLR, HYD-FLT]
+    sensors:
+      - {id: hyd_press_a, name: System A pressure, unit: psi, healthy: 3000, effect: -420, power: 1.6, noise: 12, env: {cold: -30}, anchor: pressure}
+      - {id: hyd_press_b, name: System B pressure, unit: psi, healthy: 3000, effect: -400, power: 1.6, noise: 12, env: {cold: -30}, anchor: pressure}
+      - {id: hyd_fluid_temp, name: Fluid temperature, unit: °C, healthy: 48, effect: 14, power: 1.2, noise: 1.2, env: {heat: 12, cold: -14}, anchor: temperature}
+      - {id: hyd_fluid_level, name: Fluid level, unit: "%", healthy: 98, effect: -22, power: 2.0, noise: 0.6}
+      - {id: hyd_case_drain, name: Pump case-drain flow, unit: L/min, healthy: 1.1, effect: 2.6, power: 2.2, noise: 0.08, anchor: flow}
+  landing_gear:
+    life_days: 260
+    variability: 30
+    inception: 0.0           # brake wear is gradual from day one
+    acceleration: 0.4
+    restore: 0.97
+    infant_failure_p: 0.005
+    lru: [LG-BRK, LG-TYR, LG-STR, LG-ACT]
+    sensors:
+      - {id: lg_brake_pin, name: Brake wear-pin length, unit: mm, healthy: 18, effect: -16, power: 1.0, noise: 0.15}
+      - {id: lg_brake_temp, name: Brake temperature, unit: °C, healthy: 140, effect: 90, power: 1.5, noise: 9, env: {heat: 25}}
+      - {id: lg_strut_press, name: Strut pressure, unit: bar, healthy: 105, effect: -35, power: 1.8, noise: 1.5, env: {cold: -6}}
+      - {id: lg_tyre_press, name: Tyre pressure, unit: bar, healthy: 14.5, effect: -2.5, power: 1.5, noise: 0.15, env: {cold: -0.6}}
+      - {id: lg_hard_landings, name: Hard-landing count (day), unit: count, kind: hard_landings}
+  flight_controls:
+    life_days: 520
+    variability: 35
+    inception: 0.4
+    acceleration: 1.8
+    restore: 0.95
+    infant_failure_p: 0.01
+    lru: [FC-ACT, FC-SRV, FC-FCC, FC-LVD]
+    sensors:
+      - {id: fc_lag, name: Actuator response lag, unit: ms, healthy: 22, effect: 38, power: 1.7, noise: 1.5, env: {cold: 6}}
+      - {id: fc_backlash, name: Backlash, unit: mrad, healthy: 0.8, effect: 2.4, power: 1.4, noise: 0.08}
+      - {id: fc_pos_error, name: Position error, unit: "%", healthy: 0.4, effect: 2.1, power: 1.8, noise: 0.07}
+      - {id: fc_servo_current, name: Servo current, unit: A, healthy: 1.8, effect: 1.1, power: 1.3, noise: 0.06}
+  electrical:
+    life_days: 360
+    variability: 30
+    inception: 0.45
+    acceleration: 2.0
+    restore: 0.95
+    infant_failure_p: 0.01
+    lru: [EL-GEN, EL-BAT, EL-TRU, EL-GCU]
+    sensors:
+      - {id: el_gen_v, name: Generator output, unit: V AC, healthy: 115, effect: -9, power: 2.0, noise: 0.4}
+      - {id: el_gen_temp, name: Generator temperature, unit: °C, healthy: 85, effect: 35, power: 1.4, noise: 2.0, env: {heat: 15}}
+      - {id: el_batt_v, name: Battery voltage, unit: V DC, healthy: 27.8, effect: -3.6, power: 1.6, noise: 0.08, env: {cold: -1.2}}
+      - {id: el_ripple, name: Bus ripple, unit: mV, healthy: 140, effect: 520, power: 2.0, noise: 15}
+      - {id: el_load, name: Electrical load, unit: "%", healthy: 55, effect: 8, power: 1.0, noise: 4}
+  avionics:
+    life_days: 330
+    variability: 25
+    inception: 0.5
+    acceleration: 2.5
+    restore: 0.97
+    infant_failure_p: 0.02
+    lru: [AV-TXR, AV-RXP, AV-MC, AV-CLF, AV-INS]
+    sensors:
+      - {id: av_tx_power, name: Transmitter power (rel.), unit: dB, healthy: 0, effect: -3.5, power: 1.8, noise: 0.15}
+      - {id: av_bit_faults, name: BIT fault count (day), unit: count, kind: bit_faults}
+      - {id: av_lru_temp, name: LRU temperature, unit: °C, healthy: 52, effect: 24, power: 1.5, noise: 1.5, env: {heat: 14, dust: 8}}
+      - {id: av_airflow, name: Cooling airflow, unit: "%", healthy: 100, effect: -35, power: 1.6, noise: 1.5, env: {dust: -10}}
+  fuel:
+    life_days: 460
+    variability: 35
+    inception: 0.3
+    acceleration: 1.6
+    restore: 0.95
+    infant_failure_p: 0.01
+    lru: [FU-PMP, FU-FLT, FU-FCU, FU-QTY]
+    sensors:
+      - {id: fu_pump_press, name: Boost-pump pressure, unit: kPa, healthy: 340, effect: -110, power: 1.7, noise: 5}
+      - {id: fu_imbalance, name: Flow imbalance, unit: "%", healthy: 1.0, effect: 6.5, power: 1.8, noise: 0.35}
+      - {id: fu_filter_dp, name: Filter ΔP, unit: kPa, healthy: 18, effect: 52, power: 2.2, noise: 1.2, env: {dust: 6}}
+      - {id: fu_tank_temp, name: Tank temperature, unit: °C, healthy: 30, effect: 4, power: 1.0, noise: 1.5, env: {heat: 14, cold: -12}}
+  structure:
+    life_days: 3200          # long horizon; initial damage follows airframe hours / design life
+    variability: 60
+    inception: 0.6
+    acceleration: 1.2
+    restore: 0.35            # structural repair / NDT + treatment restores only part of the damage
+    infant_failure_p: 0.0
+    lru: [ST-PNL, ST-NDT, ST-CRP]
+    sensors:
+      - {id: st_fatigue, name: Cumulative fatigue index, unit: idx, healthy: 0.05, effect: 0.95, power: 1.0, noise: 0.005}
+      - {id: st_corrosion, name: Corrosion index, unit: idx, healthy: 0.02, effect: 0.6, power: 1.2, noise: 0.01, env: {salinity: 0.10, humidity: 0.05}}
+      - {id: st_vibration, name: Vibration level, unit: g, healthy: 0.35, effect: 0.5, power: 2.2, noise: 0.03}
+      - {id: st_crack_flag, name: Crack-indicator flag, unit: flag, kind: crack_flag}

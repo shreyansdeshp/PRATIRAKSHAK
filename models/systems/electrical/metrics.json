@@ -1,0 +1,13 @@
+{
+ "system": "electrical",
+ "provenance": "SIMULATED (validated against synthetic ground truth)",
+ "rows_train": 38198,
+ "rows_test": 12798,
+ "failures_observed": 1023,
+ "rmse_days": 16.544,
+ "mae_days": 11.653,
+ "mae_days_when_rul_le_30": 8.141,
+ "picp80": 0.8178,
+ "mpiw80_days": 40.26,
+ "best_iteration": 161
+}

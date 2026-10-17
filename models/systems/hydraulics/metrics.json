@@ -1,0 +1,13 @@
+{
+ "system": "hydraulics",
+ "provenance": "SIMULATED (validated against synthetic ground truth)",
+ "rows_train": 37820,
+ "rows_test": 12561,
+ "failures_observed": 854,
+ "rmse_days": 15.597,
+ "mae_days": 10.22,
+ "mae_days_when_rul_le_30": 8.018,
+ "picp80": 0.7971,
+ "mpiw80_days": 34.68,
+ "best_iteration": 175
+}

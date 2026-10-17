@@ -1,0 +1,41 @@
+{
+ "features": [
+  "fu_pump_press__last",
+  "fu_imbalance__last",
+  "fu_filter_dp__last",
+  "fu_tank_temp__last",
+  "fu_pump_press__mean",
+  "fu_imbalance__mean",
+  "fu_filter_dp__mean",
+  "fu_tank_temp__mean",
+  "fu_pump_press__slope",
+  "fu_imbalance__slope",
+  "fu_filter_dp__slope",
+  "fu_tank_temp__slope",
+  "days_since_service",
+  "usage_ratio_14d",
+  "stress_heat",
+  "stress_cold",
+  "stress_humidity",
+  "stress_wet",
+  "stress_dust",
+  "stress_salinity",
+  "stress_altitude",
+  "intensity"
+ ],
+ "window_days": 14,
+ "cap_days": 150,
+ "quantiles": [
+  0.05,
+  0.1,
+  0.15,
+  0.2,
+  0.25,
+  0.5,
+  0.75,
+  0.8,
+  0.85,
+  0.9,
+  0.95
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "system": "avionics",
+ "provenance": "SIMULATED (validated against synthetic ground truth)",
+ "rows_train": 38131,
+ "rows_test": 12846,
+ "failures_observed": 1270,
+ "rmse_days": 19.448,
+ "mae_days": 14.258,
+ "mae_days_when_rul_le_30": 7.577,
+ "picp80": 0.8098,
+ "mpiw80_days": 46.64,
+ "best_iteration": 238
+}
