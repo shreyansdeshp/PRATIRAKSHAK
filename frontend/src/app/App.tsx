@@ -2,6 +2,8 @@ import { ChartDefs } from "../charts/kit";
 import { CornerTag, RegistrationMarks } from "../components/primitives";
 import { DevData } from "../screens/dev/DevData";
 import { Primitives } from "../screens/dev/Primitives";
+import { BaseView } from "../screens/base/BaseView";
+import { Fleet } from "../screens/fleet/Fleet";
 import { Hero } from "../screens/hero/Hero";
 import { Stage } from "../stage/Stage";
 import { useApp } from "../store/app";
@@ -17,15 +19,17 @@ export function App() {
   return (
     <Stage>
       <ChartDefs />
-      <Screen screen={route.screen} />
+      <Screen screen={route.screen} param={route.param} />
       {story && <StoryController />}
     </Stage>
   );
 }
 
-function Screen({ screen }: { screen: string }) {
+function Screen({ screen, param }: { screen: string; param: string | null }) {
   switch (screen) {
     case "hero": return <Hero />;
+    case "fleet": return <Fleet />;
+    case "base": return <BaseView id={param ?? "HIM"} />;
     case "dev-primitives": return <Primitives />;
     default: return <Placeholder name={screen} />;
   }
