@@ -36,9 +36,9 @@ export function BaseView({ id }: { id: string }) {
   const { world, state, plan } = data;
   const all = state.aircraft.filter((a) => a.base === base.id)
     .sort((a, b) => ORDER[a.status] - ORDER[b.status] || a.weighted_health - b.weighted_health);
-  // show 10 varied rows: worst of each aircraft type, then one per distinct next action, then the rest by priority
+  // show 15 varied rows: worst of each aircraft type, then one per distinct next action, then the rest by priority
   const picked: typeof all = [];
-  const take = (a?: (typeof all)[number]) => { if (a && !picked.includes(a) && picked.length < 10) picked.push(a); };
+  const take = (a?: (typeof all)[number]) => { if (a && !picked.includes(a) && picked.length < 15) picked.push(a); };
   new Set(all.map((a) => a.type)).forEach((ty) => take(all.find((a) => a.type === ty)));
   new Set(all.map((a) => a.action)).forEach((ac) => take(all.find((a) => a.action === ac)));
   all.forEach(take);
