@@ -116,6 +116,7 @@ export function BaseView({ id }: { id: string }) {
             <StatTile label="Watch" value={<span className={v.glyphNum}><StatusGlyph status="WATCH" size={16} />{r.watch}</span>} />
             <StatTile label="Pull" value={<span className={v.glyphNum}><StatusGlyph status="PULL" size={16} />{r.pull}</span>} />
           </div>
+          <h2 className={v.h2}>Aircraft in fleet</h2>
           <div className={v.strips}>
             {tails.map((a) => (
               <FlightStrip key={a.tail} compact status={a.status} callsign={a.tail} sub={typeName[a.type]} onClick={() => navigate(`/aircraft/${a.tail}`)}
