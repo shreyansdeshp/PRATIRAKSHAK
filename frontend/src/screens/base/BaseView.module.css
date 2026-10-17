@@ -40,3 +40,11 @@
 .stock { display: flex; flex-wrap: wrap; gap: 5px; }
 .part { font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--fold); background: var(--paper-hi); border-radius: var(--r-1); padding: 2px 6px; display: inline-flex; gap: 5px; }
 .part b { font-weight: 600; color: var(--ink); }
+
+/* right column: larger, judge-friendly */
+.right .h2 { font-size: 20px; }
+.right .small { font-size: 17px; }
+.right .visitList li { font-size: 20px; line-height: 1.5; }
+.right .visitList .mono { font-size: 17px; margin-right: 6px; }
+.right .part { font-size: 17px; padding: 4px 9px; }
+.right .part b { font-size: 19px; }

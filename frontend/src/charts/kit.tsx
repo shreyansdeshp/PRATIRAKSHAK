@@ -219,9 +219,9 @@ export function FanChart({ x, p10, p50, p90, width = 520, height = 200, color = 
 export interface Block { start: number; end: number; kind: "planned" | "unplanned"; label?: string }
 
 /** Gantt-like strips: planned work = solid blocks, unplanned = hatched; mission-impact markers as small squares. */
-export function TimelineStrips({ rows, days, width = 900, rowHeight = 26, labelWidth = 150 }:
+export function TimelineStrips({ rows, days, width = 900, rowHeight = 26, labelWidth = 150, dayLabel = (d: number) => `D+${d}` }:
   { rows: { label: string; sub?: string; blocks: Block[]; markers?: { day: number; label: string }[] }[]; days: number;
-    width?: number; rowHeight?: number; labelWidth?: number }) {
+    width?: number; rowHeight?: number; labelWidth?: number; dayLabel?: (d: number) => string }) {
   const m = { t: 18, r: 12 };
   const xs = scaleLinear().domain([0, days]).range([labelWidth, width - m.r]);
   const height = m.t + rows.length * rowHeight + 6;
@@ -232,7 +232,7 @@ export function TimelineStrips({ rows, days, width = 900, rowHeight = 26, labelW
         {xs.ticks(9).map((t) => (
           <g key={t}>
             <line x1={xs(t)} x2={xs(t)} y1={m.t - 4} y2={height - 6} stroke={GRID} strokeWidth={1} shapeRendering="crispEdges" />
-            <text x={xs(t)} y={m.t - 7} textAnchor="middle" className={k.tick}>D+{t}</text>
+            <text x={xs(t)} y={m.t - 7} textAnchor="middle" className={k.tick}>{dayLabel(t)}</text>
           </g>
         ))}
         {rows.map((r, i) => {

@@ -123,27 +123,27 @@ export function BaseView({ id }: { id: string }) {
         </section>
 
         <section className={v.right}>
-          <h2 className={v.h2}>Hangar slots · next 14 days</h2>
-          <p className={v.small}>{bays} bays · CP-SAT plan at D+0 (solid = planned work; ▣ = aircraft already pulled)</p>
-          <TimelineStrips days={14} width={400} labelWidth={58} rowHeight={30}
+          <h2 className={v.h2}>Planned hangar work</h2>
+          <p className={v.small}>Next 14 days · {bays} bays · each bar is an aircraft being worked on · ▣ = already pulled from flying</p>
+          <TimelineStrips days={14} width={400} labelWidth={58} rowHeight={34} dayLabel={(d) => (d === 0 ? "Today" : `${d}`)}
             rows={Array.from({ length: bays }, (_, bay) => ({
               label: `Bay ${bay + 1}`,
               blocks: visits.filter((x) => x.bay === bay).map((x) => ({ start: x.start!, end: Math.min(14, x.end!), kind: "planned" as const, label: `${x.tail} · ${x.tasks.map((t) => t.lru).join(", ")}` })),
             }))} />
           <ul className={v.visitList}>
-            {visits.slice(0, 6).map((x) => (
-              <li key={x.id}><span className={v.mono}>D+{x.start}</span> {x.tail} {x.pulled ? "▣" : ""} <em>{x.tasks.map((t) => SYS[t.system]).join(" + ")}</em></li>
+            {[...visits].sort((a, b) => a.start! - b.start!).slice(0, 6).map((x) => (
+              <li key={x.id}><span className={v.mono}>{x.start === 0 ? "Today" : `Day ${x.start}`}</span> <b>{x.tail}</b> {x.pulled ? "▣" : ""} <em>{x.tasks.map((t) => SYS[t.system]).join(" + ")}</em></li>
             ))}
             {visits.length === 0 && <li>No hangar work planned in the next 14 days.</li>}
           </ul>
-          <h2 className={v.h2}>Spares on hand</h2>
+          <h2 className={v.h2}>Spares at this base</h2>
           <div className={v.stock}>
             {stock.filter((s) => s.qty > 0).sort((a, b) => b.qty - a.qty).map((s) => (
               <span key={s.lru} className={v.part} title={parts[s.lru]?.name}><b>{s.qty}</b>{s.lru}</span>
             ))}
           </div>
-          <p className={v.small}>Out of stock here: {stock.filter((s) => s.qty === 0).map((s) => s.lru).join(" · ") || "nothing"}</p>
-          <p className={v.small}>Stock levels <ProvenanceChip kind="ILLUSTRATIVE" /></p>
+          <p className={v.small}>Out of stock: {stock.filter((s) => s.qty === 0).length} part types</p>
+          <p className={v.small}>Stock levels are illustrative</p>
         </section>
       </div>
       <CornerTag />
