@@ -87,6 +87,7 @@
   --charcoal: #1a2a40;
   --water: #d2dfeb;
   --grid: #d4dde7;
+  --backdrop: #f3f5f8;
   --nav-bg: #0e2547;
   --nav-ink: #eef3f9;
   --nav-accent: #f2a93b;
@@ -98,5 +99,5 @@
   --ink: #e8eef7; --ink-soft: #b4c2d6; --ink-mute: #8a9bb4;
   --olive: #5b9be0; --khaki: #6c819f; --charcoal: #c8d3e3; --water: #162842; --grid: #22344f;
   --ready: #4cc27a; --watch: #f0a62e; --watch-ink: #f0b955; --pull: #ff6b55; --stale: #8a96a8; --stale-ink: #a7b2c2;
-  --nav-bg: #070e1a; --nav-ink: #eef3f9; --nav-accent: #f2a93b;
+  --backdrop: #0a1220; --nav-bg: #070e1a; --nav-ink: #eef3f9; --nav-accent: #f2a93b;
 }

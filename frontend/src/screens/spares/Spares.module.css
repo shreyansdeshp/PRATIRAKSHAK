@@ -16,11 +16,11 @@
 @media (prefers-reduced-motion: reduce) { .chosen { animation: none; } }
 
 .src { position: absolute; transform: translate(calc(-100% + 6px), -6px); display: flex; flex-direction: row-reverse; align-items: center; gap: 6px; white-space: nowrap;
-  font-family: var(--font-serif); font-weight: 600; font-size: 18px; background: rgba(244, 239, 227, 0.9); padding: 1px 0 1px 6px; }
+  font-family: var(--font-serif); font-weight: 600; font-size: 18px; background: color-mix(in srgb, var(--paper-hi) 90%, transparent); padding: 1px 0 1px 6px; }
 .src i { width: 12px; height: 12px; background: var(--ink); display: inline-block; }
 .src em { font-style: normal; font-family: var(--font-mono); font-weight: 400; font-size: 14px; color: var(--ink-soft); }
 .srcChosen i { background: var(--series-p3); box-shadow: 0 0 0 2px var(--paper-hi); }
-.vendor { position: absolute; transform: translate(-6px, -6px); display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 14px; background: rgba(244, 239, 227, 0.85); padding-right: 4px; }
+.vendor { position: absolute; transform: translate(-6px, -6px); display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 14px; background: color-mix(in srgb, var(--paper-hi) 90%, transparent); padding-right: 4px; }
 .vendor i { width: 10px; height: 10px; border: 2px solid var(--ink); background: var(--paper-hi); transform: rotate(45deg); display: inline-block; }
 .dest { position: absolute; }
 .destPin { position: absolute; left: -11px; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: var(--paper-hi); border: 3px solid var(--ink); }

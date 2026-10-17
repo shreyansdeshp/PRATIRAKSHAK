@@ -20,7 +20,7 @@
 
 .cell { display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 10px 12px; text-align: left;
   background: transparent; border: none; border-right: 1px solid var(--fold); cursor: pointer; font: inherit; color: inherit; }
-.cell:hover { background: #fffdf6; }
+.cell:hover { background: var(--paper-hi); }
 .empty { cursor: default; background: repeating-linear-gradient(135deg, transparent 0 6px, rgba(214, 204, 177, 0.35) 6px 7px); }
 .below { box-shadow: inset 0 -3px 0 var(--watch); }
 .big { font-family: var(--font-sans); font-weight: 600; font-size: 30px; line-height: 1; color: var(--ink); }
@@ -45,7 +45,7 @@
 .limBar { height: 12px; background: var(--sand); border-radius: var(--r-1); position: relative; overflow: hidden; }
 .limBar span { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink-soft); border-radius: 0 var(--r-2) var(--r-2) 0; }
 .limN { font-family: var(--font-mono); text-align: right; }
-.atRisk button { background: color-mix(in srgb, var(--pull) 14%, var(--paper-hi)); width: 100%; display: grid; grid-template-columns: 18px 90px 1fr 48px; align-items: center; gap: 8px; text-align: left;
+.atRisk button { color: var(--ink); background: color-mix(in srgb, var(--pull) 14%, var(--paper-hi)); width: 100%; display: grid; grid-template-columns: 18px 90px 1fr 48px; align-items: center; gap: 8px; text-align: left;
   border: 1px solid color-mix(in srgb, var(--pull) 45%, transparent); border-radius: var(--r-1); padding: 6px 10px; cursor: pointer; font: inherit; }
 .atRisk button:hover { border-color: var(--ink); }
 .tail { font-family: var(--font-mono); font-size: 17px; }

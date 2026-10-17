@@ -8,9 +8,9 @@
 .left { display: flex; flex-direction: column; gap: 14px; }
 .roads { position: absolute; inset: 0; pointer-events: none; }
 .airfield { position: absolute; transform: translate(-22px, -22px); display: flex; align-items: center; gap: 8px; }
-.airfield span { font-family: var(--font-serif); font-weight: 600; font-size: 22px; background: rgba(244, 239, 227, 0.9); padding: 0 6px; }
+.airfield span { font-family: var(--font-serif); font-weight: 600; font-size: 22px; background: color-mix(in srgb, var(--paper-hi) 90%, transparent); padding: 0 6px; }
 .node { position: absolute; transform: translate(-5px, -5px); display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 14px;
-  background: rgba(244, 239, 227, 0.85); padding-right: 4px; }
+  background: color-mix(in srgb, var(--paper-hi) 90%, transparent); padding-right: 4px; }
 .node i { width: 10px; height: 10px; background: var(--ink); display: inline-block; }
 
 .env { display: flex; flex-direction: column; gap: 6px; }

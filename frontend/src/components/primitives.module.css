@@ -54,7 +54,7 @@
 }
 .stripCompact { min-height: 34px; }
 .strip[role="button"] { cursor: pointer; }
-.strip[role="button"]:hover, .strip[role="button"]:focus-visible { background: #fffdf6; outline: none; border-color: var(--khaki); }
+.strip[role="button"]:hover, .strip[role="button"]:focus-visible { background: var(--paper-hi); outline: none; border-color: var(--khaki); }
 .stripActive { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 .stripEdge { width: 6px; flex: none; border-radius: var(--r-1) 0 0 var(--r-1); transition: background var(--t-status) var(--ease-chart); }
 .stripCall { display: flex; align-items: center; gap: 8px; padding: 0 14px 0 10px; border-right: 1px solid var(--fold); min-width: 150px; }

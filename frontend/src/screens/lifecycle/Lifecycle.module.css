@@ -156,7 +156,7 @@
 }
 
 .engineRow:hover {
-  background: #fffdf8;
+  background: var(--paper-hi);
   border-color: var(--olive);
 }
 
@@ -296,7 +296,7 @@
 }
 
 .aircraftRow:hover {
-  background: #fffdf8;
+  background: var(--paper-hi);
   border-color: var(--ink);
 }
 
