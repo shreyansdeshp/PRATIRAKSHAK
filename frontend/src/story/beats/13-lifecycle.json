@@ -1,0 +1,6 @@
+{
+  "beats": [
+    { "id": "s13-lifecycle-airframe", "path": "/lifecycle", "caption": "Fleet lifecycle: airframe hours against design life across four aircraft types and four operational bases." },
+    { "id": "s13-lifecycle-engines", "path": "/lifecycle", "caption": "Propulsion & airframe age: engine time since overhaul and 5-year fleet age distribution." }
+  ]
+}
