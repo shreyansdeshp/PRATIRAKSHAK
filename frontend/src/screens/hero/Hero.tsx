@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { CornerTag, NumberTick, ProvenanceChip, StatusGlyph } from "../../components/primitives";
+import { NumberTick, ProvenanceChip, StatusGlyph } from "../../components/primitives";
 import { loadSnapshot } from "../../data/client";
 import type { AircraftState, FleetState, Meta, Route, World } from "../../data/types";
 import { ChartMap } from "../../map/ChartMap";
@@ -177,7 +177,6 @@ export function Hero() {
           <span>Bases, tails <ProvenanceChip kind="ILLUSTRATIVE" /></span>
         </div>
       </aside>
-      <CornerTag />
     </div>
   );
 }

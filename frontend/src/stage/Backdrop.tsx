@@ -12,16 +12,13 @@ export function Backdrop() {
       {/* range rings, left and right */}
       <g fill="none" stroke="var(--fold)" strokeWidth={1.2}>
         {[90, 170, 250, 330, 410].map((r) => <circle key={`l${r}`} cx={0} cy={450} r={r} />)}
-        {[90, 170, 250, 330, 410].map((r) => <circle key={`r${r}`} cx={1600} cy={450} r={r} />)}
         <circle cx={0} cy={450} r={410} strokeDasharray="2 6" />
-        <circle cx={1600} cy={450} r={410} strokeDasharray="2 6" />
       </g>
       {/* bearing spokes */}
       <g stroke="var(--fold)" strokeWidth={1}>
         {ticks(12).map((i) => { const a = (i * 15 - 90) * Math.PI / 180; return (
           <g key={i}>
             <line x1={0} y1={450} x2={Math.cos(a) * 410} y2={450 + Math.sin(a) * 410} />
-            <line x1={1600} y1={450} x2={1600 - Math.cos(a) * 410} y2={450 + Math.sin(a) * 410} />
           </g>); })}
       </g>
       {/* flight arcs + waypoints */}
