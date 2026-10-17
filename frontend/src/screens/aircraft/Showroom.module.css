@@ -62,3 +62,9 @@
 .lruRow b { font-family: var(--font-mono); text-align: right; }
 .zero { color: var(--pull); }
 .mono { font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); }
+
+/* larger system tiles */
+.sysList { gap: 8px; }
+.sysList button { gap: 8px; padding: 12px 12px; font-size: 22px; font-weight: 600; }
+.sysList .sysProv { display: none; }
+.sysList .sysName { font-size: 22px; }

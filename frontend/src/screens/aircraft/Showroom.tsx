@@ -205,11 +205,11 @@ function SpecSheet({ a, fit, mission, lifeUsed, meta, onOpen }: { a: AircraftSta
         {a.systems.map((x) => (
           <button key={x.id} type="button" onClick={() => onOpen(x.id as SystemKey)}>
             <span className={s.sysTop}>
-              <StatusGlyph status={sysStatus(x.p_fail)} size={10} />
+              <StatusGlyph status={sysStatus(x.p_fail)} size={16} />
               <span className={s.sysName}>{SYS[x.id as SystemKey]}</span>
               <span className={s.sysProv}>{x.provenance === "REAL-ANCHORED" ? "anchored" : x.provenance.toLowerCase()}</span>
             </span>
-            <HealthBar value={x.health} width={120} />
+            <HealthBar value={x.health} width={170} />
           </button>
         ))}
       </div>
