@@ -1,0 +1,47 @@
+.sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
+.loading { position: absolute; inset: 0; }
+
+/* Different shell title */
+.vendorTitle { font-family: var(--font-serif); font-weight: 600; font-size: 28px; color: var(--ink); }
+
+/* Body: map left, deliveries right */
+.body { flex: 1; display: grid; grid-template-columns: 560px 1fr; gap: 24px; min-height: 0; overflow: hidden; }
+.mapCol { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.listCol { display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; }
+
+/* Deliveries list */
+.deliveries { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+
+/* Priority badges */
+.badge { display: inline-block; padding: 1px 6px; border-radius: var(--r-1); font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.badgeP1 { background: var(--pull); color: var(--paper); }
+.badgeP2 { background: var(--watch); color: var(--paper); }
+.badgeP3 { background: var(--olive); color: var(--paper); }
+
+/* Hub stock */
+.stockSection { border-top: 1px solid var(--fold); padding-top: 8px; }
+.stockTitle { font-family: var(--font-sans); font-weight: 600; font-size: 13px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-soft); margin-bottom: 6px; }
+.stockGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 4px; }
+.stockItem { display: flex; justify-content: space-between; align-items: center; padding: 2px 6px;
+  font-family: var(--font-mono); font-size: 11px; border-bottom: 1px solid var(--fold); }
+.stockItem span:last-child { font-weight: 600; }
+.stockEmpty { color: var(--pull); }
+
+/* Map overlay labels */
+.mapLabel { position: absolute; transform: translate(-50%, -100%);
+  font-family: var(--font-sans); font-size: 11px; font-weight: 600; color: var(--ink);
+  background: rgba(244, 239, 227, 0.85); padding: 1px 5px; border-radius: var(--r-1);
+  white-space: nowrap; pointer-events: none; }
+.mapLabelHub { color: var(--olive); font-size: 12px; }
+.mapLabelBase { color: var(--ink); }
+
+/* Map route line */
+.mapRoute { stroke: var(--ink-soft); stroke-width: 1.5; fill: none; stroke-dasharray: 6 4; }
+
+/* Summary tiles */
+.tiles { display: flex; gap: 12px; }
+
+/* Prov footer */
+.prov { display: flex; gap: 16px; font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); }
+.prov span { display: flex; align-items: center; gap: 6px; }
