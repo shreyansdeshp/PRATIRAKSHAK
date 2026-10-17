@@ -1,0 +1,6 @@
+{
+  "beats": [
+    { "id": "s9", "path": "/intel", "param": "sys=engines", "caption": "On real engines, the model leans most on compressor outlet pressure — and every reading traces to a part, a replaceable unit and an action." },
+    { "id": "s9-trust", "path": "/intel", "param": "sys=electrical", "caption": "A broken sensor is not a broken aircraft. 35 of 3,220 sensors are not trusted today; their readings are set aside and a check is raised instead." }
+  ]
+}
