@@ -17,6 +17,7 @@ import numpy as np
 import pandas as pd
 
 from pratirakshak import __version__
+from pratirakshak.export.profiles import build_profiles
 from pratirakshak.ingest.cmapss import HEADLINE_SENSORS, SENSOR_NAMES
 from pratirakshak.io import load_config, read_json, write_json
 from pratirakshak.settings import (
@@ -319,7 +320,7 @@ def build_all() -> dict[str, Any]:
         "world": build_world(world, wcfg), "state": build_state(world), "history": build_history(world),
         "decisions": read_json(PLAN / "decisions.json"), "plan": build_plan(), "intelligence": build_intelligence(),
         "models": build_models(), "results": build_results(), "demo": build_demo(), "twin": build_twin(world),
-        "vendor": build_vendor(world, wcfg),
+        "vendor": build_vendor(world, wcfg), "profiles": build_profiles(),
     }
     for name, obj in files.items():
         validate(name, obj)

@@ -15,6 +15,7 @@ export type SnapshotName =
   | "results"
   | "demo"
   | "twin"
+  | "profiles"
   | "vendor"
   | "manifest";
 

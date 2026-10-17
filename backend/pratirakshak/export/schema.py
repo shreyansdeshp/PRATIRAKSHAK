@@ -34,6 +34,7 @@ SCHEMAS: dict[str, dict[str, Any]] = {
     "results": {"type": "object", "required": ["summary", "paired", "curves", "ablation", "sensitivity", "counterfactuals", "demo_seed"]},
     "demo": {"type": "object", "required": ["seed", "runs"]},
     "twin": {"type": "object", "required": ["days", "tails"]},
+    "profiles": {"type": "object", "required": ["routes"]},
     "vendor": {"type": "object", "required": ["role", "demands"], "additionalProperties": True,
                "properties": {"role": {"const": "vendor"}, "demands": {"type": "array", "items": {
                    "type": "object", "required": ["demand_id", "lru", "qty", "priority", "destination", "deliver_by"],
