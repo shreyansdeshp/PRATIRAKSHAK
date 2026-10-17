@@ -17,11 +17,10 @@ const SYS: Record<SystemKey, string> = { engines: "Engines", hydraulics: "Hydrau
 const PRESETS: Record<string, [number, number, number]> = { "Front ¾": [6.2, 2.4, 6.6], Side: [0.01, 1.0, 9.6], Top: [0.01, 10.5, 0.02], Under: [2.0, -6.0, 4.0] };
 const sysStatus = (p: number): StatusLike => (p >= 0.3 ? "PULL" : p >= 0.1 ? "WATCH" : "READY");
 
-interface Mission { id: string; name: string; base: string; type: string; candidates: { tail: string; p_complete: number; excluded: boolean; reasons: string[] }[] }
 
 /** S3 — aircraft showroom: turntable, camera presets, part health hotspots, exploded view, body health, spec sheet, part drawer. */
 export function Showroom({ tail }: { tail: string }) {
-  const { data } = useSnapshots<{ world: World & { stock: { node: string; lru: string; qty: number }[] }; state: FleetState; plan: { missions: Mission[] } }>(["world", "state", "plan"]);
+  const { data } = useSnapshots<{ world: World & { stock: { node: string; lru: string; qty: number }[] }; state: FleetState}>(["world", "state"]);
   const navigate = useApp((st) => st.navigate);
   const [preset, setPreset] = useState("Front ¾");
   const exploded = false; // exploded view removed from the UI
@@ -34,13 +33,11 @@ export function Showroom({ tail }: { tail: string }) {
   useEffect(() => { if (beatPart !== null) setOpen(beatPart as SystemKey); else if (useStory.getState().active) setOpen(null); }, [beatPart]);
 
   if (!data) return <div className={s.loading} />;
-  const { world, state, plan } = data;
+  const { world, state } = data;
   const a = state.aircraft.find((x) => x.tail === tail) ?? state.aircraft[0]!;
   const type = world.types.find((t) => t.id === a.type)!;
   const peers = state.aircraft.filter((x) => x.base === a.base);
   const sys = Object.fromEntries(a.systems.map((x) => [x.id, x])) as Record<SystemKey, SystemState>;
-  const mission = plan.missions.find((m) => m.base === a.base && m.type === a.type);
-  const fit = mission?.candidates.find((c) => c.tail === a.tail);
   const meta = world.aircraft.find((x) => x.tail === a.tail)!;
 
   return (
@@ -104,7 +101,7 @@ export function Showroom({ tail }: { tail: string }) {
           {open ? (
             <PartDrawer a={a} system={sys[open]} sysKey={open} world={world} onClose={() => setOpen(null)} />
           ) : (
-            <SpecSheet a={a} fit={fit} mission={mission} lifeUsed={a.airframe_life_used} meta={meta} onOpen={setOpen} />
+            <SpecSheet a={a} lifeUsed={a.airframe_life_used} meta={meta} onOpen={setOpen} />
           )}
         </aside>
       </div>
@@ -176,7 +173,7 @@ function Stat({ label, value, pct, tone = "olive", note }: { label: string; valu
   );
 }
 
-function SpecSheet({ a, fit, mission, lifeUsed, meta, onOpen }: { a: AircraftState; fit?: Mission["candidates"][number]; mission?: Mission; lifeUsed: number;
+function SpecSheet({ a, lifeUsed, meta, onOpen }: { a: AircraftState; lifeUsed: number;
   meta: { airframe_hours: number; airframe_life_hours: number }; onOpen: (k: SystemKey) => void }) {
   const tone = a.status === "PULL" ? "pull" : a.status === "WATCH" ? "watch" : "olive";
   return (
@@ -189,8 +186,6 @@ function SpecSheet({ a, fit, mission, lifeUsed, meta, onOpen }: { a: AircraftSta
       <Stat label="Health" value={`${Math.round(a.weighted_health)}`} pct={a.weighted_health} note="criticality-weighted across 8 systems" />
       <Stat label="Readiness" value={a.status === "READY" ? "Ready" : a.status === "WATCH" ? "Watch" : "In repair"} pct={100 - a.limiting_p * 100} tone={tone}
             note={`gated by the worst critical system (${SYS[a.limiting_system as SystemKey]})`} />
-      <Stat label="Mission fit" value={fit ? `${Math.round(fit.p_complete * 100)} %` : "—"} pct={fit ? fit.p_complete * 100 : 0} tone={fit?.excluded ? "watch" : "olive"}
-            note={fit && mission ? `${mission.name}: ${fit.excluded ? "excluded — " + fit.reasons.join("; ") : "eligible"}` : "no mission template for this base and type"} />
       <Stat label="Airframe life used" value={`${Math.round(lifeUsed * 100)} %`} pct={lifeUsed * 100} tone="ink"
             note={`${Math.round(meta.airframe_hours).toLocaleString("en-IN")} of ${meta.airframe_life_hours.toLocaleString("en-IN")} h · body health ${Math.round(a.body_health)}`} />
       <Stat label="Risk (14 days)" value={`${Math.round(a.risk_window * 100)} %`} pct={a.risk_window * 100} tone={a.risk_window >= 0.3 ? "pull" : a.risk_window >= 0.1 ? "watch" : "ink"}
