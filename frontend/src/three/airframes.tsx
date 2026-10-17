@@ -92,6 +92,41 @@ function planform(points: [number, number][], thickness: number): THREE.ExtrudeG
   return g;
 }
 
+
+/** Canvas textures for the livery decals: tail flag (tricolour + Ashoka chakra) and the "IAF" body lettering. */
+function flagTexture(): THREE.CanvasTexture {
+  const c = document.createElement("canvas"); c.width = 256; c.height = 170;
+  const g = c.getContext("2d")!;
+  const h = c.height / 3;
+  g.fillStyle = "#FF9933"; g.fillRect(0, 0, c.width, h);
+  g.fillStyle = "#FFFFFF"; g.fillRect(0, h, c.width, h);
+  g.fillStyle = "#138808"; g.fillRect(0, 2 * h, c.width, h + 1);
+  g.strokeStyle = "#06038D"; g.fillStyle = "#06038D";
+  const cx = c.width / 2, cy = c.height / 2, r = h * 0.46;
+  g.lineWidth = 3; g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.stroke();
+  g.lineWidth = 1.5;
+  for (let i = 0; i < 24; i++) { const a = (i / 24) * Math.PI * 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r); g.stroke(); }
+  g.strokeStyle = "rgba(0,0,0,0.35)"; g.lineWidth = 3; g.strokeRect(1.5, 1.5, c.width - 3, c.height - 3);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
+}
+
+function lettersTexture(text: string): THREE.CanvasTexture {
+  const c = document.createElement("canvas"); c.width = 512; c.height = 192;
+  const g = c.getContext("2d")!;
+  g.fillStyle = "#0e2547"; g.font = "bold 150px 'IBM Plex Sans', Arial, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillText(text, c.width / 2, c.height / 2 + 6);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
+}
+
+function Decal({ texture, position, size, side }: { texture: THREE.Texture; position: [number, number, number]; size: [number, number]; side: 1 | -1 }) {
+  return (
+    <mesh position={[position[0], position[1], position[2] * side]} rotation={[0, side === 1 ? 0 : Math.PI, 0]}>
+      <planeGeometry args={size} />
+      <meshStandardMaterial map={texture} transparent roughness={0.6} polygonOffset polygonOffsetFactor={-2} />
+    </mesh>
+  );
+}
+
 function Part({ geometry, color, edges = true, position, rotation, scale }:
   { geometry: THREE.BufferGeometry; color: THREE.Color | string; edges?: boolean; position?: [number, number, number]; rotation?: [number, number, number]; scale?: [number, number, number] }) {
   return (
@@ -128,6 +163,15 @@ export function Airframe({ type, exploded = 0, bodyHealth = 100, showBody = fals
     return { fus, wingR, wingL, fin, stabR, stabL, canR, canL, canopy };
   }, [s, L]);
 
+  const flag = useMemo(() => flagTexture(), []);
+  const iaf = useMemo(() => lettersTexture("IAF"), []);
+  const fin = s.tail.fin;
+  const finX = fin.reduce((a, q) => a + q[0], 0) / fin.length + s.tail.x;
+  const finY = fin.reduce((a, q) => a + q[1], 0) / fin.length + s.tail.y;
+  const finH = Math.max(...fin.map((q) => q[1])) - Math.min(...fin.map((q) => q[1]));
+  const flagW = Math.min(0.42, finH * 0.3), flagH = flagW * 0.66;
+  const bx = -L * 0.2;                                    // body lettering station
+  const bR = profileR(s, 1 - (bx + L / 2) / L);
   const ex = exploded;
   const group = useRef<THREE.Group>(null);
   useFrame(() => { /* static model; the camera turns (turntable) */ });
@@ -143,6 +187,13 @@ export function Airframe({ type, exploded = 0, bodyHealth = 100, showBody = fals
       {geo.stabL && <Part geometry={geo.stabL} color={color} position={[0, s.tail.stabY ?? 0, 0]} />}
       {geo.canR && <Part geometry={geo.canR} color={color} position={[0, 0.08, 0]} />}
       {geo.canL && <Part geometry={geo.canL} color={color} position={[0, 0.08, 0]} />}
+      {/* livery: tail flag + IAF lettering, both sides */}
+      {([1, -1] as const).map((side) => (
+        <group key={side}>
+          <Decal texture={flag} position={[finX, finY, 0.058]} size={[flagW, flagH]} side={side} />
+          <Decal texture={iaf} position={[bx, 0.02, bR + 0.012]} size={[0.95, 0.36]} side={side} />
+        </group>
+      ))}
       <mesh geometry={geo.canopy} position={[s.canopy.x, profileR(s, 1 - (s.canopy.x + L / 2) / L) * 0.72, 0]} scale={[s.canopy.len / 2, s.canopy.r, s.canopy.r * 0.9]}>
         <meshStandardMaterial color={CANOPY} roughness={0.55} metalness={0.1} />
         <Edges threshold={30} color={INK} />

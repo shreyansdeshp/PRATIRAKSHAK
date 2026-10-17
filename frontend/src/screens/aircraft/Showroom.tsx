@@ -24,8 +24,8 @@ export function Showroom({ tail }: { tail: string }) {
   const { data } = useSnapshots<{ world: World & { stock: { node: string; lru: string; qty: number }[] }; state: FleetState; plan: { missions: Mission[] } }>(["world", "state", "plan"]);
   const navigate = useApp((st) => st.navigate);
   const [preset, setPreset] = useState("Front ¾");
-  const [exploded, setExploded] = useState(false);
-  const [body, setBody] = useState(false);
+  const exploded = false; // exploded view removed from the UI
+  const body = false; // body-health overlay removed from the UI
   const [open, setOpen] = useState<SystemKey | null>(null);
   const params = new URLSearchParams(window.location.search);
   const still = params.has("still");
@@ -88,8 +88,6 @@ export function Showroom({ tail }: { tail: string }) {
               <button key={k} type="button" className={preset === k ? s.on : ""} onClick={() => setPreset(k)}>{k}</button>
             ))}
             <span className={s.sep} />
-            <button type="button" className={exploded ? s.on : ""} onClick={() => setExploded((v) => !v)}>Exploded view</button>
-            <button type="button" className={body ? s.on : ""} onClick={() => setBody((v) => !v)}>Body health</button>
           </div>
           {body && (
             <div className={s.bodyLegend}>
