@@ -1,0 +1,6 @@
+{
+  "beats": [
+    { "id": "s4", "path": "/decision/PR-S149", "caption": "One rule, restated with this aircraft's numbers: 49 % risk in 14 days against a 30 % limit — act now." },
+    { "id": "s4-verify", "path": "/decision/PR-G295", "caption": "Same rule, different answer: the sensor driving PR-G295's risk has trust 3/100 — verify it before grounding the aircraft." }
+  ]
+}

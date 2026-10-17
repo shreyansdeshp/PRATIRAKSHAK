@@ -25,7 +25,8 @@
    "models",
    "results",
    "demo",
-   "twin"
+   "twin",
+   "profiles"
   ],
   "vendor": [
    "vendor"
