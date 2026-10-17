@@ -101,7 +101,7 @@ export function Offline() {
               </div>
             </div>
           ))}
-          <p className={s.small}><span className={s.ring} /> raised since the snapshot. The rule only ever tightens offline: a stale reading can move an aircraft to watch or pull, never back to ready.</p>
+          <p className={s.small}><span className={s.ring} /> raised since the snapshot. The rule only ever tightens offline: a stale reading can move an aircraft to watch or repair, never back to ready.</p>
         </section>
 
         <section className={s.focusCard}>

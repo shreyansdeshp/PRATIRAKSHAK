@@ -5,7 +5,7 @@ import s from "./primitives.module.css";
 
 /* ------------------------------------------------------------------------------------------ status */
 export type StatusLike = Status | "STALE";
-const STATUS_LABEL: Record<StatusLike, string> = { READY: "Ready", WATCH: "Watch", PULL: "Pull", STALE: "Stale" };
+const STATUS_LABEL: Record<StatusLike, string> = { READY: "Ready", WATCH: "Watch", PULL: "Repair", STALE: "Stale" };
 
 /** Status = shape + lightness + colour (never colour alone): ● ready · ▲ watch · ■ pull · ◇ stale (hatched). */
 export function StatusGlyph({ status, size = 12, label = false }: { status: StatusLike; size?: number; label?: boolean }) {

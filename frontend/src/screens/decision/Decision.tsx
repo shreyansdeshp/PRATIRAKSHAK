@@ -9,9 +9,9 @@ import d from "./Decision.module.css";
 const SYS: Record<string, string> = { engines: "Engine", hydraulics: "Hydraulics", landing_gear: "Landing gear & brakes", flight_controls: "Flight controls",
   electrical: "Electrical", avionics: "Avionics / radar", fuel: "Fuel", structure: "Structure" };
 const ACTION: Record<string, { label: string; status: StatusLike; title: (t: string) => string }> = {
-  PULL_FROM_LINE: { label: "Pull from line", status: "PULL", title: (t) => `Why ${t} is being pulled` },
+  PULL_FROM_LINE: { label: "Repair", status: "PULL", title: (t) => `Why ${t} is being sent for repair` },
   EXPEDITE_SPARE: { label: "Expedite spare", status: "WATCH", title: (t) => `Why a spare is being rushed to ${t}` },
-  VERIFY_SENSOR: { label: "Verify sensor first", status: "STALE", title: (t) => `Why ${t}'s sensor is checked before any pull` },
+  VERIFY_SENSOR: { label: "Verify sensor first", status: "STALE", title: (t) => `Why ${t}'s sensor is checked before any repair` },
   SCHEDULE_SERVICE: { label: "Schedule service", status: "WATCH", title: (t) => `Why ${t} is booked for the garage` },
   MONITOR_CLOSELY: { label: "Monitor closely", status: "WATCH", title: (t) => `Why ${t} is on watch` },
   SWAP_TAIL_FOR_MISSION: { label: "Swap tail for mission", status: "WATCH", title: (t) => `Why ${t} sits out this mission` },
@@ -62,7 +62,7 @@ export function Decision({ tail }: { tail: string }) {
           <p>
             If the chance that <b>{SYS[h.system]?.toLowerCase()}</b> fails before the next maintenance opportunity
             (<b>{state.window_days} days</b>) exceeds <b>θ = {Math.round(h.theta * 100)} %</b> for <b>{h.criticality}</b> flying, act now:
-            get the spare if it can arrive in time, otherwise pull the aircraft. If not, schedule the work before the earliest plausible failure.
+            get the spare if it can arrive in time, otherwise take the aircraft in for repair. If not, schedule the work before the earliest plausible failure.
           </p>
         </div>
         <RiskGauge p={h.p_fail} theta={h.theta} />
@@ -212,7 +212,7 @@ function SpareSummary({ s }: { s: NonNullable<Headline["spares"]> }) {
   const x = (v: number) => (v / max) * W;
   return (
     <div className={d.spare} data-testid="spare">
-      <div className={`${d.spareVerdict} ${s.verdict === "SOURCE" ? d.source : d.pull}`}>{s.verdict === "SOURCE" ? "SOURCE · arrives in time" : "PULL · cannot arrive in time"}</div>
+      <div className={`${d.spareVerdict} ${s.verdict === "SOURCE" ? d.source : d.pull}`}>{s.verdict === "SOURCE" ? "SOURCE · arrives in time" : "REPAIR · part cannot arrive in time"}</div>
       <svg width={W} height={58} aria-hidden>
         {eta !== null && <rect x={0} y={8} width={Math.max(2, x(eta))} height={12} fill="var(--ink-soft)" />}
         {eta !== null && <rect x={x(eta)} y={8} width={Math.max(2, x(s.install_hours))} height={12} fill="var(--khaki)" />}

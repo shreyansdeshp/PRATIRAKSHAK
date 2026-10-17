@@ -187,7 +187,7 @@ function SpecSheet({ a, fit, mission, lifeUsed, meta, onOpen }: { a: AircraftSta
         <span className={s.action}>Next action: {a.action.replace(/_/g, " ").toLowerCase()}</span>
       </div>
       <Stat label="Health" value={`${Math.round(a.weighted_health)}`} pct={a.weighted_health} note="criticality-weighted across 8 systems" />
-      <Stat label="Readiness" value={a.status === "READY" ? "Ready" : a.status === "WATCH" ? "Watch" : "Pulled"} pct={100 - a.limiting_p * 100} tone={tone}
+      <Stat label="Readiness" value={a.status === "READY" ? "Ready" : a.status === "WATCH" ? "Watch" : "In repair"} pct={100 - a.limiting_p * 100} tone={tone}
             note={`gated by the worst critical system (${SYS[a.limiting_system as SystemKey]})`} />
       <Stat label="Mission fit" value={fit ? `${Math.round(fit.p_complete * 100)} %` : "—"} pct={fit ? fit.p_complete * 100 : 0} tone={fit?.excluded ? "watch" : "olive"}
             note={fit && mission ? `${mission.name}: ${fit.excluded ? "excluded — " + fit.reasons.join("; ") : "eligible"}` : "no mission template for this base and type"} />

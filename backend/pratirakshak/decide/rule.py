@@ -1,7 +1,7 @@
 """The single decision rule (SPEC §1.1) and its reason card (U1).
 
 For each system on each aircraft: if P(fail before the next maintenance opportunity) ≥ θ for the mission, act now —
-get the spare if it can arrive (and be fitted) before the lower-bound RUL, otherwise pull the aircraft from the line.
+get the spare if it can arrive (and be fitted) before the lower-bound RUL, otherwise take the aircraft in for repair from the line.
 If not, schedule the work into the cheapest slot before the earliest plausible failure, bundled with the aircraft's
 other jobs. A low-trust driving sensor turns "act now" into "verify the sensor first".
 """
@@ -82,8 +82,8 @@ def decide_system(est: dict[str, Any], theta: float, criticality: str, base: str
         out.update(action="VERIFY_SENSOR",
                    reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying, but the sensor driving that estimate "
                           f"has trust {est['min_trust']:.0f}/100 ({est.get('trust_note') or 'inconsistent readings'}). "
-                          "Verify the sensor before pulling the aircraft; keep it on restricted duty meanwhile.")
-        out["alternatives"] = [{"option": "Pull now on the current reading",
+                          "Verify the sensor before sending the aircraft for repair; keep it on restricted duty meanwhile.")
+        out["alternatives"] = [{"option": "Send for repair now on the current reading",
                                 "consequence": "may ground a healthy aircraft on a faulty sensor"}, later]
     elif p >= theta:
         srcs = ctx.logistics.sources(lru, base, on, vahak_bases, stock=stock)
@@ -102,7 +102,7 @@ def decide_system(est: dict[str, Any], theta: float, criticality: str, base: str
             out.update(action="PULL_FROM_LINE",
                        reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying, and failure is plausible "
                               f"{'at any moment' if p10_h < 1 else f'within {p10_h:.0f} h'} — too soon to keep flying until "
-                              "the fix. Pull the aircraft now and fit the "
+                              "the fix. Repair the aircraft now and fit the "
                               f"{part['name']} from the {base_name} store ({part['install_hours']:g} h).")
         elif verdict == "SOURCE":
             out.update(action="EXPEDITE_SPARE",
@@ -114,7 +114,7 @@ def decide_system(est: dict[str, Any], theta: float, criticality: str, base: str
                    else f"no {part['name']} can reach {base_name} by any open route")
             out.update(action="PULL_FROM_LINE",
                        reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying, and {why} — later than "
-                              f"the earliest plausible failure ({p10_h:.0f} h). Pull the aircraft from the line and order the part.")
+                              f"the earliest plausible failure ({p10_h:.0f} h). Take the aircraft in for repair and order the part.")
         out["alternatives"] = [later, {"option": "Source the spare",
                                        "consequence": (f"arrives in {eta:.0f} h + {part['install_hours']:g} h fit vs {p10_h:.0f} h "
                                                        "to earliest plausible failure") if best else "no open route"}]

@@ -130,7 +130,7 @@ export function Spares({ tail }: { tail: string }) {
             <span className={p.verdictWord}>{sp.verdict}</span>
             <span>{sp.verdict === "SOURCE"
               ? `The ${row.headline.lru} arrives and is fitted ${slack !== null ? fmtH(Math.max(0, slack)) : ""} before the earliest plausible failure.`
-              : `No source can deliver and fit it before the earliest plausible failure (${sp.deadline_hours.toFixed(0)} h): pull the aircraft.`}</span>
+              : `No source can deliver and fit it before the earliest plausible failure (${sp.deadline_hours.toFixed(0)} h): take the aircraft in for repair.`}</span>
           </div>
           <div className={p.timing}>
             <div><span>Earliest plausible failure</span><b>{sp.deadline_hours.toFixed(0)} h</b></div>

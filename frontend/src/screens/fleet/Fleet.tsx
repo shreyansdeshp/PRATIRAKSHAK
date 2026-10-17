@@ -38,7 +38,7 @@ export function Fleet() {
         <StatTile label="Ready to deploy" value={<NumberTick value={sum.fleet.ready} />} unit={`/ ${sum.fleet.aircraft}`} accent
           note={`${Math.round((sum.fleet.ready / sum.fleet.aircraft) * 100)} % of the fleet`} />
         <StatTile label="On watch" value={<NumberTick value={sum.fleet.watch} />} note="flying; risk rising" />
-        <StatTile label="Pulled from line" value={<NumberTick value={sum.fleet.pull} />} note="grounded for work" />
+        <StatTile label="In repair" value={<NumberTick value={sum.fleet.pull} />} note="grounded for work" />
         <StatTile label="Average health" value={<NumberTick value={sum.fleet.avg_health} />} note="criticality-weighted, 0–100" />
         <StatTile label="Cells below floor" value={belowFloor.length} note={belowFloor.length ? belowFloor.map((x) => `${x.t.name} @ ${x.b.id}`).join(" · ") : "none"} />
       </div>

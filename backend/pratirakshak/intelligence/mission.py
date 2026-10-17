@@ -58,7 +58,7 @@ def mission_fit() -> list[dict[str, Any]]:
             worst = max(sorted(per), key=lambda s: per[s])
             excl = []
             if ac.loc[a["tail"], "status"] == "PULL":
-                excl.append(f"already pulled (limited by {ac.loc[a['tail'], 'limiting_system']})")
+                excl.append(f"already in repair (limited by {ac.loc[a['tail'], 'limiting_system']})")
             over = [s for s in sorted(crit) if per.get(s, 0) >= m["theta"]]
             if over:
                 excl.append("risk over mission limit θ=" + f"{m['theta']:.2f}: " + ", ".join(f"{s} {per[s]:.0%}" for s in over))

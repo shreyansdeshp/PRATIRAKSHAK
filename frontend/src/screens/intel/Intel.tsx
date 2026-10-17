@@ -15,7 +15,7 @@ interface Intelligence { graph: { nodes: Node[]; edges: { from: string; to: stri
   fleet_trust: { sensors: number; untrusted: number; flagged: { tail: string; group: string; sensor: string; trust: number; reasons: string }[] } }
 
 const SYSTEMS = ["engines", "hydraulics", "landing_gear", "flight_controls", "electrical", "avionics", "fuel", "structure"];
-const ACTION: Record<string, string> = { SCHEDULE_SERVICE: "Schedule service", EXPEDITE_SPARE: "Expedite spare", PULL_FROM_LINE: "Pull from line", VERIFY_SENSOR: "Verify sensor" };
+const ACTION: Record<string, string> = { SCHEDULE_SERVICE: "Schedule service", EXPEDITE_SPARE: "Expedite spare", PULL_FROM_LINE: "Repair", VERIFY_SENSOR: "Verify sensor" };
 const nice = (k: string) => k.replace(/_/g, " ");
 
 /** S9 — what the model watches: sensor importance, sensor → part → LRU → action, and the sensor-trust harness. */

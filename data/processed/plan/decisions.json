@@ -8926,7 +8926,7 @@
   "base": "SAH",
   "action": "PULL_FROM_LINE",
   "system": "hydraulics",
-  "reason": "Hydraulics has a 49% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Engine-driven hydraulic pump from the Sahyadri Air Base store (5 h).",
+  "reason": "Hydraulics has a 49% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Engine-driven hydraulic pump from the Sahyadri Air Base store (5 h).",
   "headline": {
    "system": "hydraulics",
    "lru": "HYD-PMP",
@@ -9024,7 +9024,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Hydraulics has a 49% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Engine-driven hydraulic pump from the Sahyadri Air Base store (5 h).",
+   "reason": "Hydraulics has a 49% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Engine-driven hydraulic pump from the Sahyadri Air Base store (5 h).",
    "downtime_cost": {
     "planned_hours": 9.0,
     "unplanned_hours": 39.0,
@@ -9134,7 +9134,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Hydraulics has a 49% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Engine-driven hydraulic pump from the Sahyadri Air Base store (5 h).",
+    "reason": "Hydraulics has a 49% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Engine-driven hydraulic pump from the Sahyadri Air Base store (5 h).",
     "downtime_cost": {
      "planned_hours": 9.0,
      "unplanned_hours": 39.0,
@@ -10156,7 +10156,7 @@
   "base": "SAH",
   "action": "PULL_FROM_LINE",
   "system": "avionics",
-  "reason": "Avionics / radar has a 44% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest Avionics cooling fan is 6 h away (Aravalli Air Base, by air) — later than the earliest plausible failure (0 h). Pull the aircraft from the line and order the part.",
+  "reason": "Avionics / radar has a 44% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest Avionics cooling fan is 6 h away (Aravalli Air Base, by air) — later than the earliest plausible failure (0 h). Take the aircraft in for repair and order the part.",
   "headline": {
    "system": "avionics",
    "lru": "AV-CLF",
@@ -10276,7 +10276,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Avionics / radar has a 44% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest Avionics cooling fan is 6 h away (Aravalli Air Base, by air) — later than the earliest plausible failure (0 h). Pull the aircraft from the line and order the part.",
+   "reason": "Avionics / radar has a 44% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest Avionics cooling fan is 6 h away (Aravalli Air Base, by air) — later than the earliest plausible failure (0 h). Take the aircraft in for repair and order the part.",
    "downtime_cost": {
     "planned_hours": 5.5,
     "unplanned_hours": 28.5,
@@ -10408,7 +10408,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Avionics / radar has a 44% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest Avionics cooling fan is 6 h away (Aravalli Air Base, by air) — later than the earliest plausible failure (0 h). Pull the aircraft from the line and order the part.",
+    "reason": "Avionics / radar has a 44% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest Avionics cooling fan is 6 h away (Aravalli Air Base, by air) — later than the earliest plausible failure (0 h). Take the aircraft in for repair and order the part.",
     "downtime_cost": {
      "planned_hours": 5.5,
      "unplanned_hours": 28.5,
@@ -12668,7 +12668,7 @@
   "base": "ARV",
   "action": "PULL_FROM_LINE",
   "system": "electrical",
-  "reason": "Electrical has a 55% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest AC generator (115 V / 400 Hz) is 6 h away (Sahyadri Air Base, by air) — later than the earliest plausible failure (0 h). Pull the aircraft from the line and order the part.",
+  "reason": "Electrical has a 55% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest AC generator (115 V / 400 Hz) is 6 h away (Sahyadri Air Base, by air) — later than the earliest plausible failure (0 h). Take the aircraft in for repair and order the part.",
   "headline": {
    "system": "electrical",
    "lru": "EL-GEN",
@@ -12788,7 +12788,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Electrical has a 55% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest AC generator (115 V / 400 Hz) is 6 h away (Sahyadri Air Base, by air) — later than the earliest plausible failure (0 h). Pull the aircraft from the line and order the part.",
+   "reason": "Electrical has a 55% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest AC generator (115 V / 400 Hz) is 6 h away (Sahyadri Air Base, by air) — later than the earliest plausible failure (0 h). Take the aircraft in for repair and order the part.",
    "downtime_cost": {
     "planned_hours": 9.0,
     "unplanned_hours": 39.0,
@@ -12920,7 +12920,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Electrical has a 55% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest AC generator (115 V / 400 Hz) is 6 h away (Sahyadri Air Base, by air) — later than the earliest plausible failure (0 h). Pull the aircraft from the line and order the part.",
+    "reason": "Electrical has a 55% chance of failing within the next 14 days, above the 30% limit for training flying, and the fastest AC generator (115 V / 400 Hz) is 6 h away (Sahyadri Air Base, by air) — later than the earliest plausible failure (0 h). Take the aircraft in for repair and order the part.",
     "downtime_cost": {
      "planned_hours": 9.0,
      "unplanned_hours": 39.0,
@@ -13025,7 +13025,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Landing gear & brakes has a 38% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Brake assembly from the Aravalli Air Base store (2 h).",
+    "reason": "Landing gear & brakes has a 38% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Brake assembly from the Aravalli Air Base store (2 h).",
     "downtime_cost": {
      "planned_hours": 6.0,
      "unplanned_hours": 30.0,
@@ -14006,7 +14006,7 @@
   "base": "ARV",
   "action": "PULL_FROM_LINE",
   "system": "avionics",
-  "reason": "Avionics / radar has a 72% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
+  "reason": "Avionics / radar has a 72% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
   "headline": {
    "system": "avionics",
    "lru": "AV-CLF",
@@ -14104,7 +14104,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Avionics / radar has a 72% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
+   "reason": "Avionics / radar has a 72% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
    "downtime_cost": {
     "planned_hours": 5.5,
     "unplanned_hours": 28.5,
@@ -14214,7 +14214,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Avionics / radar has a 72% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
+    "reason": "Avionics / radar has a 72% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
     "downtime_cost": {
      "planned_hours": 5.5,
      "unplanned_hours": 28.5,
@@ -18212,7 +18212,7 @@
   "base": "ARV",
   "action": "PULL_FROM_LINE",
   "system": "avionics",
-  "reason": "Avionics / radar has a 45% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
+  "reason": "Avionics / radar has a 45% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
   "headline": {
    "system": "avionics",
    "lru": "AV-CLF",
@@ -18306,7 +18306,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Avionics / radar has a 45% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
+   "reason": "Avionics / radar has a 45% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
    "downtime_cost": {
     "planned_hours": 5.5,
     "unplanned_hours": 28.5,
@@ -18410,7 +18410,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Avionics / radar has a 45% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
+    "reason": "Avionics / radar has a 45% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Aravalli Air Base store (1.5 h).",
     "downtime_cost": {
      "planned_hours": 5.5,
      "unplanned_hours": 28.5,
@@ -24221,7 +24221,7 @@
   "base": "HIM",
   "action": "VERIFY_SENSOR",
   "system": "avionics",
-  "reason": "Avionics / radar has a 58% chance of failing within the next 14 days, above the 30% limit for training flying, but the sensor driving that estimate has trust 3/100 (av_lru_temp: outside physical range; inconsistent with redundant/sibling sensors (z = -10.0)). Verify the sensor before pulling the aircraft; keep it on restricted duty meanwhile.",
+  "reason": "Avionics / radar has a 58% chance of failing within the next 14 days, above the 30% limit for training flying, but the sensor driving that estimate has trust 3/100 (av_lru_temp: outside physical range; inconsistent with redundant/sibling sensors (z = -10.0)). Verify the sensor before sending the aircraft for repair; keep it on restricted duty meanwhile.",
   "headline": {
    "system": "avionics",
    "lru": "AV-TXR",
@@ -24278,7 +24278,7 @@
    "spares": null,
    "alternatives": [
     {
-     "option": "Pull now on the current reading",
+     "option": "Send for repair now on the current reading",
      "consequence": "may ground a healthy aircraft on a faulty sensor"
     },
     {
@@ -24287,7 +24287,7 @@
     }
    ],
    "action": "VERIFY_SENSOR",
-   "reason": "Avionics / radar has a 58% chance of failing within the next 14 days, above the 30% limit for training flying, but the sensor driving that estimate has trust 3/100 (av_lru_temp: outside physical range; inconsistent with redundant/sibling sensors (z = -10.0)). Verify the sensor before pulling the aircraft; keep it on restricted duty meanwhile.",
+   "reason": "Avionics / radar has a 58% chance of failing within the next 14 days, above the 30% limit for training flying, but the sensor driving that estimate has trust 3/100 (av_lru_temp: outside physical range; inconsistent with redundant/sibling sensors (z = -10.0)). Verify the sensor before sending the aircraft for repair; keep it on restricted duty meanwhile.",
    "downtime_cost": {
     "planned_hours": 8.0,
     "unplanned_hours": 36.0,
@@ -24353,7 +24353,7 @@
     "spares": null,
     "alternatives": [
      {
-      "option": "Pull now on the current reading",
+      "option": "Send for repair now on the current reading",
       "consequence": "may ground a healthy aircraft on a faulty sensor"
      },
      {
@@ -24362,7 +24362,7 @@
      }
     ],
     "action": "VERIFY_SENSOR",
-    "reason": "Avionics / radar has a 58% chance of failing within the next 14 days, above the 30% limit for training flying, but the sensor driving that estimate has trust 3/100 (av_lru_temp: outside physical range; inconsistent with redundant/sibling sensors (z = -10.0)). Verify the sensor before pulling the aircraft; keep it on restricted duty meanwhile.",
+    "reason": "Avionics / radar has a 58% chance of failing within the next 14 days, above the 30% limit for training flying, but the sensor driving that estimate has trust 3/100 (av_lru_temp: outside physical range; inconsistent with redundant/sibling sensors (z = -10.0)). Verify the sensor before sending the aircraft for repair; keep it on restricted duty meanwhile.",
     "downtime_cost": {
      "planned_hours": 8.0,
      "unplanned_hours": 36.0,
@@ -33326,7 +33326,7 @@
   "base": "KAV",
   "action": "PULL_FROM_LINE",
   "system": "landing_gear",
-  "reason": "Landing gear & brakes has a 75% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Main wheel & tyre from the Kaveri Air Base store (1 h).",
+  "reason": "Landing gear & brakes has a 75% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Main wheel & tyre from the Kaveri Air Base store (1 h).",
   "headline": {
    "system": "landing_gear",
    "lru": "LG-TYR",
@@ -33420,7 +33420,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Landing gear & brakes has a 75% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Main wheel & tyre from the Kaveri Air Base store (1 h).",
+   "reason": "Landing gear & brakes has a 75% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Main wheel & tyre from the Kaveri Air Base store (1 h).",
    "downtime_cost": {
     "planned_hours": 5.0,
     "unplanned_hours": 27.0,
@@ -33524,7 +33524,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Landing gear & brakes has a 75% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Main wheel & tyre from the Kaveri Air Base store (1 h).",
+    "reason": "Landing gear & brakes has a 75% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Main wheel & tyre from the Kaveri Air Base store (1 h).",
     "downtime_cost": {
      "planned_hours": 5.0,
      "unplanned_hours": 27.0,
@@ -40562,7 +40562,7 @@
   "base": "KAV",
   "action": "PULL_FROM_LINE",
   "system": "fuel",
-  "reason": "Fuel has a 59% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Fuel quantity probe from the Kaveri Air Base store (2 h).",
+  "reason": "Fuel has a 59% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Fuel quantity probe from the Kaveri Air Base store (2 h).",
   "headline": {
    "system": "fuel",
    "lru": "FU-QTY",
@@ -40660,7 +40660,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Fuel has a 59% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Fuel quantity probe from the Kaveri Air Base store (2 h).",
+   "reason": "Fuel has a 59% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Fuel quantity probe from the Kaveri Air Base store (2 h).",
    "downtime_cost": {
     "planned_hours": 6.0,
     "unplanned_hours": 30.0,
@@ -40770,7 +40770,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Fuel has a 59% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Fuel quantity probe from the Kaveri Air Base store (2 h).",
+    "reason": "Fuel has a 59% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Fuel quantity probe from the Kaveri Air Base store (2 h).",
     "downtime_cost": {
      "planned_hours": 6.0,
      "unplanned_hours": 30.0,
@@ -40875,7 +40875,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Avionics / radar has a 53% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
+    "reason": "Avionics / radar has a 53% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
     "downtime_cost": {
      "planned_hours": 5.5,
      "unplanned_hours": 28.5,
@@ -41287,7 +41287,7 @@
   "base": "KAV",
   "action": "PULL_FROM_LINE",
   "system": "avionics",
-  "reason": "Avionics / radar has a 32% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
+  "reason": "Avionics / radar has a 32% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
   "headline": {
    "system": "avionics",
    "lru": "AV-CLF",
@@ -41385,7 +41385,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Avionics / radar has a 32% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
+   "reason": "Avionics / radar has a 32% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
    "downtime_cost": {
     "planned_hours": 5.5,
     "unplanned_hours": 28.5,
@@ -41495,7 +41495,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Avionics / radar has a 32% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
+    "reason": "Avionics / radar has a 32% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
     "downtime_cost": {
      "planned_hours": 5.5,
      "unplanned_hours": 28.5,
@@ -41965,7 +41965,7 @@
   "base": "KAV",
   "action": "PULL_FROM_LINE",
   "system": "avionics",
-  "reason": "Avionics / radar has a 46% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
+  "reason": "Avionics / radar has a 46% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
   "headline": {
    "system": "avionics",
    "lru": "AV-CLF",
@@ -42063,7 +42063,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Avionics / radar has a 46% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
+   "reason": "Avionics / radar has a 46% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
    "downtime_cost": {
     "planned_hours": 5.5,
     "unplanned_hours": 28.5,
@@ -42173,7 +42173,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Avionics / radar has a 46% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
+    "reason": "Avionics / radar has a 46% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Avionics cooling fan from the Kaveri Air Base store (1.5 h).",
     "downtime_cost": {
      "planned_hours": 5.5,
      "unplanned_hours": 28.5,
@@ -42633,7 +42633,7 @@
   "base": "KAV",
   "action": "PULL_FROM_LINE",
   "system": "landing_gear",
-  "reason": "Landing gear & brakes has a 48% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Brake assembly from the Kaveri Air Base store (2 h).",
+  "reason": "Landing gear & brakes has a 48% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Brake assembly from the Kaveri Air Base store (2 h).",
   "headline": {
    "system": "landing_gear",
    "lru": "LG-BRK",
@@ -42731,7 +42731,7 @@
     }
    ],
    "action": "PULL_FROM_LINE",
-   "reason": "Landing gear & brakes has a 48% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Brake assembly from the Kaveri Air Base store (2 h).",
+   "reason": "Landing gear & brakes has a 48% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Brake assembly from the Kaveri Air Base store (2 h).",
    "downtime_cost": {
     "planned_hours": 6.0,
     "unplanned_hours": 30.0,
@@ -42841,7 +42841,7 @@
      }
     ],
     "action": "PULL_FROM_LINE",
-    "reason": "Landing gear & brakes has a 48% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Pull the aircraft now and fit the Brake assembly from the Kaveri Air Base store (2 h).",
+    "reason": "Landing gear & brakes has a 48% chance of failing within the next 14 days, above the 30% limit for training flying, and failure is plausible at any moment — too soon to keep flying until the fix. Repair the aircraft now and fit the Brake assembly from the Kaveri Air Base store (2 h).",
     "downtime_cost": {
      "planned_hours": 6.0,
      "unplanned_hours": 30.0,

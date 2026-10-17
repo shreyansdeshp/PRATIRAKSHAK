@@ -132,7 +132,7 @@ export function BaseView({ id }: { id: string }) {
 
         <section className={v.right}>
           <h2 className={v.h2}>Planned garage work</h2>
-          <p className={v.small}>Next 14 days · {bays} bays · each bar is an aircraft being worked on · ▣ = already pulled from flying</p>
+          <p className={v.small}>Next 14 days · {bays} bays · each bar is an aircraft being worked on · ▣ = already in repair</p>
           <TimelineStrips days={14} width={400} labelWidth={58} rowHeight={34} dayLabel={(d) => (d === 0 ? "Today" : `${d}`)}
             rows={Array.from({ length: bays }, (_, bay) => ({
               label: `Bay ${bay + 1}`,

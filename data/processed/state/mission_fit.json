@@ -147,7 +147,7 @@
     "worst_p": 0.2993,
     "excluded": true,
     "reasons": [
-     "already pulled (limited by avionics)",
+     "already in repair (limited by avionics)",
      "risk over mission limit θ=0.10: avionics 30%"
     ],
     "per_system": {
@@ -320,7 +320,7 @@
     "worst_p": 0.4139,
     "excluded": true,
     "reasons": [
-     "already pulled (limited by landing_gear)",
+     "already in repair (limited by landing_gear)",
      "risk over mission limit θ=0.20: landing_gear 41%"
     ],
     "per_system": {

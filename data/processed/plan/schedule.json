@@ -3,7 +3,7 @@
  "greedy_objective": 45251.0,
  "cpsat": {
   "status": "FEASIBLE",
-  "wall_seconds": 5.472,
+  "wall_seconds": 7.571,
   "deterministic_time": 2.0,
   "best_bound": 13154.0,
   "objective": 43716.0,

@@ -195,7 +195,7 @@ function GanttSection({ plan, filteredBases, bases }: { plan: PlanData; filtered
         {/* Legend */}
         <div className={p.ganttLegend}>
           <span><i style={{ background: "var(--ink-soft)" }} /> Scheduled visit</span>
-          <span><i style={{ background: "var(--pull)" }} /> Aircraft already pulled</span>
+          <span><i style={{ background: "var(--pull)" }} /> Aircraft already in repair</span>
           <span><i style={{ background: "var(--paper-hi)", border: "1.5px solid var(--olive)" }} /> Bundled (multiple tasks)</span>
         </div>
       </div>
@@ -210,7 +210,7 @@ function GanttSection({ plan, filteredBases, bases }: { plan: PlanData; filtered
             {tip.visit.tasks.map((t, i) => (
               <dd key={i}>{SYS_NAME[t.system] ?? t.system} — {t.lru} ({t.hours} h, due D+{t.due})</dd>
             ))}
-            {tip.visit.pulled && <dd style={{ color: "var(--pull)" }}>■ Aircraft already pulled from line</dd>}
+            {tip.visit.pulled && <dd style={{ color: "var(--pull)" }}>■ Aircraft already in repair</dd>}
           </dl>
         </div>
       )}
