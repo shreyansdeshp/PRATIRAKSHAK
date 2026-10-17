@@ -93,3 +93,8 @@
 .confMeter .confSeg { height: 14px; flex: 1; }
 
 .confMeter + .nBig { text-transform: capitalize; }
+
+.nSensor { display: flex; flex-direction: column; gap: 4px; }
+.nPct { color: var(--pull); font-weight: 600; }
+.nTwo { display: flex; flex-direction: column; gap: 8px; }
+.nTwo .nSpare { font-size: 24px; display: flex; align-items: center; gap: 10px; }

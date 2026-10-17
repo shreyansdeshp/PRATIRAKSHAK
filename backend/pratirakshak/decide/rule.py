@@ -97,12 +97,11 @@ def decide_system(est: dict[str, Any], theta: float, criticality: str, base: str
         if local and verdict == "SOURCE":
             out.update(action="SCHEDULE_SERVICE", urgent=True,
                        reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying. A {part['name']} is in the "
-                              f"{base_name} store: service now, before the earliest plausible failure in {p10_h:.0f} h.")
+                              f"{base_name} store: service it now.")
         elif local:
             out.update(action="PULL_FROM_LINE",
-                       reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying, and failure is plausible "
-                              f"{'at any moment' if p10_h < 1 else f'within {p10_h:.0f} h'} — too soon to keep flying until "
-                              "the fix. Repair the aircraft now and fit the "
+                       reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying. "
+                              "Do not fly it while waiting: repair the aircraft now and fit the "
                               f"{part['name']} from the {base_name} store ({part['install_hours']:g} h).")
         elif verdict == "SOURCE":
             out.update(action="EXPEDITE_SPARE",
@@ -113,8 +112,8 @@ def decide_system(est: dict[str, Any], theta: float, criticality: str, base: str
             why = (f"the fastest {part['name']} is {eta:.0f} h away ({best.name}, by {best.mode})" if best
                    else f"no {part['name']} can reach {base_name} by any open route")
             out.update(action="PULL_FROM_LINE",
-                       reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying, and {why} — later than "
-                              f"the earliest plausible failure ({p10_h:.0f} h). Take the aircraft in for repair and order the part.")
+                       reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying, and {why}. "
+                              "Take the aircraft in for repair and order the part.")
         out["alternatives"] = [later, {"option": "Source the spare",
                                        "consequence": (f"arrives in {eta:.0f} h + {part['install_hours']:g} h fit vs {p10_h:.0f} h "
                                                        "to earliest plausible failure") if best else "no open route"}]

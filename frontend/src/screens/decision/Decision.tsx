@@ -1,3 +1,4 @@
+import { Sparkline } from "../../charts/kit";
 import { CornerTag, RegistrationMarks, SheetHeader, StatusGlyph, type StatusLike } from "../../components/primitives";
 import { SheetIndex } from "../../components/SheetIndex";
 import type { FleetState, World } from "../../data/types";
@@ -20,14 +21,14 @@ const ACTION: Record<string, { label: string; status: StatusLike; title: (t: str
 interface Source { node: string; name: string; kind: string; qty: number; mode: string; eta_hours: number | null; distance_km: number; route_id: string | null; note: string }
 interface Headline {
   system: string; lru: string; lru_name: string; p_fail: number; theta: number; criticality: string; rul_days: [number, number, number];
-  key_sensors: { sensor: string; text: string; trust?: number | null }[]; confidence: { level: "high" | "medium" | "low"; reasons: string[] } | null;
+  key_sensors: { sensor: string; name?: string; unit?: string; deviation?: number; text: string; trust?: number | null }[]; confidence: { level: "high" | "medium" | "low"; reasons: string[] } | null;
   spares: { verdict: "SOURCE" | "PULL"; deadline_hours: number; install_hours: number; sources: Source[]; chosen: Source | null } | null;
   alternatives: { option: string; consequence: string }[]; downtime_cost: { planned_hours: number; unplanned_hours: number; planned_cost: number; unplanned_cost: number };
   cannibalise_from?: string[] | null; action: string; reason: string;
 }
 interface DecisionRow { tail: string; type: string; base: string; action: string; system: string; reason: string; headline: Headline; systems: Headline[] }
 interface History { systems: Record<string, Record<string, (number | null)[]>>; trust: Record<string, Record<string, { trust: number; reasons: string }>>;
-  sensor_meta: Record<string, { name: string; unit: string; system: string; kind: string }>;
+  sensor_meta: Record<string, { name: string; unit: string; system: string; kind: string; healthy?: number }>;
   engines: Record<string, { sensors: Record<string, { symbol: string; name: string; unit: string; deviation: number[] }> }[]> }
 interface Twin { days: number[]; tails: Record<string, { systems: Record<string, { p10: number[]; p50: number[]; p90: number[] }> }> }
 
@@ -36,7 +37,8 @@ export function Decision({ tail }: { tail: string }) {
   const { data } = useSnapshots<{ decisions: DecisionRow[]; state: FleetState; history: History; twin: Twin; world: World }>(["decisions", "state", "history", "twin", "world"]);
   const navigate = useApp((s) => s.navigate);
   if (!data) return <div className={d.loading} />;
-  const { decisions, state, world } = data;
+  const { decisions, state, world, history } = data;
+  const stock = (world as unknown as { stock: { node: string; lru: string; qty: number }[] }).stock ?? [];
   const row = decisions.find((x) => x.tail === tail) ?? decisions[0]!;
   const h = row.headline;
   const act = ACTION[row.action] ?? ACTION.SERVE_NORMALLY!;
@@ -44,6 +46,24 @@ export function Decision({ tail }: { tail: string }) {
   const baseName = world.bases.find((b) => b.id === row.base)?.name ?? row.base;
   const conf = h.confidence;
   const [p10, p50, p90] = h.rul_days;
+  const isRepair = row.action === "PULL_FROM_LINE";
+  const inStoreQty = stock.find((x) => x.node === row.base && x.lru === h.lru)?.qty ?? 0;
+  const sp = h.spares;
+  const localSrc = sp?.chosen && (sp.chosen.mode === "local" || sp.chosen.node === row.base);
+  // cannibalisation only matters when the base store has none of the part
+  const options = h.alternatives.filter((a) => !a.option.startsWith("Cannibalise") || inStoreQty === 0).map((a) => {
+    if (a.option === "Source the spare" && isRepair && sp?.chosen) {
+      return { ...a, consequence: localSrc ? `already in store — about ${sp.install_hours.toFixed(0)} h to fit` : `arrives in ${sp.chosen.eta_hours?.toFixed(0)} h, then ${sp.install_hours.toFixed(0)} h to fit` };
+    }
+    return a;
+  });
+  const bar = (k: Headline["key_sensors"][number]) => {
+    const eng = h.system === "engines" ? history.engines[row.tail]?.[0]?.sensors[k.sensor] : undefined;
+    const series = eng ? eng.deviation : history.systems[row.tail]?.[k.sensor] ?? [];
+    const healthy = history.sensor_meta[k.sensor]?.healthy;
+    const pct = healthy && k.deviation !== undefined ? (k.deviation / healthy) * 100 : null;
+    return { series, pct, eng };
+  };
 
   return (
     <div className={d.sheet} data-testid="decision" data-tail={row.tail}>
@@ -83,15 +103,23 @@ export function Decision({ tail }: { tail: string }) {
 
         <section className={d.nCard}>
           <h2 className={d.nH2}>When might it fail?</h2>
-          <span className={d.nBig}>in about {p50.toFixed(0)} days</span>
-          <span className={d.nSub}>likely between {p10.toFixed(0)} and {p90.toFixed(0)} days</span>
+          <span className={d.nBig}>{Math.round(h.p_fail * 100)} % chance within {state.window_days} days</span>
+          <span className={d.nSub}>median {p50.toFixed(0)} d, but could be as soon as day {p10.toFixed(0)}</span>
           <RulBar p10={p10} p50={p50} p90={p90} window={state.window_days} />
         </section>
 
         <section className={d.nCard}>
           <h2 className={d.nH2}>What the sensors say</h2>
           {h.key_sensors.length === 0 && <p className={d.nText}>No single sensor stands out.</p>}
-          {h.key_sensors.slice(0, 2).map((k) => <p key={k.sensor} className={d.nText}>{k.text.replace(/\s*\([^)]*signature\)/, "")}</p>)}
+          {h.key_sensors.slice(0, 2).map((k) => {
+            const { series, pct, eng } = bar(k);
+            return (
+              <div key={k.sensor} className={d.nSensor}>
+                <p className={d.nText}><b>{k.name ?? k.sensor}</b>{pct !== null ? <> — <span className={d.nPct}>{Math.abs(pct).toFixed(1)} % {pct < 0 ? "below" : "above"} healthy</span></> : k.deviation !== undefined ? <> — <span className={d.nPct}>{Math.abs(k.deviation).toFixed(1)} {k.unit} {k.deviation < 0 ? "below" : "above"} healthy</span></> : null}</p>
+                <Sparkline values={series} width={300} height={34} baseline={eng ? 0 : undefined} color="var(--ink)" />
+              </div>
+            );
+          })}
         </section>
       </div>
 
@@ -99,20 +127,23 @@ export function Decision({ tail }: { tail: string }) {
         <section className={d.nCol}>
           <h2 className={d.nH2}>Options we weighed</h2>
           <ul className={d.nAlts}>
-            {h.alternatives.map((a) => <li key={a.option}><b>{a.option}</b><span>{a.consequence}</span></li>)}
-            {h.alternatives.length === 0 && <li><span>Risk is below the watch band; no action needed.</span></li>}
+            {options.map((a) => <li key={a.option}><b>{a.option}</b><span>{a.consequence}</span></li>)}
+            {options.length === 0 && <li><span>Risk is below the watch band; no action needed.</span></li>}
           </ul>
         </section>
-        {h.spares && (
+        {sp && (
           <section className={d.nCol} data-testid="spare">
             <h2 className={d.nH2}>Can the spare part get here in time?</h2>
-            <div className={`${d.nSpare} ${h.spares.verdict === "SOURCE" ? d.source : d.pull}`}>
-              {h.spares.verdict === "SOURCE" ? "Yes — it arrives in time" : "No — the part cannot arrive in time"}
-            </div>
-            <p className={d.nText}>
-              {h.spares.chosen ? `Fastest source: ${h.spares.chosen.name}, ${h.spares.chosen.eta_hours?.toFixed(0)} h to deliver + ${h.spares.install_hours.toFixed(0)} h to fit.` : "No open route."}
-              {" "}Earliest plausible failure: {h.spares.deadline_hours < 1 ? "could be any time now" : `${h.spares.deadline_hours.toFixed(0)} h`}.
-            </p>
+            {isRepair && sp.chosen ? (
+              <div className={d.nTwo}>
+                <div className={`${d.nSpare} ${d.pull}`}><StatusGlyph status="PULL" size={22} /> Aircraft: grounded now (do not fly while waiting)</div>
+                <div className={`${d.nSpare} ${d.source}`}><StatusGlyph status="READY" size={22} /> Spare: {localSrc ? `in store at ${baseName}` : `from ${sp.chosen.name}, ${sp.chosen.eta_hours?.toFixed(0)} h away`}, fitted in ~{((localSrc ? 0 : sp.chosen.eta_hours ?? 0) + sp.install_hours).toFixed(0)} h</div>
+              </div>
+            ) : sp.chosen && sp.verdict === "SOURCE" ? (
+              <div className={`${d.nSpare} ${d.source}`}>Yes — it arrives in time (about {((sp.chosen.eta_hours ?? 0) + sp.install_hours).toFixed(0)} h)</div>
+            ) : (
+              <div className={`${d.nSpare} ${d.pull}`}>{isRepair ? "No spare can reach this base — order the part" : "No — the part cannot arrive in time"}</div>
+            )}
             <button type="button" className={d.link} onClick={() => navigate(`/spares/${row.tail}`)}>Open the spares map →</button>
           </section>
         )}
