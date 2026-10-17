@@ -11,6 +11,7 @@ from __future__ import annotations
 import math
 
 import numpy as np
+from scipy.special import ndtr
 from scipy.stats import norm
 
 Z90 = norm.ppf(0.9)  # 1.2816
@@ -56,22 +57,24 @@ def calibrated_quantiles(q_pred: np.ndarray | None, point: np.ndarray | None, qu
 
 
 def p_fail_within(qv: np.ndarray, quantiles: list[float], horizon: float | np.ndarray) -> np.ndarray:
-    """P(RUL ≤ H) from a quantile set: linear CDF interpolation inside [q05, q95], split-normal tails outside."""
-    qs = np.asarray(quantiles)
-    h = np.broadcast_to(np.asarray(horizon, dtype=float), (len(qv),))
+    """P(RUL ≤ H) from a quantile set: linear CDF interpolation inside [q_min, q_max], split-normal tails outside.
+    Vectorised; ties between quantiles resolve to the upper level (same as np.interp's right-most match)."""
+    qv = np.asarray(qv, dtype=float)
+    qs = np.asarray(quantiles, dtype=float)
+    n, Q = qv.shape
+    h = np.broadcast_to(np.asarray(horizon, dtype=float), (n,))
     i10, i50, i90 = list(quantiles).index(0.1), list(quantiles).index(0.5), list(quantiles).index(0.9)
     s_lo = np.maximum((qv[:, i50] - qv[:, i10]) / Z90, 1e-3)
     s_hi = np.maximum((qv[:, i90] - qv[:, i50]) / Z90, 1e-3)
-    out = np.empty(len(qv))
-    for n in range(len(qv)):
-        row = qv[n]
-        if h[n] < row[0]:
-            out[n] = norm.cdf((h[n] - row[i50]) / s_lo[n])
-            out[n] = min(out[n], qs[0])
-        elif h[n] > row[-1]:
-            out[n] = max(norm.cdf((h[n] - row[i50]) / s_hi[n]), qs[-1])
-        else:
-            out[n] = float(np.interp(h[n], row, qs))
+    idx = np.clip((qv <= h[:, None]).sum(1) - 1, 0, Q - 2)
+    rows = np.arange(n)
+    x0, x1 = qv[rows, idx], qv[rows, idx + 1]
+    with np.errstate(invalid="ignore", divide="ignore"):
+        f = np.where(x1 > x0, (h - x0) / (x1 - x0), 1.0)
+    inside = qs[idx] + np.clip(f, 0, 1) * (qs[idx + 1] - qs[idx])
+    below = np.minimum(ndtr((h - qv[:, i50]) / s_lo), qs[0])
+    above = np.maximum(ndtr((h - qv[:, i50]) / s_hi), qs[-1])
+    out = np.where(h < qv[:, 0], below, np.where(h > qv[:, -1], above, inside))
     return np.clip(out, 0, 1)
 
 

@@ -3,11 +3,11 @@
 > Running state of the build. Update at the **start** and **end** of every stage and whenever you stop. A fresh Claude Code session must be able to resume from this file + `SPEC.md` alone.
 
 ## Status
-- **Current stage:** 7 — Simulation & results (next)
-- **Last completed stage:** 6 — Decision, spares, scheduling
-- **Last commit:** see `git log -1` (Stage 6: decision rule, spares, scheduler)
-- **Date/time of last update:** 2026-10-17 08:20
-- **Demo seed:** not chosen yet (Stage 7)
+- **Current stage:** 8 — Export & API (next)
+- **Last completed stage:** 7 — Simulation & results
+- **Last commit:** see `git log -1` (Stage 7: fleet simulation and results)
+- **Date/time of last update:** 2026-10-17 08:45
+- **Demo seed:** **5** (median rule: base-scenario P3 − best-baseline ready-% gain closest to the median)
 - **Global seed:** 26249
 - **Remote:** `https://github.com/shreyansdeshp/PRATIRAKSHAK.git` (branch `main`); commits authored as `shreyansdeshp <sndeshpande_b25@it.vjti.ac.in>` (repo-local git config). Push after every stage commit.
 
@@ -19,7 +19,7 @@
 - [x] 4 Other systems + aircraft combiner
 - [x] 5 Intelligence (trust, explanations, mission fit)
 - [x] 6 Decision, spares, scheduling
-- [ ] 7 Simulation & results
+- [x] 7 Simulation & results
 - [ ] 8 Export & API
 - [ ] 9 Front-end foundation
 - [ ] 10 Hero & storyline engine
@@ -29,7 +29,15 @@
 - [ ] 14 Polish & delivery
 
 ## This stage's plan (10–20 lines, written before coding)
-**Stage 6 — Decision, spares, scheduling**
+**Stage 7 — Simulation & results**
+1. `config/scenarios.yaml`: base · surge (sortie demand ×2, sensor-fault hazard ×1.5) · strike (ARV day 20: bays −60 %, ARV store lost, 3 aircraft damaged) · supply (HIM roads closed all horizon + vendor dispatch +72 h) · weather (dust/humidity/wet up) · late detection d ∈ {1,3,7} (P3 acts on data d days old).
+2. `sim/engine.py`: 90-day daily sim from the D+0 truth (`d0_latent.json`; engines continue their REAL replay trajectories, cycles/day from sorties × env acceleration). Each day: sorties from missions spread over available aircraft → damage step → failures (in flight = mission abort; cascade chance) → observations with faults → policy → greedy scheduling with bay/tech-hour/floor limits → services, spares consumption, replenishment from the vendor hub after lead time, orders in transit. **Common random numbers**: a separate RNG per (seed, day, purpose).
+3. Policies: P0 run-to-failure; P1 fixed-interval (the fleet's legacy 0.6 × usage-adjusted life; engines at 0.6 × median subset life) — one fair setting; P2 raw-sensor threshold alarms (3-day mean beyond 70 % of the failure signature; engines HPC z-alarm) with no spares-awareness; P3 Pratirakshak (daily RUL estimates → rule → orders ahead → bundled greedy plan; VERIFY_SENSOR on untrusted drivers). Unplanned failures handled identically for all.
+4. Metrics per run: mean ready %, sortie fill %, unplanned failures, in-flight failures, planned / unplanned downtime h, wasted life %, stockouts, expedite success, ₵ total; daily ready curves.
+5. `sim/__main__.py` (`./tasks.ps1 sim`): policies × scenarios × 10 seeds; 95 % CIs; demo seed = base-scenario seed whose P3-vs-best-baseline availability gain is closest to the median; ablations (no trust / no spares-awareness / no bundling); sensitivity (θ scale, usage, stock, delay; 5 seeds); late-detection and 2×-usage counterfactual data; `reports/results.md` incl. where P3 does **not** help; JSON for the Results screen.
+6. Checks: one command regenerates the table with CIs; `reports/results.md` written with demo seed + "where it does not help".
+
+**Stage 6 — Decision, spares, scheduling** (done)
 1. `config/policies.yaml`: θ by mission criticality (training 0.30 / routine 0.25 / operational 0.10), monitor band, bundling tolerance 7 d, look-ahead 30 d, sensor→LRU map, vendor dispatch time; `config/costs.yaml` (ILLUSTRATIVE ₵ / hours: planned vs unplanned multipliers, AOG, mission abort, cascade).
 2. `decide/spares.py`: local stock → candidate sources (other bases, depots, vendor hub) by ETA: road (OSRM time, closed when the seasonal closure covers the date), airlift (needs a READY Vahak; positioning leg from its base); nearest 2–3. `source_or_pull(eta_h, install_h, deadline_h)`; cannibalisation from an already-grounded tail of the same type.
 3. `decide/rule.py`: the one rule per tail × system → action + reason card (what / why / how sure / key sensors / alternatives with consequences / spare route). Untrusted driving sensor → VERIFY_SENSOR instead of a pull. Aircraft action = most severe system action; mission-fit exclusions → SWAP_TAIL_FOR_MISSION.
@@ -96,6 +104,16 @@
 9. Check: fresh venv `pip install` + `npm ci` + Playwright render test; paste output; commit.
 
 ## What I did (this session)
+**Stage 7**
+- `config/scenarios.yaml`; `sim/engine.py` (daily simulator, CRN via RNG per (seed, day, purpose), P0–P3, unplanned handling identical for all, spares consumption + vendor replenishment, greedy hangar plan in the loop), `sim/runner.py` (worker setup + caches), `sim/__main__.py` (`./tasks.ps1 sim`; grid, CIs, paired diffs, demo seed, ablations, sensitivity, counterfactuals, report; `--report-only`).
+- **Laptop crash (twice) — my fault:** first version launched 12 workers that each rebuilt the engine pre-processing (~0.5–1 GB each) with multi-threaded BLAS/OpenMP → RAM + all 16 threads saturated → hard power-off (Windows Kernel-Power 41 at 07:51, no bugcheck). Fix: engine arrays cached once (`data/interim/sim_engine_cache.pkl`), workers measured at **≈ 210 MB peak**, 1 maths thread each, below-normal priority, default ≤ 6 workers (5 on this 16-thread machine). Full run: 310 sims in ~3–4.5 min.
+- Speed fixes from profiling (P3 run 27.5 s → 5 s): `score()` re-read YAML each call; `p_fail_within` looped scipy.cdf → vectorised (**verified identical to the old version, max diff 1e-16**, so Stage 4–6 artefacts are unchanged); NaN-safe sort key.
+- Fairness fix for **P2** (it was a straw man): condition-corrected limits + 7-day re-alarm cooldown (wasted life 70 % → 53 %).
+- Late-detection bug fixed: the lag was also applied to maintenance records (negative days-since-service → re-servicing just-replaced parts) and engine-change cycles; and RUL was "corrected" for the lag, which assumes the operator knows data is stale. Now: only sensor data is stale and treated as current.
+- **Determinism evidence:** the main grid gave identical numbers in two full runs with 4 and 5 workers.
+- **Honest headline:** vs the best baseline (fair threshold alarms) P3 cuts unplanned failures ≈ 31 / 90 days in every scenario (base 32 → 1), wasted life −15…−18 pts; under surge +3.3 pts ready, +6.3 pts sorties, −₵218k. **Does not help**: base/strike/supply availability and cost (no clear difference), weather availability −1.7 and cost +₵34k (worse). Ablations: sensor trust and bundling show **no measurable effect** in this sim (claimed only as safeguards); spares-awareness trades −4.6 pts ready for −14.5 failures. Late detection raises failures 1.2 → 8.8 (7 d) but *raises* 90-day availability (deferred work falls past the horizon) — S8 must tell the failure story, not an availability story.
+- Outputs: `data/processed/results/{runs.parquet, summary.json, curves.json, ablation.json, sensitivity.json, counterfactuals.json, demo.json}` (1.3 MB), `reports/results.md`.
+
 **Stage 6**
 - `config/policies.yaml` (θ by criticality 0.30/0.25/0.10, monitor band, bundling 7 d, look-ahead 30 d, sensor→LRU map, CP-SAT limits), `config/costs.yaml` (ILLUSTRATIVE ₵/hours). `decide/spares.py` (Logistics: local → nearest sources by ETA, seasonal closure, airlift needs a non-PULL Vahak + positioning leg, vendor dispatch +24 h; `source_or_pull`), `decide/rule.py` (the rule + reason card: what/why/how sure/key sensors/alternatives with downtime & ₵, cannibalisation donors), `plan/scheduler.py` (visits = bundled tasks; CP-SAT with cumulative bays, tech-hours and per-type readiness floor; EDF greedy; `check_limits`), `decide/__main__.py` (`./tasks.ps1 plan`, new target in Makefile/tasks.ps1).
 - D+0 result: 40 SERVE_NORMALLY · 16 SCHEDULE_SERVICE · 10 PULL · 4 MONITOR · 1 VERIFY_SENSOR (PR-G295, trust 3/100) · 1 EXPEDITE_SPARE (PR-S350: GCU airlifted Aravalli → Himshikhar in 5 h, fit 2 h). 41 hangar visits, all scheduled, 1 late; **CP-SAT 3.4 % better than greedy**, no limit violations.
@@ -142,6 +160,23 @@
 - Remote set to the user's GitHub repo; local `main` rebased onto its existing 2 commits (README only); README expanded.
 
 ## Acceptance checks — **real output pasted**
+**Stage 7** — Check (1): the results table regenerates with one command and has intervals across seeds; Check (2): `reports/results.md` records the demo seed and where Pratirakshak does not help.
+```
+> python -m pratirakshak.sim
+running 310 simulations on 5 workers …
+  done in 270 s
+  demo seed 5 (gain -0.34 pp; median -0.55; range -1.10…+1.34)
+(base scenario, mean [95 % CI], 10 seeds)          P0 Run-to-failure     P1 Fixed interval     P2 Threshold alarms   P3 Pratirakshak
+| base | Ready aircraft (%)                  | 75.3 [74.4, 76.3] | 75.2 [73.8, 76.6] | 89.1 [88.6, 89.6] | 88.8 [88.3, 89.3] |
+| base | Unplanned failures                  | 181 [178, 185]    | 98 [96, 101]      | 32 [29, 35]       | 1 [0, 2]          |
+| base | In-flight failures (mission aborts) | 170 [166, 174]    | 94 [91, 98]       | 32 [29, 34]       | 1 [0, 2]          |
+| base | Wasted life (%)                     | 0.0               | 26.0 [25.5, 26.6] | 52.6 [51.9, 53.3] | 35.0 [34.9, 35.2] |
+| base | Cost (₵, ILLUSTRATIVE)              | 709433            | 795073            | 510388            | 524030            |
+P3 − best baseline (paired): surge ready +3.3 [+2.5, +4.2], sorties +6.3 [+5.3, +7.2], failures −110.4; weather ready −1.7 [−2.5, −1.0] (worse)
+reports/results.md §4 "Where Pratirakshak does NOT help (computed, not hand-picked)": 8 entries + 2 standing caveats.
+> python -m pytest -q   → 20 passed
+```
+
 **Stage 6** — Check (1): hand-checkable SOURCE/PULL test; Check (2): scheduler never exceeds slot/hour limits.
 ```
 > python -m pytest -v backend/tests/test_spares_rule.py backend/tests/test_scheduler.py
@@ -343,6 +378,10 @@ Tests  1 passed (1)
 | 2026-10-17 | Act-now resolution: local spare & fits before lower-bound RUL → service now; local but RUL lower bound too short → PULL + fit from store; remote & in time → EXPEDITE_SPARE; else PULL (+ cannibalisation offer) | Literal reading of the SPEC §1.1 rule with the §9.4 deadline | Yes |
 | 2026-10-17 | Readiness floor allowance per base-type = max(floor(n·(1−0.5)), already-pulled count, 1) | Keeps the model feasible when more aircraft are already grounded than the floor allows | Yes |
 | 2026-10-17 | CP-SAT single worker + deterministic time 2.0 + seed → reproducible; Stage 7 uses greedy inside the daily sim loop, CP-SAT gain reported at D+0 | 5.5 s per solve is fine for the demo, too slow for 90 days × policies × scenarios × seeds | Yes |
+| 2026-10-17 | One fair setting per baseline: P1 = legacy 0.6 interval (orders a week ahead); P2 = 70 % of failure signature, condition-corrected, 7-day cooldown | SPEC: no straw men, no tuning loop | Yes (`config/scenarios.yaml`) |
+| 2026-10-17 | In the sim an engine action = quick engine change (fresh REAL replay trajectory) | Keeps engine truth REAL after maintenance | Yes |
+| 2026-10-17 | Sim parallelism ≤ 6 workers, single-threaded, below-normal priority, shared caches | 12 heavy workers crashed the user's laptop twice | Yes |
+| 2026-10-17 | S8 (late detection) tells the failure/in-flight-abort story; availability goes *up* with delay over 90 days (horizon effect) and is shown with that caveat | Honest reading of the data | — |
 
 ## Defaults used because the user hadn't specified (SPEC §3.4)
 - Base names / aircraft names / fleet mix: SPEC defaults (to be written to `config/world.yaml` in Stage 2).
@@ -384,6 +423,11 @@ Tests  1 passed (1)
 | 5 | 2026-10-17 | Fleet sensors untrusted at D+0 | 35 / 3220 | |
 | 6 | 2026-10-17 | D+0 aircraft actions | 40 serve · 16 schedule · 10 pull · 4 monitor · 1 verify · 1 expedite | θ by criticality |
 | 6 | 2026-10-17 | CP-SAT vs greedy (D+0) | 3.4 % lower objective, 5.5 s wall, 0 violations | |
+| 7 | 2026-10-17 | Base: ready % P0/P1/P2/P3 | 75.3 / 75.2 / 89.1 / 88.8 | 10 seeds |
+| 7 | 2026-10-17 | Base: unplanned failures P0/P1/P2/P3 | 181 / 98 / 32 / 1 | |
+| 7 | 2026-10-17 | Surge: P3 − P2 ready / sorties / failures | +3.3 / +6.3 pts / −110 | paired |
+| 7 | 2026-10-17 | Weather: P3 − P2 ready | −1.7 pts (worse) | reported in §4 |
+| 7 | 2026-10-17 | Demo seed | 5 | median rule |
 
 ## Open issues / known defects
 - [ ] **FD003 interval under-covers** (80 % nominal → 64 % on test). Likely cause: only 16 val units / 160 calibration windows, and FD003's long lifetime tail (up to 525 cycles) makes val and test truncations less exchangeable. Not tuned (rule 15). Effect: Shikshak engine risk is somewhat over-confident. Options if time allows: calibrate on val ∪ part of replay, or widen with a per-subset factor, and say so. Shown on the Results screen as flagged.
@@ -393,9 +437,7 @@ Tests  1 passed (1)
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
 ## Next steps (ordered, concrete)
-1. Stage 7: write plan here. `sim/engine.py`: daily discrete sim over 90 days from the D+0 latent state (`d0_latent.json`, engines from replay trajectories), common random numbers per seed (same driver/failure draws for every policy). Policies P0 run-to-failure, P1 fixed-interval (`legacy_intervals`, one fair fraction chosen on separate seeds), P2 raw-sensor threshold alarms, P3 Pratirakshak (daily estimates → rule → greedy plan → spares with stock depletion & transit). Failures realised from true damage; unplanned vs planned downtime from `costs.yaml`.
-2. Scenarios: base, surge ×2, strike (−X % bays at one base + depot stock loss + damaged aircraft), supply (HIM road closure + vendor delay), weather (dust/monsoon stress), late detection d ∈ {1,3,7}. ≥ 10 seeds each.
-3. Metrics with 95 % CI; demo seed = median-improvement seed; ablations (no trust, no spares-awareness, no bundling); sensitivity (θ, usage, detection delay, stock); `reports/results.md` including where Pratirakshak does NOT help. Keep the run under ~30 min: estimates in the loop must be cheap (vectorised LightGBM on daily features; engine quantiles via replay-prediction lookup).
+1. Stage 8: write plan here. `export/`: snapshot bundle in `frontend/public/data/` (meta, world, state, decisions, plans, scenarios/curves, results, story beats, roles) + JSON Schema in `docs/SNAPSHOT_SCHEMA.md`; vendor snapshot = demands only (no tail ids, no readiness); simplify route geometry; size < 25 MB. FastAPI (`api/app.py`): twin what-if (reuse `synth/model.py`), quick re-simulation, decision re-evaluation; front-end falls back to static files. Service worker for offline. Checks: data layer loads with API off; vendor snapshot has no tail-level health (test).
 
 ## How to run (keep current)
 ```
@@ -405,7 +447,8 @@ Tests  1 passed (1)
 # train     ./tasks.ps1 train [-Fast]  → models/engine/, reports/engine_*.md  (~34 min full, CPU; -Fast ≈ 1/4)
 # synth     ./tasks.ps1 synth  → models/systems/, data/processed/state/ (~40 s; needs UCI data for a fresh anchor, else committed anchor)
 # intel     ./tasks.ps1 intelligence  → trust, explanations, mission fit, graph (~2 min)
-# sim       ./tasks.ps1 sim                       (Stage 7)
+# plan      ./tasks.ps1 plan   → data/processed/plan/ (D+0 decisions, CP-SAT schedule, spares requests)
+# sim       ./tasks.ps1 sim    → data/processed/results/, reports/results.md (~4 min, ≤ 6 workers; --report-only to rewrite report)
 # export    ./tasks.ps1 export                    (Stage 8)
 # dev       ./tasks.ps1 dev   (UI only for now: cd frontend; npm run dev → http://localhost:5173)
 # shots     ./tasks.ps1 shots  → docs/shots/
