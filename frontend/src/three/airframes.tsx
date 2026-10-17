@@ -172,6 +172,8 @@ export function Airframe({ type, exploded = 0, bodyHealth = 100, showBody = fals
   const flagW = Math.min(0.42, finH * 0.3), flagH = flagW * 0.66;
   const bx = -L * 0.2;                                    // body lettering station
   const bR = profileR(s, 1 - (bx + L / 2) / L);
+  const nx = L * 0.23;                                    // forward lettering station (nose section)
+  const nR = profileR(s, 1 - (nx + L / 2) / L);
   const ex = exploded;
   const group = useRef<THREE.Group>(null);
   useFrame(() => { /* static model; the camera turns (turntable) */ });
@@ -192,6 +194,7 @@ export function Airframe({ type, exploded = 0, bodyHealth = 100, showBody = fals
         <group key={side}>
           <Decal texture={flag} position={[finX, finY, 0.058]} size={[flagW, flagH]} side={side} />
           <Decal texture={iaf} position={[bx, 0.02, bR + 0.012]} size={[0.95, 0.36]} side={side} />
+          <Decal texture={iaf} position={[nx, -0.02, nR + 0.05]} size={[0.56, 0.21]} side={side} />
         </group>
       ))}
       <mesh geometry={geo.canopy} position={[s.canopy.x, profileR(s, 1 - (s.canopy.x + L / 2) / L) * 0.72, 0]} scale={[s.canopy.len / 2, s.canopy.r, s.canopy.r * 0.9]}>
