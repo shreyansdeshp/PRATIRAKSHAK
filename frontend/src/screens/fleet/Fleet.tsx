@@ -98,6 +98,7 @@ export function Fleet() {
         </section>
 
         <aside className={f.side}>
+          <div className={f.limitsBox}>
           <h2 className={f.h2}>What limits readiness</h2>
           <p className={f.note}>Limiting system of the {notReady.length} aircraft not ready. The average health bar never hides a single no-go: each aircraft is gated by its worst critical system.</p>
           <ul className={f.limits}>
@@ -109,6 +110,7 @@ export function Fleet() {
               </li>
             ))}
           </ul>
+          </div>
           <h2 className={f.h2}>Most at risk now</h2>
           <ul className={f.atRisk}>
             {[...notReady].sort((a, b) => b.limiting_p - a.limiting_p).slice(0, 7).map((a) => (

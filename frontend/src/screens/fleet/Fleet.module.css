@@ -53,3 +53,5 @@
 .riskP { font-family: var(--font-mono); font-size: 17px; text-align: right; }
 .prov { display: flex; gap: 16px; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); margin-top: auto; padding-bottom: 30px; }
 .prov span { display: flex; align-items: center; gap: 6px; }
+
+.limitsBox { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; border-radius: var(--r-1); background: color-mix(in srgb, var(--watch) 14%, var(--paper-hi)); border: 1px solid color-mix(in srgb, var(--watch) 45%, transparent); }
