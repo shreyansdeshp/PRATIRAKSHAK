@@ -3,10 +3,10 @@
 > Running state of the build. Update at the **start** and **end** of every stage and whenever you stop. A fresh Claude Code session must be able to resume from this file + `SPEC.md` alone.
 
 ## Status
-- **Current stage:** 10 — Hero & storyline engine (next)
-- **Last completed stage:** 9 — Front-end foundation
-- **Last commit:** see `git log -1` (Stage 9: front-end foundation)
-- **Date/time of last update:** 2026-10-17 09:55
+- **Current stage:** 11 — Fleet, base, aircraft showroom (next)
+- **Last completed stage:** 10 — Hero & storyline engine
+- **Last commit:** see `git log -1` (Stage 10: hero and storyline engine)
+- **Date/time of last update:** 2026-10-17 10:30
 - **Demo seed:** **5** (median rule: base-scenario P3 − best-baseline ready-% gain closest to the median)
 - **Global seed:** 26249
 - **Remote:** `https://github.com/shreyansdeshp/PRATIRAKSHAK.git` (branch `main`); commits authored as `shreyansdeshp <sndeshpande_b25@it.vjti.ac.in>` (repo-local git config). Push after every stage commit.
@@ -22,14 +22,22 @@
 - [x] 7 Simulation & results
 - [x] 8 Export & API
 - [x] 9 Front-end foundation
-- [ ] 10 Hero & storyline engine
+- [x] 10 Hero & storyline engine
 - [ ] 11 Fleet, base, aircraft showroom
 - [ ] 12 Decision, spares, planning screens
 - [ ] 13 Stress, counterfactuals, intelligence, results, lifecycle, vendor, offline, method
 - [ ] 14 Polish (REDUCED by user 2026-10-17: motion pass, copy pass, empty/error states, README only — NO recording, voiceover, video or final 4K shot set; the team does those)
 
 ## This stage's plan (10–20 lines, written before coding)
-**Stage 9 — Front-end foundation** (plan was in Next steps at the end of Stage 8)
+**Stage 10 — Hero & storyline engine**
+1. `screens/hero/Hero.tsx` at `/`: map sheet (≈1400 px, neat line, graticule) + right marginalia (title block, legend with glyphs, fleet totals, data-age line). Eight steps on a ~25 s timeline: 0 blank sheet → 1 relief + graticule fade in → 2 base symbols drop in with one soft ripple → 3 aircraft counts tick up → 4 logistics arcs trace (base↔base airlift arcs, base→nearest depot/vendor roads from cached OSRM geometry) → 5 status rings settle (ready/watch/pull share per base, glyph legend; one Himshikhar tail still "awaiting 06:00Z data" ◇) → 6 Himshikhar's data arrives: that tail settles to its real D+0 status (WATCH) with one ripple → 7 title lock-up "PRATIRAKSHAK · Predict. Prepare. Protect." (cover still).
+2. Honesty: every number comes from `state.json`; the "status change" is the last base's snapshot arriving (remote link), not an invented prior state.
+3. `?step=N` renders a step statically (no animation, deterministic) for screenshots; `prefers-reduced-motion` → instant.
+4. Story engine: `src/story/beats.json` (screen path, hero step, caption, duration), `?mode=story` controller — Space/→ next, ← prev, R restart, H hide chrome + cursor, C captions; lower-third captions. Beats for later screens are added as those screens are built.
+5. `e2e/hero.spec.ts @shot`: S0 frames at 1920×1080 → `docs/shots/s0_step{0..7}.png`; `npm run shots` runs all @shot tests. No recording script (team records).
+6. Checks: shots produced; one visual review that it reads distinctive / not AI-generic (one revision pass).
+
+**Stage 9 — Front-end foundation** (done) (plan was in Next steps at the end of Stage 8)
 Tokens + validated chart palette; 1920×1080 stage scaler; path router (Zustand); primitives (StatusGlyph, HealthBar, ProvenanceChip, SheetHeader, RegistrationMarks, CornerTag, FlightStrip, NumberTick, StatTile, Legend); D3 chart kit (Sparkline, LineChart w/ crosshair, FanChart, TimelineStrips, Dumbbell, SlopeChart, Reliability, BarCI, ChartFrame w/ table view); MapLibre paper-chart style built in code + offline fallback (Natural Earth + pre-rendered hillshade); `/dev/primitives`. Checks: one reviewed screenshot; fallback map with network blocked.
 
 **Stage 8 — Export & API** (done)
@@ -115,6 +123,12 @@ Tokens + validated chart palette; 1920×1080 stage scaler; path router (Zustand)
 9. Check: fresh venv `pip install` + `npm ci` + Playwright render test; paste output; commit.
 
 ## What I did (this session)
+**Stage 10**
+- `screens/hero/Hero.tsx` (S0): 1380 px map sheet + marginalia; 8 steps on a ~19 s timeline (autoplay), `?step=N` deterministic stills; base symbol = airfield in a readiness ring (real ready/watch/pull counts, 2 px gaps); airlift arcs (base↔base great circles) + each base's fastest road to a depot/vendor (cached OSRM geometry); depots/vendor hub; fleet totals tick up; title lock-up = cover still (`docs/shots/s0_step7.png`).
+- **Honest "status change" beat:** no invented prior state — Himshikhar's 06:00Z snapshot arrives last (remote link); until then one real WATCH tail (PR-G306, electrical, 16 % risk in 14 d) shows as ◇ awaiting data; then it settles to its real D+0 status with one ripple.
+- Story engine: `src/story/beats.json` (8 hero beats so far), `story.ts` store, `StoryController` (Space/→ next, ← prev, R restart, H hide chrome + cursor, C captions; lower-third captions with Framer Motion). `npm run record` now only explains that the team records via `/?mode=story`.
+- Review pass fixed: wordmark clipped at the sheet edge; unshaded seam at the west edge (hillshade regenerated wider: 50.6–106.9°E, 80 tiles, 3.3 MB); framing (Kaveri touching the edge); depot label hidden under a base label (node labels now sit left of their marker); missing space in the data-age line; edition line colliding with the registration mark.
+
 **Stage 9**
 - **Palette, validated (dataviz skill, not eyeballed):** muted cartographic hues failed the chroma floor; 4 hues cannot pass all-pairs CVD (the skill caps all-pairs forms at 3). Chosen = emphasis form: P3 `#2a78d6` (accent), P2 `#14996b`, P1 `#d9622b` (3-slot all-pairs PASS on paper: CVD ΔE 9.5, normal-vision 21.4, contrast ≥ 3:1) + P0 recessive ink `#4a4f52`. Status text variants for 4.5:1 on paper: watch-ink `#8a5800` (5.3:1), stale-ink `#6b6b65` (4.7:1); SPEC status fills unchanged (glyph + label always).
 - Libraries (exact pins): maplibre-gl 4.7.1, d3 7.9.0 (+@types/d3 7.4.3), zustand 5.0.1, framer-motion 11.11.17.
@@ -185,6 +199,15 @@ Tokens + validated chart palette; 1920×1080 stage scaler; path router (Zustand)
 - Remote set to the user's GitHub repo; local `main` rebased onto its existing 2 commits (README only); README expanded.
 
 ## Acceptance checks — **real output pasted**
+**Stage 10** — Check (1): `npm run shots` produces the S0 frames at 1920×1080; Check (2): one visual review (one revision pass).
+```
+> npx playwright test e2e/hero.spec.ts
+  ok 1–8 hero.spec.ts › S0 hero step 0…7 @shot      → docs/shots/s0_step0.png … s0_step7.png
+  ok 9 hero.spec.ts › storyline mode shows captions and advances with the keyboard
+  9 passed (50.4s)
+Review: reads as a printed aeronautical chart (paper, hillshade, ink borders, serif wordmark, glyph legend) — not a dark/neon dashboard. 6 defects fixed in the single revision pass; steps 5–7 re-shot: 3 passed.
+```
+
 **Stage 9** — Check (1): one screenshot of `/dev/primitives` reviewed (`docs/shots/stage9_primitives_1920x1080.png`, after one fix pass); Check (2): the offline fallback map renders with the network blocked.
 ```
 > npx playwright test e2e/stage9.spec.ts
@@ -484,7 +507,7 @@ Tests  1 passed (1)
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
 ## Next steps (ordered, concrete)
-1. Stage 10: write plan here. S0 hero at `/`: empty paper chart of India → graticule + relief fade in → 4 base symbols drop in with one soft ripple → aircraft counts tick up → logistics arcs trace (air.geojson + road routes) → status rings settle (ready/watch/pull with glyphs) → one status change propagates (a Himshikhar ring shifts amber) → title lock-up "PRATIRAKSHAK · Predict. Prepare. Protect." (final frame = cover still). Beat engine (`src/story/beats.json`, `?mode=story`: Space/→ next, ← prev, R restart, H hide chrome, C captions), lower-third captions. `npm run shots` captures S0 frames at 1920×1080. NO recording script (team records). Checks: shots of the S0 beats; one visual review (one revision pass).
+1. Stage 11: write plan here. S1 `/fleet` readiness board (type × base flight-strip rows, average health bars, ready counts, readiness-floor markers, limiting-system summary); S2 `/base/:id` (local chart of the base, headline numbers, flight-strip list of every tail with health bar / glyph / limiting system / next action, hangar slot occupancy from plan.json, spares-on-hand strip, environment profile); S3 `/aircraft/:tail` showroom — install three@0.169.0, @react-three/fiber@8.17.10, @react-three/drei@9.115.0 (exact pins); 4 procedural airframes (delta / swept / high-wing transport / straight-wing trainer), studio floor + contact shadow, turntable, camera presets, carousel of flight strips, spec sheet (health, readiness, mission fit, age/life, risk 7 d), 8 hotspots with leader lines coloured by status, part drawer (sensors + trust, RUL fan, LRUs, spares ETA), exploded view, body-health overlay. Add story beats for S1–S3. Checks: one fps reading of the 3D scene; one screenshot review of S1–S3.
 
 ## How to run (keep current)
 ```

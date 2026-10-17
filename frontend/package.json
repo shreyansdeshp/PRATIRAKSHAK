@@ -11,7 +11,7 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "shots": "playwright test --grep @shot",
-    "record": "node -e \"console.log('record: not yet implemented (Stage 10)')\""
+    "record": "node -e \"console.log('Recording is done by the team: open /?mode=story (Space/arrow keys = next beat, H = hide chrome, C = captions).')\""
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "5.1.0",

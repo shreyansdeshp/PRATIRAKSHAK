@@ -1,0 +1,13 @@
+{
+  "note": "Storyline mode (?mode=story). Space/→ next · ← previous · R restart · H hide chrome + cursor · C captions. Each beat = a screen path, optional hero step, caption. The team records the video; this file only drives the presentation.",
+  "beats": [
+    { "id": "s0-0", "path": "/", "heroStep": 0, "caption": "" },
+    { "id": "s0-1", "path": "/", "heroStep": 1, "caption": "Four air bases. Seventy-two aircraft. One question every morning: what will fail next — and when?" },
+    { "id": "s0-2", "path": "/", "heroStep": 2, "caption": "Sahyadri, Aravalli, Himshikhar and Kaveri: monsoon, dust and heat, thin cold air, coastal salt." },
+    { "id": "s0-3", "path": "/", "heroStep": 3, "caption": "Every engine replays a real NASA run-to-failure trajectory; seven more systems are simulated around it." },
+    { "id": "s0-4", "path": "/", "heroStep": 4, "caption": "Spares move by road (cached OpenStreetMap routing) or by Vahak airlift." },
+    { "id": "s0-5", "path": "/", "heroStep": 5, "caption": "Each ring is a base's readiness today: ready, watch, pulled from the line." },
+    { "id": "s0-6", "path": "/", "heroStep": 6, "caption": "06:00Z — Himshikhar's data arrives. One aircraft moves to watch, and we can say exactly why." },
+    { "id": "s0-7", "path": "/", "heroStep": 7, "caption": "Pratirakshak. Predict. Prepare. Protect." }
+  ]
+}

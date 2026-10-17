@@ -28,7 +28,7 @@ NE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geoj
 TERRARIUM = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"
 UA = {"User-Agent": "pratirakshak-sih26249/0.1 (student project)"}
 BBOX = (58.0, 2.0, 102.0, 40.0)        # lon_min, lat_min, lon_max, lat_max kept in the vectors
-DEM_BBOX = (66.0, 6.0, 98.5, 37.5)     # hillshade extent
+DEM_BBOX = (54.0, 4.0, 104.0, 40.0)    # hillshade extent (covers the full hero map frame)
 DEM_Z = 6
 
 
