@@ -42,8 +42,8 @@
   },
   {
    "path": "data/results.json",
-   "bytes": 125762,
-   "sha256": "76d958d060411fe2"
+   "bytes": 126316,
+   "sha256": "cfb573274e421072"
   },
   {
    "path": "data/routes/air.geojson",
@@ -211,5 +211,5 @@
    "sha256": "3f504d3eabb32a6d"
   }
  ],
- "total_bytes": 4531024
+ "total_bytes": 4531578
 }

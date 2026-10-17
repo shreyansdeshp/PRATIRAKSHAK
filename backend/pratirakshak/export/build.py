@@ -274,7 +274,8 @@ def build_vendor(world: dict[str, Any], wcfg: dict[str, Any]) -> dict[str, Any]:
 def build_results() -> dict[str, Any]:
     s = read_json(RESULTS / "summary.json")
     return {**s, "curves": read_json(RESULTS / "curves.json"), "ablation": read_json(RESULTS / "ablation.json"),
-            "sensitivity": read_json(RESULTS / "sensitivity.json"), "counterfactuals": read_json(RESULTS / "counterfactuals.json")}
+            "sensitivity": read_json(RESULTS / "sensitivity.json"), "counterfactuals": read_json(RESULTS / "counterfactuals.json"),
+            "scenario_defs": load_config("scenarios")["scenarios"]}
 
 
 def build_demo() -> dict[str, Any]:
