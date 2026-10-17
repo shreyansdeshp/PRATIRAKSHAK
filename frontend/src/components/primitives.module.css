@@ -12,7 +12,7 @@
 /* ---------------------------------------------------------------- provenance chip */
 .chip {
   font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; line-height: 1;
-  padding: 3px 6px 2px; border-radius: var(--r-1); cursor: pointer; background: transparent;
+  padding: 3px 6px 2px; border-radius: var(--r-1); cursor: pointer; background: transparent; white-space: nowrap;
   border: 1px solid var(--ink-soft); color: var(--ink-soft);
 }
 .chip:hover { background: var(--sand); }

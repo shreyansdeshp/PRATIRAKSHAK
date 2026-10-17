@@ -1,0 +1,6 @@
+{
+  "beats": [
+    { "id": "s8", "path": "/late", "param": "d=7&tab=aircraft", "caption": "The same data, a week late. Five aircraft that were serviced in time now fail — three of them in the air." },
+    { "id": "s8-fleet", "path": "/late", "param": "d=7&tab=fleet", "caption": "Across ten seeds: 1.2 unplanned failures with timely data, 8.8 with week-old data. Late detection does not cost availability on paper — it costs aircraft." }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "beats": [
+    { "id": "s10", "path": "/results", "caption": "Ten seeds, five scenarios, four policies. Unplanned failures fall from 32 to 1 against the best alarm practice — and availability is the same, not better, in normal operations." },
+    { "id": "s10-models", "path": "/results", "param": "tab=models", "caption": "Engine models are scored on NASA's held-out test engines; one subset's intervals under-cover, and the sheet says so." }
+  ]
+}
