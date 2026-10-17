@@ -25,7 +25,7 @@ export function Fleet() {
   return (
     <div className={f.sheet} data-testid="fleet">
       <RegistrationMarks />
-      <SheetHeader sheet="01" title="Fleet readiness board" subtitle={`Ready to deploy by type and base · ${state.snapshot} · readiness floor ${Math.round(floor * 100)} % per type per base`}
+      <SheetHeader sheet="01" title="Fleet readiness board"
         right={<SheetIndex />} />
 
       <div className={f.tiles}>
