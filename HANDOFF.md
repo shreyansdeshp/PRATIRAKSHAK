@@ -3,10 +3,10 @@
 > Running state of the build. Update at the **start** and **end** of every stage and whenever you stop. A fresh Claude Code session must be able to resume from this file + `SPEC.md` alone.
 
 ## Status
-- **Current stage:** 12 — Decision, spares, planning screens (next)
-- **Last completed stage:** 11 — Fleet, base, aircraft showroom
-- **Last commit:** see `git log -1` (Stage 11: fleet board, base view, 3D showroom)
-- **Date/time of last update:** 2026-10-17 11:25
+- **Current stage:** 14 — Polish (reduced scope)
+- **Last completed stage:** 13 — all sheets S0–S14 built (Antigravity: 06, 12, 13; Claude: the rest)
+- **Last commit:** see `git log -1`
+- **Date/time of last update:** 2026-10-17
 - **Demo seed:** **5** (median rule: base-scenario P3 − best-baseline ready-% gain closest to the median)
 - **Global seed:** 26249
 - **Remote:** `https://github.com/shreyansdeshp/PRATIRAKSHAK.git` (branch `main`); commits authored as `shreyansdeshp <sndeshpande_b25@it.vjti.ac.in>` (repo-local git config). Push after every stage commit.
@@ -24,8 +24,8 @@
 - [x] 9 Front-end foundation
 - [x] 10 Hero & storyline engine
 - [x] 11 Fleet, base, aircraft showroom
-- [ ] 12 Decision, spares, planning screens
-- [ ] 13 Stress, counterfactuals, intelligence, results, lifecycle, vendor, offline, method
+- [x] 12 Decision, spares, planning screens
+- [x] 13 Stress, counterfactuals, intelligence, results, lifecycle, vendor, offline, method
 - [ ] 14 Polish (REDUCED by user 2026-10-17: motion pass, copy pass, empty/error states, README only — NO recording, voiceover, video or final 4K shot set; the team does those)
 
 ## This stage's plan (10–20 lines, written before coding)
@@ -210,6 +210,19 @@ Tokens + validated chart palette; 1920×1080 stage scaler; path router (Zustand)
 - Stage 0 complete as planned. Layout per §13; `backend/pratirakshak/settings.py` (SEED, `derive_seed`, `seed_everything`, paths); stage entry points are placeholders (`python -m pratirakshak.<stage>` prints "not yet implemented (Stage N)").
 - Front-end: Vite 5.4.11 / React 18.3.1 / TS 5.6.3 strict, tokens from §11.2, paper grain (static SVG, 3% opacity), registration marks, "SIMULATED EXERCISE DATA" corner tag. Screenshot: `docs/shots/stage0_empty_1920x1080.png` (reviewed: paper ground, fonts load, no defects).
 - Remote set to the user's GitHub repo; local `main` rebased onto its existing 2 commits (README only); README expanded.
+
+
+### Sheets 04–14 (2026-10-17, condensed)
+- **S4 Decision** `/decision/:tail` — risk gauge (p vs θ), verdict + reason, confidence, key sensors w/ sparklines + trust, RUL bar, twin fan, alternatives, spare summary. Spec: numbers match `decisions.json` for PR-S149/G295/S350.
+- **S5 Spares** `/spares/:tail` — chosen route animated with vehicle + ETA, alternatives, fastest open road, elevation strip (new backend export `profiles.json`; peaks ARV–HIM 5,327 m), SOURCE/PULL verdict.
+- **S7 Stress** `/stress?sc=` — scenario picker, ready-% P3 vs best baseline (+P0), per-base heat strips (one-hue ramp), paired outcome deltas with CIs, 2× usage counterfactual (wear per system, hangar days, sensor faults). Backend: `results.scenario_defs` added to export.
+- **S8 Late** `/late?d=&tab=` — 1/3/7-day delay; aircraft/base/fleet tabs; honest caveat (availability up, failures up).
+- **S9 Intel** `/intel?sys=` — importance ranking per system, sensor→part→LRU→action flow (hover lights the path), trust harness (engines REAL, systems SIMULATED), today's flagged sensors. **Bug fixed:** system importance was all 0 (LightGBM `Column_i` vs feature names) → mapped via `feature_spec.json`; `graph.json` rebuilt.
+- **S10 Results** fleet + models tabs (beat param `tab`).
+- **S11 Offline** — real `navigator.onLine`, data-age badge + slider (0–72 h), ILLUSTRATIVE ageing rule (median −age/24 d, band ×(1+age/48)), split-normal P(RUL ≤ 14 d) delta added to snapshot p, tighten-only, sync-pending queue. `sw.js` now network-first for `/data/*` (fresh export always wins; cache when offline). Spec runs with `context.setOffline(true)`.
+- **S14 Method** — rule, models, assumptions §3.3/§7.1/§7.6, testing, limits, provenance table + legend, credits.
+- **S6 Plan polish** — Gantt zoomed to occupied days, comparison tail picked from data (most P0 in-flight failures, no P3 unplanned visit), strip labels fixed.
+- Checks: one Playwright spec per sheet (`e2e/sheetNN-*.spec.ts`) — all passing at time of commit; screenshots in `docs/shots/`.
 
 ## Acceptance checks — **real output pasted**
 **Stage 11** — Check (1): one fps reading of the 3D scene; Check (2): one screenshot review of S1–S3.
@@ -526,7 +539,7 @@ Tests  1 passed (1)
 ## Open issues / known defects
 - [ ] **FD003 interval under-covers** (80 % nominal → 64 % on test). Likely cause: only 16 val units / 160 calibration windows, and FD003's long lifetime tail (up to 525 cycles) makes val and test truncations less exchangeable. Not tuned (rule 15). Effect: Shikshak engine risk is somewhat over-confident. Options if time allows: calibrate on val ∪ part of replay, or widen with a per-subset factor, and say so. Shown on the Results screen as flagged.
 - [ ] `mission_critical: role` for avionics: the role-dependent rule (type's `criticality_role` list) is defined in config but only applied from Stage 4/6.
-- [ ] Elevation profiles along road routes (for S5) are not computed yet; planned for Stage 9/12 from the Terrarium DEM.
+- [x] Elevation profiles along road routes: `export/profiles.py` (Terrarium z8, every 2 km) → `profiles.json`, used on S5.
 - [ ] npm 11 blocks dependency install scripts by default (`esbuild` postinstall skipped). Build works regardless (esbuild ships platform binaries as optional deps). If a later dependency needs its install script, approve it with `npm approve-scripts <pkg>`.
 - [ ] In the Claude Code sandbox, `pip install -e .` failed writing to `%TEMP%`; worked with `TMP/TEMP` pointed at a writable folder. A normal terminal should not hit this.
 
@@ -537,7 +550,8 @@ Remaining sheets are split between Claude Code (`main`, this folder) and Antigra
 - All routes are pre-wired to placeholder files (one per sheet); story beats are per-sheet files in `src/story/beats/`; ports overridable (`PREVIEW_PORT`/`DEV_PORT`; Antigravity uses 4273/5273).
 
 ## Next steps (ordered, concrete)
-1. Stage 12: write plan here. S4 `/decision/:tail` decision card (the rule restated for this tail; plain-language reason from decisions.json; key sensors with sparklines vs healthy baseline; RUL fan + P(fail in window) vs θ; confidence high/medium/low with reasons, shown prominently; sensor-trust badges; alternatives with consequences; spare route summary). S5 `/spares/:tail` (terrain map; base ↔ 2–3 nearest sources with ETA chips; animated navigation line along the cached OSRM polyline with a moving marker; alternative routes lighter; elevation profile strip from the DEM; table of stock/ETA/mode; SOURCE vs PULL verdict banner; cannibalisation option; vendor hub). S6 `/plan` (Gantt per base: hangar slots, bundled jobs, readiness floor; planned-vs-unplanned: two timelines of the same aircraft from demo.json P0 vs P3 with hatched unplanned blocks + mission-impact markers; bar comparison of hours and ₵ from results.json). Story beats for S4–S6. Checks: decision card numbers come from the snapshot (test); planned-vs-unplanned uses real timeline data (test); one screenshot review of S4–S6.
+1. Stage 14 (reduced): final screenshot pass over all sheets; small motion/copy fixes; empty/error states where a snapshot is missing.
+2. Team: voice-over, video recording, final 4K shot set (outside this repo's scope by user decision).
 
 ## How to run (keep current)
 ```
