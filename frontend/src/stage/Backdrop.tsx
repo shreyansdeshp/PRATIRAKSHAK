@@ -1,6 +1,9 @@
 const ticks = (n: number) => Array.from({ length: n }, (_, i) => i);
 
 /** Aeronautical-chart backdrop for the letterbox around the stage: graticule, range rings, flight arcs, scale ticks. */
+const JET = "M0,-34 C3,-26 4,-14 4,-6 L30,12 L30,18 L5,10 L4,24 L12,31 L12,35 L0,32 L-12,35 L-12,31 L-4,24 L-5,10 L-30,18 L-30,12 L-4,-6 C-4,-14 -3,-26 0,-34 Z";
+const jets: [number, number, number, number][] = [[70, 250, 28, 1.5], [130, 330, 28, 1.1], [40, 360, 28, 1.1], [1535, 170, -32, 1.3], [1490, 660, 200, 0.9], [90, 760, 10, 0.9]];
+
 export function Backdrop() {
   return (
     <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" aria-hidden
@@ -31,6 +34,14 @@ export function Backdrop() {
       <g fill="var(--paper)" stroke="var(--olive)" strokeWidth={2}>
         {[[60, 330], [120, 420], [1540, 600], [1500, 540]].map(([x, y]) => <circle key={`${x}${y}`} cx={x} cy={y} r={6} />)}
       </g>
+      {/* aircraft with contrails */}
+      {jets.map(([x, y, rot, s], i) => (
+        <g key={i} transform={`translate(${x},${y}) rotate(${rot}) scale(${s})`}>
+          <line x1={-5} x2={-5} y1={36} y2={300} stroke="var(--fold)" strokeWidth={3} strokeLinecap="round" opacity={0.8} />
+          <line x1={5} x2={5} y1={36} y2={260} stroke="var(--fold)" strokeWidth={3} strokeLinecap="round" opacity={0.8} />
+          <path d={JET} fill="var(--olive)" opacity={0.55} stroke="var(--paper)" strokeWidth={1.5} />
+        </g>
+      ))}
       {/* edge scale ticks */}
       <g stroke="var(--ink-mute)" strokeWidth={1.4}>
         {ticks(46).map((i) => <line key={`tl${i}`} x1={0} x2={i % 5 === 0 ? 22 : 11} y1={i * 20} y2={i * 20} />)}
