@@ -8,8 +8,8 @@
 .typeHead, .totalHead { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); align-self: end; padding: 0 0 4px 12px; }
 .baseHead { text-align: left; background: transparent; border: none; border-bottom: 2px solid var(--ink); padding: 0 0 4px 10px; cursor: pointer; }
 .baseHead:hover .baseHeadName { text-decoration: underline; }
-.baseHeadName { display: block; font-family: var(--font-serif); font-weight: 600; font-size: 24px; color: var(--ink); }
-.baseHeadMeta { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.08em; color: var(--ink-soft); }
+.baseHeadName { display: block; font-family: var(--font-serif); font-weight: 600; font-size: 32px; color: var(--ink); }
+.baseHeadMeta { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.08em; color: var(--ink-soft); }
 
 .row { background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); min-height: 132px; }
 .typeCell { display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 10px 14px; border-right: 1px solid var(--fold);
@@ -45,8 +45,8 @@
 .limBar { height: 12px; background: var(--sand); border-radius: var(--r-1); position: relative; overflow: hidden; }
 .limBar span { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink-soft); border-radius: 0 var(--r-2) var(--r-2) 0; }
 .limN { font-family: var(--font-mono); text-align: right; }
-.atRisk button { width: 100%; display: grid; grid-template-columns: 18px 90px 1fr 48px; align-items: center; gap: 8px; text-align: left;
-  background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); padding: 6px 10px; cursor: pointer; font: inherit; }
+.atRisk button { background: color-mix(in srgb, var(--pull) 14%, var(--paper-hi)); width: 100%; display: grid; grid-template-columns: 18px 90px 1fr 48px; align-items: center; gap: 8px; text-align: left;
+  border: 1px solid color-mix(in srgb, var(--pull) 45%, transparent); border-radius: var(--r-1); padding: 6px 10px; cursor: pointer; font: inherit; }
 .atRisk button:hover { border-color: var(--ink); }
 .tail { font-family: var(--font-mono); font-size: 17px; }
 .riskSys { font-family: var(--font-sans); font-size: 16px; color: var(--ink-soft); }
