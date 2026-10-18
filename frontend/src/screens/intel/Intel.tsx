@@ -48,18 +48,17 @@ export function Intel() {
           <ol className={s.bars}>
             {sensors.map((n) => (
               <li key={n.id} className={hover === n.id ? s.hot : ""} onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)}>
-                <span className={s.bLabel}>{n.label}{n.name && <small> · {n.name}</small>}</span>
+                <span className={s.bLabel}>{n.name ?? n.label}</span>
                 <span className={s.bTrack}><i style={{ width: `${((n.importance ?? 0) / (top.importance || 1)) * 100}%` }} /></span>
                 <span className={s.bVal}>{((n.importance ?? 0) * 100).toFixed(1)} %</span>
-                {n.support && <span className={s.support}>{n.support.startsWith("model") ? "model-supported" : "indicative"}</span>}
               </li>
             ))}
           </ol>
-          {sys === "engines" && <p className={s.small}><b>model-supported</b>: the sensor's link to the part is backed by the C-MAPSS model; <b>indicative</b>: inferred from the sensor group only.</p>}
         </section>
 
         <section className={s.flow}>
           <div className={s.secHead}><span>From reading to action</span><span className={s.hint}>hover a sensor</span></div>
+          <p className={s.caption} data-testid="path-caption">{pathCaption(intel, hover ?? top.id)}</p>
           <Flow intel={intel} sys={sys} hot={hover ?? top.id} onHover={setHover} />
         </section>
 
@@ -105,8 +104,8 @@ function HarnessBlock({ title, h, unit, prov }: { title: string; h: Harness; uni
 
 const COLS = [0, 250, 470, 690];
 const labelOf = (n: Node) => {
-  const l = n.kind === "action" ? ACTION[n.label] ?? nice(n.label) : n.kind === "part" && n.system !== "engines" ? `${nice(n.label)} system` : n.label;
-  return l.length > 28 ? `${l.slice(0, 27)}…` : l;
+  const l = n.kind === "action" ? ACTION[n.label] ?? nice(n.label) : n.kind === "part" && n.system !== "engines" ? `${nice(n.label)} system` : n.kind === "sensor" ? n.name ?? n.label : n.label;
+  return l.length > 30 ? `${l.slice(0, 29)}…` : l;
 };
 const textW = (l: string) => l.length * 6.4 + 12; // ~12px sans
 const W = 860, H = 740;
@@ -114,7 +113,7 @@ const W = 860, H = 740;
 function Flow({ intel, sys, hot, onHover }: { intel: Intelligence; sys: string; hot: string; onHover: (id: string | null) => void }) {
   const { nodes, edges, pos, lit, byId } = useMemo(() => {
     const g = intel.graph;
-    const sensors = g.nodes.filter((n) => n.kind === "sensor" && n.system === sys).sort((a, b) => (b.importance ?? 0) - (a.importance ?? 0));
+    const sensors = g.nodes.filter((n) => n.kind === "sensor" && n.system === sys).sort((a, b) => (b.importance ?? 0) - (a.importance ?? 0)).slice(0, 5);
     const sIds = new Set(sensors.map((n) => n.id));
     const parts = g.nodes.filter((n) => n.kind === "part" && g.edges.some((e) => sIds.has(e.from) && e.to === n.id));
     const pIds = new Set(parts.map((n) => n.id));
@@ -156,4 +155,14 @@ function Flow({ intel, sys, hot, onHover }: { intel: Intelligence; sys: string; 
       })}
     </svg>
   );
+}
+
+function pathCaption(intel: Intelligence, id: string): string {
+  const g = intel.graph, byId = new Map(g.nodes.map((n) => [n.id, n]));
+  const sensor = byId.get(id);
+  const part = byId.get(g.edges.find((e) => e.from === id && e.to.startsWith("part:"))?.to ?? "");
+  const lru = byId.get(g.edges.find((e) => part && e.from === part.id && e.to.startsWith("lru:"))?.to ?? "");
+  if (!sensor || !part || !lru) return "Hover a sensor to see where it leads.";
+  const acts = g.edges.filter((e) => e.from === lru.id && e.to.startsWith("action:")).map((e) => (ACTION[byId.get(e.to)!.label] ?? "").toLowerCase()).filter(Boolean);
+  return `Example: ${sensor.name ?? sensor.label} → ${nice(part.label)} → ${lru.label}. If it drifts, the options are: ${acts.join(", ")}.`;
 }

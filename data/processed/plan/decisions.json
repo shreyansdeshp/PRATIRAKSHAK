@@ -9020,7 +9020,7 @@
     },
     {
      "option": "Cannibalise from PR-S207",
-     "consequence": "PR-S207 is already grounded; its Engine-driven hydraulic pump is healthy — flagged, needs engineering approval"
+     "consequence": "PR-S207 is already in repair; its Engine-driven hydraulic pump is healthy — flagged, needs engineering approval"
     }
    ],
    "action": "PULL_FROM_LINE",
@@ -9130,7 +9130,7 @@
      },
      {
       "option": "Cannibalise from PR-S207",
-      "consequence": "PR-S207 is already grounded; its Engine-driven hydraulic pump is healthy — flagged, needs engineering approval"
+      "consequence": "PR-S207 is already in repair; its Engine-driven hydraulic pump is healthy — flagged, needs engineering approval"
      }
     ],
     "action": "PULL_FROM_LINE",
@@ -10272,7 +10272,7 @@
     },
     {
      "option": "Cannibalise from PR-S149",
-     "consequence": "PR-S149 is already grounded; its Avionics cooling fan is healthy — flagged, needs engineering approval"
+     "consequence": "PR-S149 is already in repair; its Avionics cooling fan is healthy — flagged, needs engineering approval"
     }
    ],
    "action": "PULL_FROM_LINE",
@@ -10404,7 +10404,7 @@
      },
      {
       "option": "Cannibalise from PR-S149",
-      "consequence": "PR-S149 is already grounded; its Avionics cooling fan is healthy — flagged, needs engineering approval"
+      "consequence": "PR-S149 is already in repair; its Avionics cooling fan is healthy — flagged, needs engineering approval"
      }
     ],
     "action": "PULL_FROM_LINE",
@@ -12784,7 +12784,7 @@
     },
     {
      "option": "Cannibalise from PR-G251",
-     "consequence": "PR-G251 is already grounded; its AC generator (115 V / 400 Hz) is healthy — flagged, needs engineering approval"
+     "consequence": "PR-G251 is already in repair; its AC generator (115 V / 400 Hz) is healthy — flagged, needs engineering approval"
     }
    ],
    "action": "PULL_FROM_LINE",
@@ -12916,7 +12916,7 @@
      },
      {
       "option": "Cannibalise from PR-G251",
-      "consequence": "PR-G251 is already grounded; its AC generator (115 V / 400 Hz) is healthy — flagged, needs engineering approval"
+      "consequence": "PR-G251 is already in repair; its AC generator (115 V / 400 Hz) is healthy — flagged, needs engineering approval"
      }
     ],
     "action": "PULL_FROM_LINE",
@@ -14100,7 +14100,7 @@
     },
     {
      "option": "Cannibalise from PR-G234",
-     "consequence": "PR-G234 is already grounded; its Avionics cooling fan is healthy — flagged, needs engineering approval"
+     "consequence": "PR-G234 is already in repair; its Avionics cooling fan is healthy — flagged, needs engineering approval"
     }
    ],
    "action": "PULL_FROM_LINE",
@@ -14210,7 +14210,7 @@
      },
      {
       "option": "Cannibalise from PR-G234",
-      "consequence": "PR-G234 is already grounded; its Avionics cooling fan is healthy — flagged, needs engineering approval"
+      "consequence": "PR-G234 is already in repair; its Avionics cooling fan is healthy — flagged, needs engineering approval"
      }
     ],
     "action": "PULL_FROM_LINE",
@@ -40656,7 +40656,7 @@
     },
     {
      "option": "Cannibalise from PR-S383",
-     "consequence": "PR-S383 is already grounded; its Fuel quantity probe is healthy — flagged, needs engineering approval"
+     "consequence": "PR-S383 is already in repair; its Fuel quantity probe is healthy — flagged, needs engineering approval"
     }
    ],
    "action": "PULL_FROM_LINE",
@@ -40766,7 +40766,7 @@
      },
      {
       "option": "Cannibalise from PR-S383",
-      "consequence": "PR-S383 is already grounded; its Fuel quantity probe is healthy — flagged, needs engineering approval"
+      "consequence": "PR-S383 is already in repair; its Fuel quantity probe is healthy — flagged, needs engineering approval"
      }
     ],
     "action": "PULL_FROM_LINE",
@@ -41381,7 +41381,7 @@
     },
     {
      "option": "Cannibalise from PR-S390",
-     "consequence": "PR-S390 is already grounded; its Avionics cooling fan is healthy — flagged, needs engineering approval"
+     "consequence": "PR-S390 is already in repair; its Avionics cooling fan is healthy — flagged, needs engineering approval"
     }
    ],
    "action": "PULL_FROM_LINE",
@@ -41491,7 +41491,7 @@
      },
      {
       "option": "Cannibalise from PR-S390",
-      "consequence": "PR-S390 is already grounded; its Avionics cooling fan is healthy — flagged, needs engineering approval"
+      "consequence": "PR-S390 is already in repair; its Avionics cooling fan is healthy — flagged, needs engineering approval"
      }
     ],
     "action": "PULL_FROM_LINE",
@@ -42059,7 +42059,7 @@
     },
     {
      "option": "Cannibalise from PR-S390",
-     "consequence": "PR-S390 is already grounded; its Avionics cooling fan is healthy — flagged, needs engineering approval"
+     "consequence": "PR-S390 is already in repair; its Avionics cooling fan is healthy — flagged, needs engineering approval"
     }
    ],
    "action": "PULL_FROM_LINE",
@@ -42169,7 +42169,7 @@
      },
      {
       "option": "Cannibalise from PR-S390",
-      "consequence": "PR-S390 is already grounded; its Avionics cooling fan is healthy — flagged, needs engineering approval"
+      "consequence": "PR-S390 is already in repair; its Avionics cooling fan is healthy — flagged, needs engineering approval"
      }
     ],
     "action": "PULL_FROM_LINE",
@@ -42727,7 +42727,7 @@
     },
     {
      "option": "Cannibalise from PR-S377",
-     "consequence": "PR-S377 is already grounded; its Brake assembly is healthy — flagged, needs engineering approval"
+     "consequence": "PR-S377 is already in repair; its Brake assembly is healthy — flagged, needs engineering approval"
     }
    ],
    "action": "PULL_FROM_LINE",
@@ -42837,7 +42837,7 @@
      },
      {
       "option": "Cannibalise from PR-S377",
-      "consequence": "PR-S377 is already grounded; its Brake assembly is healthy — flagged, needs engineering approval"
+      "consequence": "PR-S377 is already in repair; its Brake assembly is healthy — flagged, needs engineering approval"
      }
     ],
     "action": "PULL_FROM_LINE",

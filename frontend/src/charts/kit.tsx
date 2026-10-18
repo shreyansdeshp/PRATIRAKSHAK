@@ -251,8 +251,11 @@ export function TimelineStrips({ rows, days, width = 900, rowHeight = 26, labelW
                         onMouseLeave={() => setTip(null)} />
                 );
               })}
-              {(r.markers ?? []).map((mk, j) => <rect key={j} x={xs(mk.day) - 4} y={rowHeight / 2 - 4} width={8} height={8} fill="var(--pull)" stroke="var(--paper)" strokeWidth={1.5}>
-                <title>{mk.label}</title></rect>)}
+              {(r.markers ?? []).map((mk, j) => (
+                <g key={j}>
+                  <rect x={xs(mk.day) - 7} y={rowHeight / 2 - 7} width={14} height={14} fill="var(--pull)" stroke="var(--paper)" strokeWidth={2}><title>{mk.label}</title></rect>
+                </g>
+              ))}
             </g>
           );
         })}

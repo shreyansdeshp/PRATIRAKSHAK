@@ -1,4 +1,4 @@
-import { type type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import type { Provenance, Status } from "../data/types";
 import s from "./primitives.module.css";
@@ -161,7 +161,7 @@ export function Legend({ items }: { items: { label: string; color: string; kind?
         <li key={it.label}>
           <svg width="18" height="10" aria-hidden>
             {it.kind === "dot" ? <circle cx="9" cy="5" r="4" fill={it.color} />
-              : it.kind === "band" ? <rect x="0" y="1" width="18" height="8" fill={it.color} opacity="0.18" />
+              : it.kind === "band" ? <rect x="0" y="1" width="18" height="8" fill={it.color} />
               : it.kind === "hatch" ? <rect x="0" y="1" width="18" height="8" fill="url(#hatch-unplanned)" stroke={it.color} />
               : <line x1="0" y1="5" x2="18" y2="5" stroke={it.color} strokeWidth="2" strokeLinecap="round" />}
           </svg>

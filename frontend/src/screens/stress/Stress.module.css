@@ -43,3 +43,12 @@
 .keyN, .keyS { display: inline-block; width: 14px; height: 3px; vertical-align: middle; }
 .keyN { background: var(--series-p3); }
 .keyS { background: var(--series-p1); }
+
+.takeaway { margin: 0; font-family: var(--font-serif); font-size: 34px; line-height: 1.25; font-weight: 600; }
+.threeRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.big { display: flex; flex-direction: column; gap: 4px; border-left: 4px solid var(--ink); padding-left: 22px; }
+.bigLabel { font-family: var(--font-sans); font-size: 20px; color: var(--ink-soft); }
+.bigNum { font-family: var(--font-serif); font-size: 64px; line-height: 1.05; color: var(--ink-soft); }
+.bigNum i { font-style: normal; color: var(--ink-mute); padding: 0 8px; }
+.bigNum b { color: var(--series-p3); }
+.bigNote { font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); }

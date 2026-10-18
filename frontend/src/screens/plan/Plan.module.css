@@ -14,7 +14,7 @@
 .right { display: flex; flex-direction: column; gap: 16px; min-height: 0; overflow: hidden; }
 
 /* Per-base Gantt */
-.ganttSection { flex: 1; min-height: 0; overflow-y: auto; }
+.ganttSection { flex: 1; min-height: 0; overflow: visible; }
 .ganttWrap { min-height: 0; }
 .ganttBase { margin-bottom: 12px; }
 .ganttBaseHead { display: flex; align-items: baseline; gap: 10px; border-bottom: 1px solid var(--fold); margin-bottom: 4px; padding-bottom: 3px; }

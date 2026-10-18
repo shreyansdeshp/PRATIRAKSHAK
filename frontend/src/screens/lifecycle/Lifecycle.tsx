@@ -252,7 +252,6 @@ export function Lifecycle() {
                     <span className={l.engineTail}>
                       {e.tail} #{e.position}
                     </span>
-                    <span className={l.engineSubset}>{e.subset}</span>
                     <div className={l.engineTrack}>
                       <div
                         className={`${l.engineFill} ${isHigh ? l.engineFillHigh : isMed ? l.engineFillMed : ""}`}

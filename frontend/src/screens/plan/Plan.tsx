@@ -74,7 +74,7 @@ export function Plan() {
       <SheetHeader
         sheet="06"
         title="Planning timeline"
-        subtitle={`Garage schedule · planned vs unplanned downtime · ${plan.horizon_days}-day horizon`}
+        subtitle="Garage schedule and planned vs unplanned downtime · 90-day horizon (schedule shows the days that hold work)"
         right={<SheetIndex />}
       />
 
@@ -196,7 +196,6 @@ function GanttSection({ plan, filteredBases, bases }: { plan: PlanData; filtered
         <div className={p.ganttLegend}>
           <span><i style={{ background: "var(--ink-soft)" }} /> Scheduled visit</span>
           <span><i style={{ background: "var(--pull)" }} /> Aircraft already in repair</span>
-          <span><i style={{ background: "var(--paper-hi)", border: "1.5px solid var(--olive)" }} /> Bundled (multiple tasks)</span>
         </div>
       </div>
       {tip && (
@@ -282,9 +281,9 @@ function TimelineComparison({ demo }: { demo: DemoData }) {
             { label: "P3 Pratirakshak", blocks: p3.blocks, markers: p3.markers },
           ]}
           days={horizon}
-          width={780}
-          rowHeight={32}
-          labelWidth={140}
+          width={860}
+          rowHeight={56}
+          labelWidth={230}
         />
       </ChartFrame>
     </div>
@@ -298,9 +297,7 @@ function BarCIComparison({ results }: { results: Results }) {
   if (!base) return null;
 
   const metrics: { key: string; label: string; unit: string }[] = [
-    { key: "planned_hours", label: "Planned downtime (h)", unit: "h" },
     { key: "unplanned_hours", label: "Unplanned downtime (h)", unit: "h" },
-    { key: "cost", label: "Total cost (₵ ILLUSTRATIVE)", unit: "₵" },
   ];
 
   return (

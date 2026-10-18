@@ -136,7 +136,7 @@ export function Decision({ tail }: { tail: string }) {
             <h2 className={d.nH2}>Can the spare part get here in time?</h2>
             {isRepair && sp.chosen ? (
               <div className={d.nTwo}>
-                <div className={`${d.nSpare} ${d.pull}`}><StatusGlyph status="PULL" size={22} /> Aircraft: grounded now (do not fly while waiting)</div>
+                <div className={`${d.nSpare} ${d.pull}`}><StatusGlyph status="PULL" size={22} /> Aircraft: in repair now (do not fly while waiting)</div>
                 <div className={`${d.nSpare} ${d.source}`}><StatusGlyph status="READY" size={22} /> Spare: {localSrc ? `in store at ${baseName}` : `from ${sp.chosen.name}, ${sp.chosen.eta_hours?.toFixed(0)} h away`}, fitted in ~{((localSrc ? 0 : sp.chosen.eta_hours ?? 0) + sp.install_hours).toFixed(0)} h</div>
               </div>
             ) : sp.chosen && sp.verdict === "SOURCE" ? (

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { CornerTag, ProvenanceChip, RegistrationMarks, SheetHeader, StatusGlyph } from "../../components/primitives";
 import { SheetIndex } from "../../components/SheetIndex";
@@ -54,12 +54,8 @@ export function Offline() {
   const { data } = useSnapshots<{ state: FleetState }>(["state"]);
   const beat = useBeatParams();
   const [age, setAge] = useState<number>(Number(beat.get("age") ?? new URLSearchParams(window.location.search).get("age") ?? 7.7));
-  const [online, setOnline] = useState(navigator.onLine);
-  useEffect(() => {
-    const on = () => setOnline(true), off = () => setOnline(false);
-    window.addEventListener("online", on); window.addEventListener("offline", off);
-    return () => { window.removeEventListener("online", on); window.removeEventListener("offline", off); };
-  }, []);
+  const online = false; // the sheet opens in the offline state: that is the point of it
+  
   const rows = useMemo(() => (data ? evaluate(data.state, age) : []), [data, age]);
   if (!data) return <div className={s.loading} />;
   const st = data.state;
@@ -106,6 +102,7 @@ export function Offline() {
 
         <section className={s.focusCard}>
           <div className={s.secHead}><span>{focus.a.tail} · {focus.sys.replace("_", " ")}</span><StatusGlyph status={focus.now} label /></div>
+          <p className={s.keyLine}>Remaining life of this system, in days: <i className={s.kBand} /> likely range · <i className={s.kMed} /> median · <i className={s.kWin} /> {st.window_days}-day check</p>
           <Band label="At snapshot" q={focus.a.systems.find((x) => x.id === focus.sys)!.rul_days} w={st.window_days} />
           <Band label={`Now, ${Math.round(age)} h later`} q={aged(focus.a.systems.find((x) => x.id === focus.sys)!.rul_days, age)} w={st.window_days} wide />
           <div className={s.risk}>

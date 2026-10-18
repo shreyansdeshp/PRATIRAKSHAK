@@ -49,8 +49,8 @@ export function Late() {
         <StatTile label="In-flight failures (mission aborts)" value={<>{f0.inflight_failures.mean.toFixed(1)} → <b className={l.bad}>{fd.inflight_failures.mean.toFixed(1)}</b></>}
           note={`95 % CI [${fd.inflight_failures.lo.toFixed(1)}, ${fd.inflight_failures.hi.toFixed(1)}]`} />
         <div className={l.caveat}>
-          <b>Availability is not the cost here.</b> Over 90 days the late fleet is ready {gap < 0 ? `${Math.abs(gap).toFixed(0)} aircraft-days more` : `${gap.toFixed(0)} aircraft-days less`}:
-          acting later means fewer, later garage visits, and some deferred work falls past the horizon. The cost of late detection is the failures — and the aircraft that fail in the air.
+          <b>Waiting looks cheaper but causes about {(fd.unplanned_failures.mean / Math.max(0.1, f0.unplanned_failures.mean)).toFixed(0)}x more failures.</b>{" "}
+          The fleet is ready {gap < 0 ? `${Math.abs(gap).toFixed(0)} aircraft-days more` : `${gap.toFixed(0)} aircraft-days less`} over 90 days, because later action means fewer garage visits, but the extra failures include aircraft that fail in the air.
         </div>
       </div>
 
@@ -74,7 +74,7 @@ function AircraftTab({ onTime, late, d, seed, cf }: { onTime: Run; late: Run; d:
   return (
     <div className={l.panel}>
       <ChartFrame title={`Aircraft that only fail when the data is ${d} day${d > 1 ? "s" : ""} late`} subtitle={`Demo run (seed ${seed}, the median-representative run) · each pair: on time (top) vs late (bottom) · solid = planned work, hatched = repair after failure, ■ = failure`}
-        provenance="SIMULATED" legend={[{ label: "planned work", color: "var(--ink-soft)", kind: "band" }, { label: "repair after failure", color: "var(--pull)", kind: "hatch" }]}>
+        provenance="SIMULATED" legend={[{ label: "planned work", color: "var(--ink-soft)", kind: "band" }, { label: "repair after failure", color: "var(--pull)", kind: "hatch" }, { label: "failure", color: "var(--pull)", kind: "dot" }]}>
         {tails.length === 0 ? <p className={l.empty}>In the demo run a {d}-day delay causes no extra failure. Across all 10 seeds it adds {(cf[String(d)]!.unplanned_failures.mean - cf["0"]!.unplanned_failures.mean).toFixed(1)} failures on average (Fleet tab); try 7 days.</p> : (
           <TimelineStrips days={90} width={1780} labelWidth={230} rowHeight={30}
             rows={tails.flatMap((t) => [

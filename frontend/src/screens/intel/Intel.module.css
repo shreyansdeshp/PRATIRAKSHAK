@@ -50,3 +50,5 @@
 .flagged code { font-family: var(--font-mono); font-size: 14px; }
 .tail { font-family: var(--font-mono); color: var(--ink) !important; white-space: nowrap; }
 .reason { color: var(--ink-mute) !important; }
+
+.caption { margin: 0; font-family: var(--font-sans); font-size: 18px; line-height: 1.4; color: var(--ink); padding: 8px 12px; background: var(--paper-hi); border-left: 3px solid var(--series-p3); }

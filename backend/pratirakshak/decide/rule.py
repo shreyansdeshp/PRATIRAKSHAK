@@ -77,7 +77,7 @@ def decide_system(est: dict[str, Any], theta: float, criticality: str, base: str
              f"unplanned downtime and ≈₵{dc['unplanned_cost']:.0f} vs {dc['planned_hours']:.0f} h / ≈₵{dc['planned_cost']:.0f} planned"}
 
     if est.get("failed"):
-        out.update(action="PULL_FROM_LINE", reason=f"{name} has failed. The aircraft is grounded until the {part['name']} is replaced.")
+        out.update(action="PULL_FROM_LINE", reason=f"{name} has failed. The aircraft stays in repair until the {part['name']} is replaced.")
     elif p >= theta and est.get("min_trust", 100) < ctx.untrusted_below:
         out.update(action="VERIFY_SENSOR",
                    reason=f"{risk_txt}, above the {theta:.0%} limit for {criticality} flying, but the sensor driving that estimate "
@@ -143,7 +143,7 @@ def decide_aircraft(tail: dict[str, Any], estimates: list[dict[str, Any]], theta
 
 
 def add_cannibalisation(decisions: list[dict[str, Any]]) -> None:
-    """For PULL decisions, offer a donor: an already-grounded tail of the same type and base whose same system is fine."""
+    """For PULL decisions, offer a donor: a tail already in repair of the same type and base whose same system is fine."""
     grounded = [d for d in decisions if d["action"] == "PULL_FROM_LINE"]
     for d in grounded:
         h = d["headline"]
@@ -152,5 +152,5 @@ def add_cannibalisation(decisions: list[dict[str, Any]]) -> None:
         h["cannibalise_from"] = donors[:1] or None
         if donors:
             h["alternatives"].append({"option": f"Cannibalise from {donors[0]}",
-                                      "consequence": f"{donors[0]} is already grounded; its {h['lru_name']} is healthy — "
+                                      "consequence": f"{donors[0]} is already in repair; its {h['lru_name']} is healthy — "
                                                      "flagged, needs engineering approval"})

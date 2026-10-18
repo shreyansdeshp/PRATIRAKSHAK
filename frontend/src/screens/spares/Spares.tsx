@@ -158,7 +158,7 @@ export function Spares({ tail }: { tail: string }) {
               )}
             </tbody>
           </table>
-          {row.headline.cannibalise_from && <p className={p.note}>Cannibalisation option: {row.headline.cannibalise_from[0]} (already grounded), flagged for engineering approval.</p>}
+          {row.headline.cannibalise_from && <p className={p.note}>Cannibalisation option: {row.headline.cannibalise_from[0]} (already in repair), flagged for engineering approval.</p>}
           <div className={p.legend}>
             <span><svg width="30" height="8"><line x1="0" y1="4" x2="30" y2="4" stroke="var(--series-p3)" strokeWidth="3" strokeDasharray="7 5" /></svg> Chosen route</span>
             <span><svg width="30" height="8"><line x1="0" y1="4" x2="30" y2="4" stroke="var(--ink-soft)" strokeWidth="1.5" strokeDasharray="5 4" /></svg> Alternative airlift</span>

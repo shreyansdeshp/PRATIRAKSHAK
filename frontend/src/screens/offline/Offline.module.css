@@ -46,3 +46,9 @@
 .queue small { color: var(--ink-mute); font-size: 14px; grid-column: 2; }
 .queue i { font-style: normal; grid-row: 1 / 3; grid-column: 3; color: var(--watch-ink); }
 .queue .empty { display: block; color: var(--ink-mute); }
+
+.keyLine { margin: 0; font-family: var(--font-sans); font-size: 16px; color: var(--ink-soft); }
+.keyLine i { display: inline-block; vertical-align: middle; margin: 0 4px 0 8px; }
+.kBand { width: 26px; height: 10px; background: var(--series-p3); opacity: 0.5; }
+.kMed { width: 3px; height: 14px; background: var(--ink); }
+.kWin { width: 0; height: 14px; border-left: 2px dashed var(--pull); }
