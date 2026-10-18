@@ -73,10 +73,10 @@
   }
 }
 
-/* Spares vendor workspace: cool slate-and-teal palette so it reads as a different user's console */
+/* Spares vendor workspace: indigo-and-lavender palette so it reads as a different user's console */
 :root[data-role="vendor"] {
-  --paper: #e9eff2; --paper-hi: #f6f9fb; --sand: #d5e0e6; --fold: #b9cad3; --grid: #cfdce3;
-  --ink: #12262f; --ink-soft: #3b535e; --ink-mute: #5a7480;
-  --olive: #0f6b73; --khaki: #7fa6ae; --backdrop: #cfdce3;
-  --series-p3: #0f6b73;
+  --paper: #eeecf6; --paper-hi: #f8f7fc; --sand: #dcd8ec; --fold: #c4bedd; --grid: #d6d1e8;
+  --ink: #1d1a3a; --ink-soft: #4a4670; --ink-mute: #6c6890;
+  --olive: #4b3fa6; --khaki: #9a90cf; --backdrop: #d6d1e8;
+  --series-p3: #4b3fa6;
 }
