@@ -1,10 +1,10 @@
 .sheet {
   position: absolute;
   inset: 0;
-  padding: 40px 64px 48px;
+  padding: 22px 64px 10px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
   overflow: hidden;
   background: var(--paper);
 }
