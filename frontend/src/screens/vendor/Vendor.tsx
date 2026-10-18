@@ -166,15 +166,15 @@ export function Vendor() {
       <div className={v.topRow}>
       <div className={v.tiles}>
         <StatTile label="Total demands" value={<NumberTick value={demands.length} />} accent />
-        <StatTile label="P1 Expedites" value={<NumberTick value={p1Count} />} note="urgent delivery" />
-        <StatTile label="P2 Priority" value={<NumberTick value={p2Count} />} />
-        <StatTile label="P3 Restock" value={<NumberTick value={p3Count} />} />
+        <StatTile label="P1 Urgent" value={<NumberTick value={p1Count} />} note="aircraft waiting" />
+        <StatTile label="P2 Soon" value={<NumberTick value={p2Count} />} />
+        <StatTile label="P3 Routine" value={<NumberTick value={p3Count} />} />
         <StatTile label="Air / Road" value={`${expedites} / ${demands.length - expedites}`} note="transport mode" />
       </div>
       <ol className={v.flow} data-testid="vendor-flow" aria-label="How the vendor portal helps the vendor">
         {[["Bases predict a failure", "each system's chance of failing is checked daily"],
           ["You see only the part needed", "which part, how many, where, by when — no aircraft health shared"],
-          ["Demands arrive ranked", "P1 urgent, P2 priority, P3 restock"],
+          ["Demands arrive ranked", "P1 urgent, P2 soon, P3 routine"],
           ["Ship by the best route", "airlift or road, with the delivery time worked out"],
           ["Part fitted, aircraft flies", "the base fits it before the failure"]].map(([h, d], i) => (
           <li key={h}><span className={v.flowNo}>{i + 1}</span><b>{h}</b><em>{d}</em></li>
@@ -267,9 +267,9 @@ export function Vendor() {
           <div className={v.listHeader}>
             <span className={v.listTitle}>Scheduled deliveries ({demands.length})</span>
             <span className={v.legendBar}>
-              <span className={v.legendItem}><span className={`${v.badge} ${v.badgeP1}`}>P1</span> Expedite</span>
-              <span className={v.legendItem}><span className={`${v.badge} ${v.badgeP2}`}>P2</span> Priority</span>
-              <span className={v.legendItem}><span className={`${v.badge} ${v.badgeP3}`}>P3</span> Restock</span>
+              <span className={v.legendItem}><span className={`${v.badge} ${v.badgeP1}`}>P1</span> Urgent: send by air now</span>
+              <span className={v.legendItem}><span className={`${v.badge} ${v.badgeP2}`}>P2</span> Soon: within days</span>
+              <span className={v.legendItem}><span className={`${v.badge} ${v.badgeP3}`}>P3</span> Routine: keep shelves full</span>
             </span>
           </div>
           <div className={v.deliveries}>
