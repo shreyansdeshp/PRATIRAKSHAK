@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useApp } from "../store/app";
 import { useStory } from "../story/story";
@@ -32,7 +32,7 @@ function subItems(screen: string, param: string | null): Sub[] {
   }
   if (screen === "results" || screen === "stress" || screen === "late") {
     return [{ label: "Results", path: "/results", on: screen === "results" },
-      { label: "Resilience", path: "/stress", on: screen === "stress" },
+      { label: "Surge & stress tests", path: "/stress", on: screen === "stress" },
       { label: "Late data", path: "/late", on: screen === "late" }];
   }
   return [];
@@ -49,8 +49,9 @@ export function NavBar() {
   const { route, navigate } = useApp();
   const show = useStory((st) => !st.active || st.chrome);
   const [more, setMore] = useState(false);
-  if (!show) return null;
   const vendor = route.screen === "vendor";
+  useEffect(() => { document.documentElement.dataset.role = vendor ? "vendor" : "commander"; }, [vendor]);
+  if (!show) return null;
   const subs = subItems(route.screen, route.param);
   const offline = route.screen === "offline";
 
