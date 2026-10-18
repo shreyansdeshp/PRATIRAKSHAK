@@ -18,7 +18,7 @@
 .role { display: inline-flex; border: 1px solid var(--ink); border-radius: var(--r-1); overflow: hidden; }
 .role button { background: transparent; border: none; padding: 6px 14px; font-size: 15px; color: var(--ink); cursor: pointer; }
 .roleOn { background: var(--ink) !important; color: var(--paper) !important; }
-.tricolour { height: 3px; background: linear-gradient(90deg, #FF9933 0 33.33%, #FFFFFF 33.33% 66.66%, #138808 66.66% 100%); box-shadow: 0 0 0 0.5px var(--fold); }
+.tricolour { height: 8px; background: linear-gradient(90deg, #FF9933 0 33.33%, #FFFFFF 33.33% 66.66%, #138808 66.66% 100%); box-shadow: 0 0 0 0.5px var(--fold); }
 .sub { display: flex; align-items: stretch; gap: 4px; padding: 0 24px; border-bottom: 1px solid var(--fold); background: var(--paper); }
 .sub button { background: none; border: none; border-bottom: 2px solid transparent; font-size: 16px; color: var(--ink-soft); padding: 0 14px; cursor: pointer; }
 .sub button.subOn { color: var(--ink); font-weight: 600; border-bottom-color: var(--ink); }

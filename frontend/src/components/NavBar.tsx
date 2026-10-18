@@ -5,7 +5,7 @@ import { useStory } from "../story/story";
 import { Crest } from "./Crest";
 import s from "./NavBar.module.css";
 
-const MAIN_H = 56, LINE_H = 3, SUB_H = 40;
+const MAIN_H = 56, LINE_H = 8, SUB_H = 40;
 
 interface Tab { label: string; path: string; screens: string[] }
 const TABS: Tab[] = [
