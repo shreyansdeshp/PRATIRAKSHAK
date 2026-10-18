@@ -243,3 +243,11 @@
   align-items: center;
   gap: 6px;
 }
+
+.topRow { display: flex; align-items: stretch; gap: 28px; }
+.flow { list-style: none; margin: 0; padding: 0; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; }
+.flow li { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 1px solid var(--fold); background: var(--paper-hi); font-family: var(--font-sans); }
+.flow li:not(:last-child)::after { content: "→"; position: absolute; right: -19px; top: 50%; transform: translateY(-50%); font-size: 22px; color: var(--olive); }
+.flowNo { width: 26px; height: 26px; border-radius: 50%; background: var(--olive); color: var(--paper-hi); font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; }
+.flow b { font-size: 17px; line-height: 1.2; }
+.flow em { font-style: normal; font-size: 14px; line-height: 1.3; color: var(--ink-soft); }

@@ -63,7 +63,7 @@ export function Hero() {
       {/* ---------------------------------------------------------------- map sheet */}
       <div className={h.mapSheet}>
         <div className={`${h.mapFade} ${step >= 1 ? h.on : ""}`}>
-          <ChartMap camera={CAMERA} width={1380} height={984} interactive={false}
+          <ChartMap camera={CAMERA} width={1380} height={984} interactive={!still}
             overlay={(project) => (
               <>
                 <svg className={h.arcs} width={1380} height={984} aria-hidden>

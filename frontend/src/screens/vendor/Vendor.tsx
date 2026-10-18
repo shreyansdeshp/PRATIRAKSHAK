@@ -159,12 +159,23 @@ export function Vendor() {
         right={<SheetIndex />}
       />
 
+      <div className={v.topRow}>
       <div className={v.tiles}>
         <StatTile label="Total demands" value={<NumberTick value={demands.length} />} accent />
         <StatTile label="P1 Expedites" value={<NumberTick value={p1Count} />} note="urgent delivery" />
         <StatTile label="P2 Priority" value={<NumberTick value={p2Count} />} />
         <StatTile label="P3 Restock" value={<NumberTick value={p3Count} />} />
         <StatTile label="Air / Road" value={`${expedites} / ${demands.length - expedites}`} note="transport mode" />
+      </div>
+      <ol className={v.flow} data-testid="vendor-flow" aria-label="How the vendor portal helps the vendor">
+        {[["Bases predict a failure", "each system's chance of failing is checked daily"],
+          ["You see only the part needed", "which part, how many, where, by when — no aircraft health shared"],
+          ["Demands arrive ranked", "P1 urgent, P2 priority, P3 restock"],
+          ["Ship by the best route", "airlift or road, with the delivery time worked out"],
+          ["Part fitted, aircraft flies", "the base fits it before the failure"]].map(([h, d], i) => (
+          <li key={h}><span className={v.flowNo}>{i + 1}</span><b>{h}</b><em>{d}</em></li>
+        ))}
+      </ol>
       </div>
 
       <div className={v.body}>
