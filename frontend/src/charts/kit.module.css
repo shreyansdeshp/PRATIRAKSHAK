@@ -4,7 +4,7 @@
 .subtitle { font-family: var(--font-sans); font-size: var(--fs-12); color: var(--ink-soft); margin-top: 2px; }
 .captionRight { display: flex; gap: 8px; align-items: center; }
 .tableBtn {
-  font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
   background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); color: var(--ink-soft); padding: 3px 6px; cursor: pointer;
 }
 .tableBtn:hover { background: var(--sand); }

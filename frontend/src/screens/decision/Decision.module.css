@@ -1,6 +1,6 @@
 .sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 16px; }
 .loading { position: absolute; inset: 0; }
-.kicker { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; color: var(--ink-soft); }
+.kicker { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.14em; color: var(--ink-soft); }
 .h2 { display: flex; align-items: center; gap: 8px; font-family: var(--font-sans); font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--ink-soft); border-bottom: 1px solid var(--fold); padding-bottom: 4px; margin: 4px 0 0; }
 .muted { color: var(--ink-mute); font-family: var(--font-sans); font-size: 16px; display: inline-flex; align-items: center; gap: 6px; }

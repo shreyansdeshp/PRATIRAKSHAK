@@ -11,7 +11,7 @@
 
 /* ---------------------------------------------------------------- provenance chip */
 .chip {
-  font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.08em; line-height: 1;
+  font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.08em; line-height: 1;
   padding: 3px 6px 2px; border-radius: var(--r-1); cursor: pointer; background: transparent; white-space: nowrap;
   border: 1px solid var(--ink-soft); color: var(--ink-soft);
 }
@@ -34,7 +34,7 @@
   padding-bottom: 12px; border-bottom: 3px double var(--ink);
 }
 .sheetNo { display: flex; flex-direction: column; align-items: center; border: 1px solid var(--ink); padding: 4px 10px; min-width: 64px; }
-.sheetLabel { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em; color: var(--ink-soft); }
+.sheetLabel { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.18em; color: var(--ink-soft); }
 .sheetNum { font-family: var(--font-mono); font-size: var(--fs-20); line-height: 1.1; }
 .sheetTitle h1 { font-family: var(--font-serif); font-weight: 700; font-size: 46px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink); line-height: 1; }
 .sheetTitle p { margin: 6px 0 0; font-family: var(--font-sans); font-size: 20px; color: var(--ink); }
@@ -63,7 +63,7 @@
 .callSub { font-family: var(--font-mono); font-size: var(--fs-12); color: var(--ink-soft); }
 .stripField { display: flex; flex-direction: column; justify-content: center; padding: 3px 12px; border-right: 1px solid var(--fold); flex: 1; min-width: 0; }
 .stripField:last-child { border-right: none; }
-.fieldLabel { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); line-height: 1.2; }
+.fieldLabel { font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); line-height: 1.2; }
 .fieldValue { font-size: var(--fs-14); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* ---------------------------------------------------------------- stat tile */

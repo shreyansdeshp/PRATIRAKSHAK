@@ -26,7 +26,7 @@
 .ganttBayLabel { font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); padding-left: 4px; }
 .ganttTrack { position: relative; height: 16px; }
 .ganttVisit { position: absolute; top: 1px; height: 14px; border-radius: var(--r-1);
-  background: var(--ink-soft); font-family: var(--font-mono); font-size: 12px; color: var(--paper);
+  background: var(--ink-soft); font-family: var(--font-mono); font-size: 14px; color: var(--paper);
   display: flex; align-items: center; padding: 0 3px; overflow: hidden; white-space: nowrap; cursor: default; }
 .ganttVisitPulled { background: var(--pull); }
 .ganttVisitBundled { border: 1.5px solid var(--olive); }
@@ -34,7 +34,7 @@
 /* Header row for day ticks */
 .ganttDayRow { display: grid; grid-template-columns: 56px 1fr; height: 14px; }
 .ganttDays { position: relative; height: 14px; }
-.ganttDayTick { position: absolute; top: 0; font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); transform: translateX(-50%); }
+.ganttDayTick { position: absolute; top: 0; font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); transform: translateX(-50%); }
 
 /* Timeline comparison */
 .timelineSection { flex: 0 0 auto; }

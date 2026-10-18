@@ -1,7 +1,7 @@
 .sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 14px; }
 .loading { position: absolute; inset: 0; }
 .grid { display: grid; grid-template-columns: 290px 1fr 440px; gap: 24px; min-height: 0; flex: 1; }
-.kicker { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; color: var(--ink-soft); }
+.kicker { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.14em; color: var(--ink-soft); }
 
 .carousel { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
 .carouselList { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
@@ -12,11 +12,11 @@
 .controls button { font-family: var(--font-sans); font-size: 15px; background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 10px; cursor: pointer; color: var(--ink-soft); }
 .controls button.on { border-color: var(--ink); color: var(--ink); font-weight: 500; }
 .sep { width: 1px; height: 20px; background: var(--fold); margin: 0 4px; }
-.studioCaption { position: absolute; right: 14px; bottom: 10px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; }
+.studioCaption { position: absolute; right: 14px; bottom: 10px; font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); letter-spacing: 0.06em; }
 .bodyLegend { position: absolute; left: 14px; bottom: 14px; z-index: 30; display: grid; grid-template-columns: auto; gap: 4px; background: var(--paper-hi); border: 1px solid var(--fold); padding: 8px 10px;
   font-family: var(--font-sans); font-size: 15px; }
 .bodyRamp { width: 220px; height: 8px; background: linear-gradient(90deg, #b07a55, #bdb6a4); border-radius: var(--r-1); }
-.bodyEnds { display: flex; justify-content: space-between; width: 220px; font-size: 13px; color: var(--ink-mute); }
+.bodyEnds { display: flex; justify-content: space-between; width: 220px; font-size: 14px; color: var(--ink-mute); }
 .bodyEnds em { font-style: normal; }
 
 .hot { position: relative; display: block; background: transparent; border: none; padding: 0; cursor: pointer; transform: translate(-6px, -6px); }
@@ -41,7 +41,7 @@
 .sysList button:hover { border-color: var(--ink); }
 .sysTop { display: flex; align-items: center; gap: 6px; }
 .sysName { flex: 1; }
-.sysProv { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); }
+.sysProv { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); }
 
 .drawer { display: flex; flex-direction: column; gap: 10px; }
 .back { align-self: flex-start; font-family: var(--font-sans); font-size: 15px; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 3px 8px; cursor: pointer; color: var(--ink-soft); }
@@ -55,7 +55,7 @@
 .sensors, .lrus { display: flex; flex-direction: column; gap: 4px; }
 .sensorRow { display: grid; grid-template-columns: 1fr 130px 64px; align-items: center; gap: 8px; border-bottom: 1px solid var(--fold); padding: 2px 0; }
 .sensorName { font-family: var(--font-sans); font-size: 15px; display: flex; flex-direction: column; }
-.sensorName em { font-style: normal; font-family: var(--font-mono); font-size: 13px; color: var(--ink-mute); }
+.sensorName em { font-style: normal; font-family: var(--font-mono); font-size: 14px; color: var(--ink-mute); }
 .trust { font-family: var(--font-mono); font-size: 14px; text-align: right; color: var(--ink-soft); }
 .untrusted { color: var(--pull); font-weight: 600; }
 .lruRow { display: grid; grid-template-columns: 70px 1fr 28px; gap: 8px; font-family: var(--font-sans); font-size: 15px; border-bottom: 1px solid var(--fold); padding: 2px 0; }

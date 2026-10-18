@@ -1,6 +1,6 @@
 .sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 14px; }
 .loading { position: absolute; inset: 0; }
-.kicker { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; color: var(--ink-soft); }
+.kicker { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.12em; color: var(--ink-soft); }
 .controls { display: flex; align-items: center; gap: 6px; }
 .controls button { font-family: var(--font-sans); font-size: 17px; background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 4px 14px; cursor: pointer; color: var(--ink-soft); }
 .controls button.on { border-color: var(--ink); color: var(--ink); background: var(--paper-hi); font-weight: 600; }
@@ -25,12 +25,12 @@
 
 .bottom { display: grid; grid-template-columns: 880px 1fr; gap: 36px; }
 .heat { display: flex; flex-direction: column; gap: 8px; }
-.rampKey { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.rampKey { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 14px; font-weight: 400; letter-spacing: 0; text-transform: none; }
 .rampKey i { width: 90px; height: 8px; background: linear-gradient(90deg, #e7dfcb, #4b5632); display: inline-block; }
 .heatBase { display: grid; grid-template-columns: 110px 1fr; grid-template-rows: auto auto; gap: 2px 10px; align-items: center; }
 .baseName { grid-row: 1 / 3; font-family: var(--font-serif); font-weight: 600; font-size: 19px; }
 .strip { display: flex; align-items: center; gap: 8px; }
-.stripLabel { width: 54px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
+.stripLabel { width: 54px; font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); }
 
 .usage, .note { display: flex; flex-direction: column; gap: 8px; }
 .note p { margin: 0; font-family: var(--font-serif); font-size: 19px; line-height: 1.5; }
@@ -39,7 +39,7 @@
 .wear { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
 .wearFig { margin: 0; }
 .wearFig figcaption { font-family: var(--font-sans); font-size: 14px; color: var(--ink); }
-.wearFig small { font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); }
+.wearFig small { font-family: var(--font-mono); font-size: 14px; color: var(--ink-mute); }
 .keyN, .keyS { display: inline-block; width: 14px; height: 3px; vertical-align: middle; }
 .keyN { background: var(--series-p3); }
 .keyS { background: var(--series-p1); }

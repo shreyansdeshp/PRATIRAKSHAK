@@ -30,7 +30,7 @@
 .vehicle { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--series-p3); border: 3px solid var(--paper-hi); box-shadow: 0 0 0 1px var(--ink); }
 
 .profile { border: 1px solid var(--fold); background: var(--paper-hi); }
-.tick { font-family: var(--font-mono); font-size: 13px; fill: var(--ink-mute); }
+.tick { font-family: var(--font-mono); font-size: 14px; fill: var(--ink-mute); }
 .peak { font-family: var(--font-sans); font-size: 15px; fill: var(--ink); }
 
 .side { display: flex; flex-direction: column; gap: 10px; }

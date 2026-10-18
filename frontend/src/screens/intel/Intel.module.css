@@ -20,10 +20,10 @@
 .bTrack { height: 8px; background: var(--grid); border-radius: 0 4px 4px 0; }
 .bTrack i { display: block; height: 100%; background: var(--series-p3); border-radius: 0 4px 4px 0; }
 .bVal { font-family: var(--font-mono); font-size: 14px; text-align: right; color: var(--ink-soft); }
-.support { grid-column: 1 / 4; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--ink-mute); }
+.support { grid-column: 1 / 4; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.06em; color: var(--ink-mute); }
 
 .flowSvg { overflow: visible; }
-.colHead { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; fill: var(--ink-mute); }
+.colHead { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.12em; fill: var(--ink-mute); }
 .edge { fill: none; stroke: var(--fold); stroke-width: 1; }
 .edgeOn { fill: none; stroke: var(--series-p3); stroke-width: 1.8; }
 .node text, .nodeOn text { font-family: var(--font-sans); font-size: 15px; }
@@ -37,7 +37,7 @@
 .hNums { display: flex; flex-direction: column; gap: 1px; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
 .hNums b { font-size: 20px; color: var(--ink); font-weight: 600; margin-right: 3px; }
 .types { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 14px; }
-.type { display: grid; grid-template-columns: 52px 1fr 34px; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
+.type { display: grid; grid-template-columns: 52px 1fr 34px; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); }
 .type em { font-style: normal; }
 .tTrack { height: 6px; background: var(--grid); }
 .tTrack i { display: block; height: 100%; background: var(--ink-soft); }
@@ -47,6 +47,6 @@
 .today b { font-size: 24px; }
 .flagged { border-collapse: collapse; width: 100%; font-family: var(--font-sans); font-size: 14px; }
 .flagged td { padding: 3px 4px 3px 0; border-bottom: 1px solid var(--grid); vertical-align: top; color: var(--ink-soft); }
-.flagged code { font-family: var(--font-mono); font-size: 13px; }
+.flagged code { font-family: var(--font-mono); font-size: 14px; }
 .tail { font-family: var(--font-mono); color: var(--ink) !important; white-space: nowrap; }
 .reason { color: var(--ink-mute) !important; }

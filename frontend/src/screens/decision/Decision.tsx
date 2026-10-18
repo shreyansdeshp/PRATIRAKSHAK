@@ -160,10 +160,10 @@ function RulBar({ p10, p50, p90, window }: { p10: number; p50: number; p90: numb
     <svg width={W} height={40} aria-hidden>
       <line x1={0} x2={W} y1={22} y2={22} stroke="var(--fold)" />
       <rect x={0} y={10} width={x(window)} height={24} fill="url(#hatch-stale)" opacity={0.5} />
-      <text x={4} y={8} fontFamily="var(--font-sans)" fontSize={10} fill="var(--ink-soft)">next {window} days</text>
+      <text x={4} y={8} fontFamily="var(--font-sans)" fontSize={14} fill="var(--ink-soft)">next {window} days</text>
       <rect x={x(p10)} y={15} width={Math.max(2, x(p90) - x(p10))} height={14} fill="var(--series-p3)" opacity={0.22} />
       <line x1={x(p50)} x2={x(p50)} y1={11} y2={33} stroke="var(--series-p3)" strokeWidth={2.5} />
-      <text x={x(p50) + 5} y={38} fontFamily="var(--font-mono)" fontSize={10} fill="var(--ink)">median {p50.toFixed(0)} d</text>
+      <text x={x(p50) + 5} y={38} fontFamily="var(--font-mono)" fontSize={14} fill="var(--ink)">median {p50.toFixed(0)} d</text>
     </svg>
   );
 }

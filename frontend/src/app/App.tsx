@@ -1,7 +1,7 @@
 import { Component, type ReactNode } from "react";
 
 import { ChartDefs } from "../charts/kit";
-import { NAV_H, NavBar } from "../components/NavBar";
+import { NavBar, navHeight } from "../components/NavBar";
 import { CornerTag, RegistrationMarks } from "../components/primitives";
 import { Showroom } from "../screens/aircraft/Showroom";
 import { BaseView } from "../screens/base/BaseView";
@@ -39,7 +39,7 @@ export function App() {
   return (
     <>
     <NavBar />
-    <Stage top={navShown ? NAV_H : 0}>
+    <Stage top={navShown ? navHeight(route.screen, route.param) : 0}>
       <ChartDefs />
       {loadError ? <SheetError detail={loadError} /> : (
         <Boundary key={`${route.screen}/${route.param ?? ""}`}><Screen screen={route.screen} param={route.param} /></Boundary>

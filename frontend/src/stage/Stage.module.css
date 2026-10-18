@@ -14,5 +14,5 @@
   transform-origin: center center;
   background: var(--paper);
   overflow: hidden;
-  box-shadow: 0 2px 18px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 1px 0 var(--fold), 0 0 0 1px var(--fold);
 }

@@ -5,7 +5,7 @@
 
 .board { display: flex; flex-direction: column; gap: 8px; }
 .headRow, .row { display: grid; grid-template-columns: 250px repeat(4, 1fr) 170px; gap: 8px; align-items: stretch; }
-.typeHead, .totalHead { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); align-self: end; padding: 0 0 4px 12px; }
+.typeHead, .totalHead { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); align-self: end; padding: 0 0 4px 12px; }
 .baseHead { text-align: left; background: transparent; border: none; border-bottom: 2px solid var(--ink); padding: 0 0 4px 10px; cursor: pointer; }
 .baseHead:hover .baseHeadName { text-decoration: underline; }
 .baseHeadName { display: block; font-family: var(--font-serif); font-weight: 600; font-size: 32px; color: var(--ink); }

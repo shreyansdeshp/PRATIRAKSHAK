@@ -1,4 +1,4 @@
-import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
+import { type type ReactNode, useEffect, useRef, useState } from "react";
 
 import type { Provenance, Status } from "../data/types";
 import s from "./primitives.module.css";
@@ -66,16 +66,8 @@ export function ProvenanceChip({ kind }: { kind: Provenance }) {
 }
 
 /* ------------------------------------------------------------------------------------------ sheet furniture */
-export function RegistrationMarks({ inset = 24 }: { inset?: number }) {
-  const st = (pos: CSSProperties, rot: number) => <span className={s.reg} style={{ ...pos, ['--rot' as string]: `${rot}deg` }} aria-hidden />;
-  return (
-    <>
-      {st({ top: inset, left: inset }, 35)}
-      {st({ top: inset, right: inset }, -20)}
-      {st({ bottom: inset, left: inset }, 70)}
-      {st({ bottom: inset, right: inset }, 10)}
-    </>
-  );
+export function RegistrationMarks(_: { inset?: number }): null {
+  return null; // corner marks removed (paper-chart restyle)
 }
 
 /** Double-rule sheet header: sheet number · title · edition line. */

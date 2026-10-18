@@ -40,7 +40,7 @@
   --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
 
-  --fs-12: 12px;
+  --fs-12: 14px;
   --fs-14: 14px;
   --fs-16: 16px;
   --fs-20: 20px;
@@ -62,42 +62,13 @@
   /* stage */
   --stage-w: 1920px;
   --stage-h: 1080px;
-  --nav-bg: #1e2224;
-  --nav-ink: #f4efe3;
-  --nav-accent: #c9a24a;
+  --nav-bg: var(--paper-hi);
+  --nav-ink: var(--ink);
+  --nav-accent: var(--olive);
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --t-status: 0ms;
   }
-}
-
-/* Air Force theme (default): cool sky-grey paper, navy ink, air-force blue accent. Status colours unchanged. */
-:root:not([data-theme="dark"]) {
-  --paper: #edf1f5;
-  --paper-hi: #f8fafc;
-  --sand: #dae2eb;
-  --fold: #c2cedb;
-  --ink: #0e1d33;
-  --ink-soft: #33445e;
-  --ink-mute: #56657b;
-  --olive: #1d4f91;
-  --khaki: #8ea3ba;
-  --charcoal: #1a2a40;
-  --water: #d2dfeb;
-  --grid: #d4dde7;
-  --backdrop: #f3f5f8;
-  --nav-bg: #0e2547;
-  --nav-ink: #eef3f9;
-  --nav-accent: #f2a93b;
-}
-
-/* Dark mode: night-ops navy. Status colours lifted for contrast. */
-:root[data-theme="dark"] {
-  --paper: #0f1a2b; --paper-hi: #172540; --sand: #1d2d4a; --fold: #2c4062;
-  --ink: #e8eef7; --ink-soft: #b4c2d6; --ink-mute: #8a9bb4;
-  --olive: #5b9be0; --khaki: #6c819f; --charcoal: #c8d3e3; --water: #162842; --grid: #22344f;
-  --ready: #4cc27a; --watch: #f0a62e; --watch-ink: #f0b955; --pull: #ff6b55; --stale: #8a96a8; --stale-ink: #a7b2c2;
-  --backdrop: #0a1220; --nav-bg: #070e1a; --nav-ink: #eef3f9; --nav-accent: #f2a93b;
 }

@@ -13,7 +13,7 @@ const H = 1080;
 export function Stage({ children, top = 0, clear = false }: { children: ReactNode; top?: number; clear?: boolean }) {
   const [scale, setScale] = useState(1);
   useEffect(() => {
-    const fit = () => setScale(Math.min((window.innerWidth - 56) / W, (window.innerHeight - top - 40) / H) /* margin keeps the frame visible */);
+    const fit = () => setScale(Math.min((window.innerWidth - 24) / W, (window.innerHeight - top - 12) / H) /* margin keeps the frame visible */);
     fit();
     window.addEventListener("resize", fit);
     return () => window.removeEventListener("resize", fit);

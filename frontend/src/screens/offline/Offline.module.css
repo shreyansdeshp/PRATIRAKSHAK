@@ -34,7 +34,7 @@
 
 .band { display: flex; flex-direction: column; gap: 2px; }
 .bandLabel { font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
-.bandTxt { font-family: var(--font-mono); font-size: 13px; fill: var(--ink); }
+.bandTxt { font-family: var(--font-mono); font-size: 14px; fill: var(--ink); }
 .risk { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--fold); border-bottom: 1px solid var(--fold); font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
 .risk b { font-size: 34px; font-weight: 600; color: var(--ink); }
 .risk small { color: var(--ink-mute); }

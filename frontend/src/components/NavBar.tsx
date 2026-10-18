@@ -1,38 +1,96 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useApp } from "../store/app";
 import { useStory } from "../story/story";
 import { Crest } from "./Crest";
-import { SHEETS } from "./SheetIndex";
 import s from "./NavBar.module.css";
 
-export const NAV_H = 56;
+const MAIN_H = 56, LINE_H = 3, SUB_H = 40;
 
-const readTheme = () => { try { return localStorage.getItem("theme") ?? "light"; } catch { return "light"; } };
+interface Tab { label: string; path: string; screens: string[] }
+const TABS: Tab[] = [
+  { label: "Map", path: "/", screens: ["hero"] },
+  { label: "Fleet", path: "/fleet", screens: ["fleet", "base"] },
+  { label: "Aircraft", path: "/aircraft/PR-S149", screens: ["aircraft", "intel"] },
+  { label: "Decision", path: "/decision/PR-S149", screens: ["decision"] },
+  { label: "Spares", path: "/spares/PR-S350", screens: ["spares"] },
+  { label: "Plan", path: "/plan", screens: ["plan"] },
+  { label: "Proof", path: "/results", screens: ["results", "stress", "late"] },
+];
 
-/** One readable taskbar on every page (outside the scaled stage, so it never shrinks). */
+const BASES = [["SAH", "Sahyadri"], ["ARV", "Aravalli"], ["HIM", "Himshikhar"], ["KAV", "Kaveri"]] as const;
+
+interface Sub { label: string; path: string; on: boolean }
+function subItems(screen: string, param: string | null): Sub[] {
+  if (screen === "fleet" || screen === "base") {
+    return [{ label: "All bases", path: "/fleet", on: screen === "fleet" },
+      ...BASES.map(([id, name]) => ({ label: name, path: `/base/${id}`, on: screen === "base" && param === id }))];
+  }
+  if (screen === "aircraft" || screen === "intel") {
+    return [{ label: "Showroom", path: `/aircraft/${screen === "aircraft" && param ? param : "PR-S149"}`, on: screen === "aircraft" },
+      { label: "Evidence", path: "/intel", on: screen === "intel" }];
+  }
+  if (screen === "results" || screen === "stress" || screen === "late") {
+    return [{ label: "Results", path: "/results", on: screen === "results" },
+      { label: "Resilience", path: "/stress", on: screen === "stress" },
+      { label: "Late data", path: "/late", on: screen === "late" }];
+  }
+  return [];
+}
+
+/** Total height of the fixed header for a screen (main bar + tricolour line + optional sub-bar). */
+export function navHeight(screen: string, param: string | null): number {
+  if (screen === "vendor") return MAIN_H + LINE_H;
+  return MAIN_H + LINE_H + (subItems(screen, param).length ? SUB_H : 0);
+}
+
+/** Paper-chart header: brand, story-order tabs, offline chip, role switch; tricolour as a 3 px line beneath. */
 export function NavBar() {
   const { route, navigate } = useApp();
   const show = useStory((st) => !st.active || st.chrome);
-  const [theme, setTheme] = useState(readTheme);
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    try { localStorage.setItem("theme", theme); } catch { /* private mode */ }
-  }, [theme]);
+  const [more, setMore] = useState(false);
   if (!show) return null;
+  const vendor = route.screen === "vendor";
+  const subs = subItems(route.screen, route.param);
+  const offline = route.screen === "offline";
+
+  const role = (
+    <div className={s.role} role="group" aria-label="Role">
+      <button type="button" className={!vendor ? s.roleOn : ""} onClick={() => navigate("/")}>Commander</button>
+      <button type="button" className={vendor ? s.roleOn : ""} onClick={() => navigate("/vendor")}>Spares vendor</button>
+    </div>
+  );
+
   return (
-    <nav className={s.bar} style={{ height: NAV_H }} aria-label="Sheets">
-      <button type="button" className={s.brand} onClick={() => navigate("/")}><Crest size={34} />PRATIRAKSHAK</button>
-      <div className={s.items}>
-        {SHEETS.map((sh) => (
-          <button key={sh.no} type="button" className={`${s.item} ${route.screen === sh.screen ? s.active : ""}`} onClick={() => navigate(sh.path)}>
-            {sh.label}
-          </button>
-        ))}
-      </div>
-      <button type="button" className={s.theme} onClick={() => setTheme(theme === "light" ? "dark" : "light")} title="Switch light / dark mode">
-        {theme === "light" ? "☾ Dark mode" : "☀ Light mode"}
-      </button>
-    </nav>
+    <header className={s.wrap}>
+      <nav className={s.bar} style={{ height: MAIN_H }} aria-label="Sheets">
+        <button type="button" className={s.brand} onClick={() => navigate(vendor ? "/vendor" : "/")}><Crest size={32} />PRATIRAKSHAK{vendor && <em>· Spares vendor</em>}</button>
+        {!vendor && (
+          <div className={s.items}>
+            {TABS.map((tb) => (
+              <button key={tb.label} type="button" className={`${s.item} ${tb.screens.includes(route.screen) ? s.active : ""}`} onClick={() => navigate(tb.path)}>{tb.label}</button>
+            ))}
+            <div className={s.moreWrap}>
+              <button type="button" className={`${s.item} ${route.screen === "lifecycle" ? s.active : ""}`} onClick={() => setMore((v) => !v)} aria-expanded={more}>More ▾</button>
+              {more && <div className={s.menu}><button type="button" onClick={() => { setMore(false); navigate("/lifecycle"); }}>Fleet lifecycle</button></div>}
+            </div>
+          </div>
+        )}
+        <div className={s.right}>
+          {!vendor && (
+            <button type="button" className={`${s.chip} ${offline ? s.chipOff : ""}`} onClick={() => navigate(offline ? "/fleet" : "/offline")} title="Switch offline mode on or off">
+              <i />{offline ? "Offline · cached data" : "Online"}
+            </button>
+          )}
+          {role}
+        </div>
+      </nav>
+      <div className={s.tricolour} />
+      {!vendor && subs.length > 0 && (
+        <nav className={s.sub} style={{ height: SUB_H }} aria-label="Section">
+          {subs.map((x) => <button key={x.label} type="button" className={x.on ? s.subOn : ""} onClick={() => navigate(x.path)}>{x.label}</button>)}
+        </nav>
+      )}
+    </header>
   );
 }
