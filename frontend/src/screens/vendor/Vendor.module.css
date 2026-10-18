@@ -268,3 +268,9 @@
 .legendBar { gap: 22px !important; }
 .legendItem { font-size: 19px !important; font-weight: 500; }
 .legendItem .badge { font-size: 17px !important; padding: 3px 10px !important; }
+
+/* priority tiles take their priority colour */
+.tiles > :nth-child(2) * { color: #b83a26; }
+.tiles > :nth-child(3) * { color: #a66a00; }
+.tiles > :nth-child(4) * { color: var(--olive); }
+.tiles > :nth-child(2) [class*="statLabel"], .tiles > :nth-child(3) [class*="statLabel"], .tiles > :nth-child(4) [class*="statLabel"] { font-weight: 600; }
