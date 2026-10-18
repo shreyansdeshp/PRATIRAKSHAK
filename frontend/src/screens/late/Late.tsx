@@ -74,7 +74,7 @@ function AircraftTab({ onTime, late, d, seed, cf }: { onTime: Run; late: Run; d:
   return (
     <div className={l.panel}>
       <ChartFrame title={`Aircraft that only fail when the data is ${d} day${d > 1 ? "s" : ""} late`} subtitle={`Demo run (seed ${seed}, the median-representative run) · each pair: on time (top) vs late (bottom) · solid = planned work, hatched = repair after failure, ■ = failure`}
-        provenance="SIMULATED" legend={[{ label: "planned work", color: "var(--ink-soft)", kind: "band" }, { label: "repair after failure", color: "var(--pull)", kind: "hatch" }, { label: "failure", color: "var(--pull)", kind: "dot" }]}>
+        provenance="SIMULATED" legend={[{ label: "planned work", color: "var(--olive)", kind: "band" }, { label: "repair after failure", color: "var(--khaki)", kind: "hatch" }, { label: "failure", color: "var(--pull)", kind: "dot" }]}>
         {tails.length === 0 ? <p className={l.empty}>In the demo run a {d}-day delay causes no extra failure. Across all 10 seeds it adds {(cf[String(d)]!.unplanned_failures.mean - cf["0"]!.unplanned_failures.mean).toFixed(1)} failures on average (Fleet tab); try 7 days.</p> : (
           <TimelineStrips days={90} width={1780} labelWidth={230} rowHeight={30}
             rows={tails.flatMap((t) => [

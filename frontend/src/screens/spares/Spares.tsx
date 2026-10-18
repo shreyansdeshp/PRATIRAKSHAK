@@ -8,6 +8,7 @@ import { useSnapshots } from "../../data/useSnapshots";
 import { ChartMap } from "../../map/ChartMap";
 import { useApp } from "../../store/app";
 import p from "./Spares.module.css";
+import { formatDuration } from "../../util/duration";
 
 interface Source { node: string; name: string; kind: string; qty: number; mode: string; eta_hours: number | null; distance_km: number; route_id: string | null; note: string }
 interface Spares { verdict: "SOURCE" | "PULL"; deadline_hours: number; install_hours: number; sources: Source[]; chosen: Source | null }
@@ -15,7 +16,7 @@ interface DecisionRow { tail: string; type: string; base: string; action: string
 interface Profiles { routes: Record<string, { distance_km: number[]; elevation_m: number[]; max_m: number; max_at_km: number; length_km: number }> }
 interface Leg { id: string; coords: [number, number][]; mode: "air" | "road"; role: "chosen" | "alt" | "road"; label: string; node: string; eta: number | null; closure?: Route["closure"] }
 
-const fmtH = (h: number) => `${Math.floor(h)} h ${String(Math.round((h % 1) * 60)).padStart(2, "0")} min`;
+const fmtH = formatDuration;
 
 /** S5 — spares & logistics: nearest sources with ETAs, navigation line, elevation profile, SOURCE vs PULL. */
 export function Spares({ tail }: { tail: string }) {
@@ -113,7 +114,7 @@ export function Spares({ tail }: { tail: string }) {
                   if (x < -50 || x > 1230 || y < -20 || y > 660) return null;
                   const chosen = group.some((g) => g.role === "chosen");
                   return <div key={`n-${l.label}`} className={`${p.src} ${chosen ? p.srcChosen : ""}`} style={{ left: x, top: y }}>
-                    <i />{l.label}<em>{group.map((g) => (g.eta !== null ? `${g.eta.toFixed(1)} h ${g.mode}` : `${g.mode} closed`)).join(" · ")}</em></div>;
+                    <i />{l.label}<em>{group.map((g) => (g.eta !== null ? `${formatDuration(g.eta)} ${g.mode}` : `${g.mode} closed`)).join(" · ")}</em></div>;
                 })}
                 {(() => { const [x, y] = project([vendor.lon, vendor.lat]); return x > 0 && x < 1180 && y > 0 && y < 640 ? <div className={p.vendor} style={{ left: x, top: y }}><i />{vendor.name}</div> : null; })()}
                 {(() => { const [x, y] = project([dest.lon, dest.lat]); return (
@@ -131,8 +132,8 @@ export function Spares({ tail }: { tail: string }) {
           <div className={`${p.verdict} ${sp.verdict === "SOURCE" ? p.source : p.pull}`} data-testid="verdict">
             <span className={p.verdictWord}>{sp.verdict}</span>
             <span>{sp.verdict === "SOURCE"
-              ? `The ${row.headline.lru} arrives and is fitted about ${slack !== null ? Math.round(Math.max(0, slack)) : ""} h before the earliest plausible failure.`
-              : `No source can deliver and fit it before the earliest plausible failure (${sp.deadline_hours.toFixed(0)} h): take the aircraft in for repair.`}</span>
+              ? `The ${row.headline.lru} arrives and is fitted about ${slack !== null ? formatDuration(Math.max(0, slack)) : ""} before the earliest plausible failure.`
+              : `No source can deliver and fit it before the earliest plausible failure (${formatDuration(sp.deadline_hours)}): take the aircraft in for repair.`}</span>
           </div>
           {sp.chosen && (
             <p className={p.routeLine} data-testid="route-line">
@@ -140,9 +141,9 @@ export function Spares({ tail }: { tail: string }) {
             </p>
           )}
           <div className={p.timing}>
-            <div><span>Earliest plausible failure</span><b>{sp.deadline_hours.toFixed(0)} h</b></div>
+            <div><span>Earliest plausible failure</span><b>{formatDuration(sp.deadline_hours)}</b></div>
             <div><span>Fastest delivery</span><b>{eta !== null ? fmtH(eta) : "—"}</b></div>
-            <div><span>Fitting time</span><b>{sp.install_hours} h</b></div>
+            <div><span>Fitting time</span><b>{formatDuration(sp.install_hours)}</b></div>
           </div>
           <h2 className={p.h2}>Nearest sources</h2>
           <table className={p.table}>
@@ -150,11 +151,11 @@ export function Spares({ tail }: { tail: string }) {
             <tbody>
               {sp.sources.map((s) => (
                 <tr key={`${s.node}-${s.mode}`} className={s === sp.sources[0] ? p.best : ""}>
-                  <td>{s.name}<em>{s.note}</em></td><td>{s.mode}</td><td>{s.eta_hours === null ? "closed" : `${s.eta_hours.toFixed(1)} h`}</td><td>{s.qty}</td>
+                  <td>{s.name}<em>{s.note}</em></td><td>{s.mode}</td><td>{s.eta_hours === null ? "closed" : formatDuration(s.eta_hours)}</td><td>{s.qty}</td>
                 </tr>
               ))}
               {roadLeg && (
-                <tr><td>{roadLeg.label}<em>road alternative, not chosen · {closureText(roadLeg.closure)}</em></td><td>road</td><td>{roadLeg.eta?.toFixed(1)} h</td><td>—</td></tr>
+                <tr><td>{roadLeg.label}<em>road alternative, not chosen · {closureText(roadLeg.closure)}</em></td><td>road</td><td>{roadLeg.eta !== null && roadLeg.eta !== undefined ? formatDuration(roadLeg.eta) : "—"}</td><td>—</td></tr>
               )}
             </tbody>
           </table>

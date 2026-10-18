@@ -1,61 +1,33 @@
-.sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
 .loading { position: absolute; inset: 0; }
+.sheet { position: absolute; inset: 0; padding: 32px 64px 28px; display: flex; flex-direction: column; gap: 12px; }
+.sectionHead { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.takeaway { margin: 0; font-family: var(--font-serif); font-size: 28px; line-height: 1.25; font-weight: 600; }
+.sub { margin: 0; font-family: var(--font-sans); font-size: 16px; color: var(--ink-soft); }
+.timeline { display: flex; flex-direction: column; gap: 6px; }
+.h2 { margin: 0; font-family: var(--font-sans); font-weight: 600; font-size: 20px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
 
-/* Top section: tab picker */
-.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--ink); }
-.tab { background: transparent; border: 1px solid var(--fold); border-bottom: none; border-radius: var(--r-1) var(--r-1) 0 0;
-  padding: 5px 16px; font-family: var(--font-sans); font-size: 16px; color: var(--ink-soft); cursor: pointer; margin-bottom: -2px; }
-.tab:hover { background: var(--paper-hi); }
-.tabActive { background: var(--paper-hi); border-color: var(--ink); color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--paper-hi); }
+.lower { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 520px; gap: 32px; }
+.bay { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+.tabs { display: flex; gap: 6px; }
+.tabs button { background: transparent; border: 1px solid var(--fold); border-radius: var(--r-1); padding: 8px 20px; font-family: var(--font-serif); font-size: 20px; color: var(--ink-soft); cursor: pointer; }
+.tabs .tabOn { border-color: var(--ink); color: var(--ink); background: var(--paper-hi); font-weight: 600; }
+.baseList { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; align-content: start; }
+.baseBlock { display: flex; flex-direction: column; gap: 3px; padding-bottom: 8px; }
+.baseHead { display: flex; align-items: baseline; gap: 14px; }
+.baseName { font-family: var(--font-serif); font-size: 24px; font-weight: 600; }
+.util { font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); border: 1px solid var(--fold); border-radius: 999px; padding: 1px 12px; }
+.utilBusy { color: var(--watch-ink); border-color: var(--watch-ink); font-weight: 600; }
+.axis { position: relative; height: 22px; margin: 0 28px 0 70px; }
+.tick { position: absolute; transform: translateX(-50%); font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); }
+.bayRow { display: flex; align-items: center; gap: 0; }
+.bayLabel { width: 70px; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); }
+.track { position: relative; flex: 1; height: 30px; margin-right: 28px; border-bottom: 1px solid var(--grid); background: repeating-linear-gradient(90deg, transparent 0 calc(100% / 7 - 1px), var(--grid) calc(100% / 7 - 1px) calc(100% / 7)); }
+.visit { position: absolute; top: 3px; height: 24px; background: var(--olive); color: var(--paper); border: none; border-radius: 2px; font-family: var(--font-mono); font-size: 14px; padding: 0 4px; overflow: hidden; white-space: nowrap; cursor: pointer; text-align: left; }
+.visit:hover { outline: 2px solid var(--ink); }
+.visitRepair { background: repeating-linear-gradient(135deg, var(--khaki) 0 4px, var(--paper-hi) 4px 8px); color: var(--ink); border: 1px solid var(--khaki); }
+.visitFollow { box-shadow: inset 0 -3px 0 var(--ink); }
 
-/* Main body */
-.body { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; min-height: 0; overflow: hidden; }
-.left { display: flex; flex-direction: column; gap: 16px; min-height: 0; overflow: hidden; }
-.right { display: flex; flex-direction: column; gap: 16px; min-height: 0; overflow: hidden; }
-
-/* Per-base Gantt */
-.ganttSection { flex: 1; min-height: 0; overflow: visible; }
-.ganttWrap { min-height: 0; }
-.ganttBase { margin-bottom: 12px; }
-.ganttBaseHead { display: flex; align-items: baseline; gap: 10px; border-bottom: 1px solid var(--fold); margin-bottom: 4px; padding-bottom: 3px; }
-.ganttBaseName { font-family: var(--font-serif); font-weight: 600; font-size: 20px; }
-.ganttBaseMeta { font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); letter-spacing: 0.08em; }
-
-/* Gantt rows */
-.ganttRow { display: grid; grid-template-columns: 56px 1fr; align-items: center; height: 20px; border-bottom: 1px solid var(--fold); }
-.ganttBayLabel { font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); padding-left: 4px; }
-.ganttTrack { position: relative; height: 16px; }
-.ganttVisit { position: absolute; top: 1px; height: 14px; border-radius: var(--r-1);
-  background: var(--ink-soft); font-family: var(--font-mono); font-size: 14px; color: var(--paper);
-  display: flex; align-items: center; padding: 0 3px; overflow: hidden; white-space: nowrap; cursor: default; }
-.ganttVisitPulled { background: var(--pull); }
-.ganttVisitBundled { border: 1.5px solid var(--olive); }
-
-/* Header row for day ticks */
-.ganttDayRow { display: grid; grid-template-columns: 56px 1fr; height: 14px; }
-.ganttDays { position: relative; height: 14px; }
-.ganttDayTick { position: absolute; top: 0; font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); transform: translateX(-50%); }
-
-/* Timeline comparison */
-.timelineSection { flex: 0 0 auto; }
-.timelineTitle { font-family: var(--font-sans); font-weight: 600; font-size: 16px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid var(--fold); padding-bottom: 3px; margin-bottom: 6px; }
-
-/* BarCI comparison */
-.barSection { flex: 0 0 auto; margin-top: 10px; display: flex; flex-direction: column; gap: 14px; }
-
-/* Visit tooltip */
-.visitTip { position: fixed; z-index: 100; background: var(--paper-hi); border: 1px solid var(--ink);
-  padding: 6px 10px; border-radius: var(--r-1); font-family: var(--font-sans); font-size: 15px;
-  pointer-events: none; max-width: 280px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.visitTip dt { font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); }
-.visitTip dd { margin: 0 0 4px 0; }
-
-/* Compact legend under Gantt */
-.ganttLegend { display: flex; gap: 14px; font-family: var(--font-sans); font-size: 14px; color: var(--ink-soft); padding-top: 4px; }
-.ganttLegend span { display: flex; align-items: center; gap: 4px; }
-.ganttLegend i { display: inline-block; width: 14px; height: 10px; border-radius: var(--r-1); }
-
-/* Provenance footer */
-.prov { display: flex; gap: 16px; font-family: var(--font-sans); font-size: 15px; color: var(--ink-soft); padding-top: 4px; }
-.prov span { display: flex; align-items: center; gap: 6px; }
+.card { display: flex; flex-direction: column; gap: 12px; padding: 18px 22px; border: 1px solid var(--fold); background: var(--paper-hi); align-self: start; }
+.callout { margin: 0; font-family: var(--font-sans); font-size: 20px; line-height: 1.35; }
+.callout b { font-size: 28px; display: block; }
+.small { margin: 0; font-family: var(--font-sans); font-size: 14px; color: var(--ink-soft); }

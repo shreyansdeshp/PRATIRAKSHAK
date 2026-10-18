@@ -4,17 +4,18 @@
 .seg button { background: transparent; border: none; padding: 10px 22px; font-family: var(--font-sans); font-size: 18px; color: var(--ink); cursor: pointer; }
 .seg .segOn { background: var(--ink); color: var(--paper); font-weight: 600; }
 
-.headline { display: flex; flex-direction: column; gap: 26px; margin-top: 40px; }
+.headline { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
 .bigRow { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
 .big { display: flex; flex-direction: column; gap: 8px; border-left: 4px solid var(--ink); padding-left: 28px; }
 .bigLabel { font-family: var(--font-sans); font-size: 22px; color: var(--ink-soft); }
-.bigNum { font-family: var(--font-serif); font-size: 92px; line-height: 1; color: var(--ink-soft); white-space: nowrap; }
+.bigNum { font-family: var(--font-serif); font-size: 72px; line-height: 1; color: var(--ink-soft); white-space: nowrap; }
 .bigNum i { font-style: normal; color: var(--ink-mute); padding: 0 12px; }
 .bigNum b { color: var(--series-p3); font-weight: 700; }
+.without { color: var(--ink-soft); }
 .bigNote { font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); }
-.sentence { margin: 10px 0 0; max-width: 1200px; font-family: var(--font-serif); font-size: 32px; line-height: 1.4; }
+.sentence { margin: 0; max-width: 1500px; font-family: var(--font-serif); font-size: 26px; line-height: 1.35; }
 .line { margin: 0; font-family: var(--font-sans); font-size: 20px; color: var(--ink-soft); }
-.limit { margin: 0; font-family: var(--font-sans); font-size: 16px; color: var(--ink-mute); max-width: 1100px; }
+.limit { margin: 0; font-family: var(--font-sans); font-size: 14px; color: var(--ink-soft); max-width: 1300px; }
 
 .scen { display: flex; flex-direction: column; gap: 14px; }
 .tabs { display: flex; gap: 6px; }
@@ -29,3 +30,15 @@
 .matters { color: var(--ready); font-weight: 600; }
 .safe { color: var(--ink-soft); }
 .ref td { font-weight: 600; background: var(--paper-hi); }
+
+.statRow { display: flex; gap: 40px; font-family: var(--font-sans); font-size: 18px; }
+.statRow div { display: flex; align-items: baseline; gap: 12px; padding: 6px 14px; border: 1px solid var(--fold); background: var(--paper-hi); }
+.statRow span { color: var(--ink-soft); }
+.statRow b { font-size: 22px; }
+.statRow em { font-style: normal; font-size: 14px; border: 1px solid var(--ink-mute); border-radius: 999px; padding: 1px 10px; color: var(--ink-soft); }
+.chart { display: flex; flex-direction: column; gap: 4px; }
+.chartHead { display: flex; align-items: center; gap: 16px; }
+.chartHead h2 { margin: 0; font-family: var(--font-serif); font-size: 24px; font-weight: 600; }
+.tick { font-family: var(--font-mono); font-size: 14px; fill: var(--ink-soft); }
+.endLabel { font-family: var(--font-sans); font-size: 16px; font-weight: 600; }
+.rowLabel { font-family: var(--font-sans); font-size: 17px; fill: var(--ink); }

@@ -110,11 +110,15 @@ def greedy(visits: list[Visit], cap: dict[str, BaseCapacity], horizon: int) -> l
     """Earliest-due-first, then heaviest risk; earliest feasible start."""
     usage: dict[tuple[str, int], list[float]] = {}
     type_use: dict[tuple[str, str, int], int] = {}
+    tail_days: set[tuple[str, int]] = set()   # one aircraft cannot be in two bays at once
     for v in sorted(visits, key=lambda v: (v.due, -v.weight, v.id)):
         v.start = None
         for s in range(v.release, horizon - v.duration + 1):
+            if any((v.tail, d) in tail_days for d in range(s, s + v.duration)):
+                continue
             if _fits(v, s, usage, cap, type_use):
                 v.start = s
+                tail_days.update((v.tail, d) for d in range(s, s + v.duration))
                 for d in range(s, s + v.duration):
                     u = usage.setdefault((v.base, d), [0, 0.0])
                     u[0] += 1
@@ -152,6 +156,12 @@ def cpsat(visits: list[Visit], cap: dict[str, BaseCapacity], horizon: int, risk_
             vt = [v for v in vb if v.type == ty]
             if vt:
                 m.AddCumulative([intervals[v.id] for v in vt], [1] * len(vt), max(allow, 0))
+    by_tail: dict[str, list[Visit]] = {}
+    for v in visits:
+        by_tail.setdefault(v.tail, []).append(v)
+    for vs in by_tail.values():
+        if len(vs) > 1:   # the same aircraft cannot occupy two bays on overlapping days
+            m.AddNoOverlap([intervals[v.id] for v in vs])
     unsched = late_w * horizon * 2
     m.Minimize(sum(int(risk_w * v.weight) * starts[v.id] + int(late_w) * late[v.id]
                    + int(unsched + risk_w * v.weight * horizon) * (1 - presents[v.id]) for v in visits))

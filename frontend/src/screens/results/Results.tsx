@@ -1,13 +1,16 @@
+import { scaleLinear } from "d3-scale";
+import { area, line } from "d3-shape";
 import { useState } from "react";
 
 import { LineChart } from "../../charts/kit";
-import { SheetHeader } from "../../components/primitives";
+import { ProvenanceChip, SheetHeader } from "../../components/primitives";
 import type { CI, PolicyId, Results as ResultsData } from "../../data/types";
 import { useSnapshots } from "../../data/useSnapshots";
 import { useBeatParams } from "../../story/story";
 import r from "./Results.module.css";
 
-type Full = ResultsData & { ablation: Record<string, Record<string, CI>> };
+interface HeadlinePol { mean: number[]; min: number[]; max: number[]; final: number; life_used: number[]; life_median: number | null }
+type Full = ResultsData & { ablation: Record<string, Record<string, CI>>; headline: { policies: Record<PolicyId, HeadlinePol> } };
 type View = "headline" | "scenarios" | "parts";
 const VIEWS: [View, string][] = [["headline", "Headline"], ["scenarios", "Scenarios"], ["parts", "What each part adds"]];
 const SCEN = ["base", "surge", "strike", "supply", "weather"];
@@ -40,26 +43,95 @@ export function Results() {
 function Headline({ res }: { res: Full }) {
   const bb = res.best_baseline.base!;
   const a = res.summary.base![bb]!, b = res.summary.base!.P3!;
+  const pb = res.paired.base!;
   const fa = a.unplanned_failures!.mean, fb = b.unplanned_failures!.mean;
   const wa = a.wasted_life_pct!.mean, wb = b.wasted_life_pct!.mean;
+  const noDiff = (m: string) => { const d = pb[m] as CI | undefined; return !d || (d.lo <= 0 && d.hi >= 0); };
+  const base = res.policies[bb];
   return (
     <div className={r.headline} data-testid="headline">
       <div className={r.bigRow}>
         <div className={r.big}>
           <span className={r.bigLabel}>Unplanned failures in 90 days</span>
-          <span className={r.bigNum}>{fa.toFixed(0)} <i>→</i> <b>{fb.toFixed(0)}</b></span>
-          <span className={r.bigNote}>without → with Pratirakshak</span>
+          <span className={r.bigNum}><span className={r.without}>{fa.toFixed(0)}</span> <i>→</i> <b>{fb.toFixed(0)}</b></span>
+          <span className={r.bigNote}>{base} {fa.toFixed(0)} → Pratirakshak {fb.toFixed(0)}</span>
         </div>
         <div className={r.big}>
           <span className={r.bigLabel}>Component life thrown away</span>
-          <span className={r.bigNum}>{wa.toFixed(1)}% <i>→</i> <b>{wb.toFixed(1)}%</b></span>
-          <span className={r.bigNote}>wasted before replacement</span>
+          <span className={r.bigNum}><span className={r.without}>{wa.toFixed(1)}%</span> <i>→</i> <b>{wb.toFixed(1)}%</b></span>
+          <span className={r.bigNote}>{base} {wa.toFixed(1)}% → Pratirakshak {wb.toFixed(1)}%</span>
         </div>
       </div>
-      <p className={r.sentence}>Against the best alternative ({res.policies[bb]}), Pratirakshak avoids almost every unplanned failure and replaces parts closer to the end of their useful life.</p>
-      <p className={r.line}>Ready aircraft and cost are about equal to the best baseline.</p>
+      <p className={r.sentence}>Against {base}, the best alternative, Pratirakshak avoids almost every unplanned failure and replaces parts closer to the end of their useful life.</p>
+      <div className={r.statRow}>
+        <div><span>Ready aircraft</span><b>{a.ready_pct!.mean.toFixed(1)}% → {b.ready_pct!.mean.toFixed(1)}%</b>{noDiff("ready_pct") && <em>no clear difference</em>}</div>
+        <div><span>Cost (₵, illustrative)</span><b>{Math.round(a.cost!.mean / 1000)}k → {Math.round(b.cost!.mean / 1000)}k</b>{noDiff("cost") && <em>no clear difference</em>}</div>
+      </div>
+      <FailChart h={res.headline.policies} names={res.policies} />
+      <LifeStrip h={res.headline.policies} bb={bb} names={res.policies} />
       <p className={r.limit}>Limitation: the model and the simulated data share one generator, and fault-detection scores use injected faults.</p>
     </div>
+  );
+}
+
+const ORDER: PolicyId[] = ["P0", "P1", "P2", "P3"];
+
+function FailChart({ h, names }: { h: Record<PolicyId, HeadlinePol>; names: Record<string, string> }) {
+  const W = 1700, H = 250, m = { l: 56, r: 230, t: 8, b: 30 };
+  const n = h.P3.mean.length;
+  const xs = scaleLinear().domain([0, n]).range([m.l, W - m.r]);
+  const top = Math.max(...ORDER.map((p) => Math.max(...h[p].max)));
+  const ys = scaleLinear().domain([0, top]).nice().range([H - m.b, m.t]);
+  const days = Array.from({ length: n }, (_, i) => i + 1);
+  const ln = line<number>().x((_, i) => xs(days[i]!)).y((v) => ys(v));
+  return (
+    <section className={r.chart} data-testid="fail-chart">
+      <div className={r.chartHead}><h2>Failures pile up without prediction; Pratirakshak stays near zero</h2><ProvenanceChip kind="SIMULATED" /></div>
+      <svg width={W} height={H} role="img" aria-label="Cumulative unplanned failures over 90 days, one line per policy">
+        {ys.ticks(4).map((t) => <g key={t}><line x1={m.l} x2={W - m.r} y1={ys(t)} y2={ys(t)} stroke="var(--grid)" /><text x={m.l - 8} y={ys(t)} dy="0.32em" textAnchor="end" className={r.tick}>{t}</text></g>)}
+        {[0, 30, 60, 90].map((d) => <text key={d} x={xs(d)} y={H - 8} textAnchor="middle" className={r.tick}>{d === 0 ? "day 0" : d}</text>)}
+        {ORDER.map((p) => {
+          const band = area<number>().x((_, i) => xs(days[i]!)).y0((_, i) => ys(h[p].min[i]!)).y1((_, i) => ys(h[p].max[i]!));
+          return <path key={`b${p}`} d={band(h[p].mean) ?? ""} fill={`var(--series-${p.toLowerCase()})`} opacity={0.14} />;
+        })}
+        {ORDER.map((p) => <path key={p} d={ln(h[p].mean) ?? ""} fill="none" stroke={`var(--series-${p.toLowerCase()})`} strokeWidth={p === "P3" ? 4 : 2.5} />)}
+        {ORDER.map((p) => (
+          <text key={`l${p}`} x={W - m.r + 10} y={ys(h[p].mean[n - 1]!)} dy="0.32em" className={r.endLabel} fill={`var(--series-${p.toLowerCase()})`}>{names[p]} · {Math.round(h[p].final)}</text>
+        ))}
+      </svg>
+    </section>
+  );
+}
+
+function LifeStrip({ h, bb, names }: { h: Record<PolicyId, HeadlinePol>; bb: PolicyId; names: Record<string, string> }) {
+  const W = 1700, H = 150, m = { l: 230, r: 40, t: 4, b: 34 };
+  const xs = scaleLinear().domain([0, 1]).range([m.l, W - m.r]);
+  const rows: PolicyId[] = [bb, "P3"];
+  return (
+    <section className={r.chart} data-testid="life-strip">
+      <div className={r.chartHead}><h2>Parts are replaced closer to end of life</h2><ProvenanceChip kind="SIMULATED" /></div>
+      <svg width={W} height={H} role="img" aria-label="Share of part life used at replacement">
+        {rows.map((p, ri) => {
+          const cy = m.t + 28 + ri * 52;
+          const pts = h[p].life_used;
+          return (
+            <g key={p}>
+              <text x={m.l - 14} y={cy} dy="0.32em" textAnchor="end" className={r.rowLabel}>{names[p]}</text>
+              <line x1={m.l} x2={W - m.r} y1={cy} y2={cy} stroke="var(--grid)" />
+              {pts.map((v, i) => <circle key={i} cx={xs(v)} cy={cy + ((i * 7) % 15) - 7} r={3} fill={`var(--series-${p.toLowerCase()})`} opacity={0.45} />)}
+              {h[p].life_median !== null && (
+                <g>
+                  <line x1={xs(h[p].life_median!)} x2={xs(h[p].life_median!)} y1={cy - 20} y2={cy + 20} stroke="var(--ink)" strokeWidth={3} />
+                  <text x={xs(h[p].life_median!) + 8} y={cy - 16} className={r.tick}>median {Math.round(h[p].life_median! * 100)}%</text>
+                </g>
+              )}
+            </g>
+          );
+        })}
+        {[0, 0.25, 0.5, 0.75, 1].map((v) => <text key={v} x={xs(v)} y={H - 8} textAnchor="middle" className={r.tick}>{Math.round(v * 100)}%</text>)}
+        <text x={m.l - 14} y={H - 8} textAnchor="end" className={r.tick}>life used at replacement</text>
+      </svg>
+    </section>
   );
 }
 

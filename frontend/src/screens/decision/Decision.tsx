@@ -5,6 +5,7 @@ import type { FleetState, World } from "../../data/types";
 import { useSnapshots } from "../../data/useSnapshots";
 import { useApp } from "../../store/app";
 import d from "./Decision.module.css";
+import { formatDuration } from "../../util/duration";
 
 const SYS: Record<string, string> = { engines: "Engine", hydraulics: "Hydraulics", landing_gear: "Landing gear & brakes", flight_controls: "Flight controls",
   electrical: "Electrical", avionics: "Avionics / radar", fuel: "Fuel", structure: "Structure" };
@@ -53,7 +54,7 @@ export function Decision({ tail }: { tail: string }) {
   // cannibalisation only matters when the base store has none of the part
   const options = h.alternatives.filter((a) => !a.option.startsWith("Cannibalise") || inStoreQty === 0).map((a) => {
     if (a.option === "Source the spare" && isRepair && sp?.chosen) {
-      return { ...a, consequence: localSrc ? `already in store — about ${sp.install_hours.toFixed(0)} h to fit` : `arrives in ${sp.chosen.eta_hours?.toFixed(0)} h, then ${sp.install_hours.toFixed(0)} h to fit` };
+      return { ...a, consequence: localSrc ? `already in store — about ${formatDuration(sp.install_hours)} to fit` : `arrives in ${formatDuration(sp.chosen.eta_hours ?? 0)}, then ${formatDuration(sp.install_hours)} to fit` };
     }
     return a;
   });
@@ -78,7 +79,7 @@ export function Decision({ tail }: { tail: string }) {
           <span className={d.nWord}><StatusGlyph status={act.status} size={40} />{act.label}</span>
           <span className={d.nLru}>{h.lru_name}</span>
         </div>
-        <p className={d.nReason} data-testid="reason">{row.reason}</p>
+        <p className={d.nReason} data-testid="reason">{hoursText(row.reason)}</p>
         <div className={d.nRisk}>
           <b>{Math.round(h.p_fail * 100)} %</b>
           <span>chance of failing in the next {state.window_days} days</span>
@@ -127,7 +128,7 @@ export function Decision({ tail }: { tail: string }) {
         <section className={d.nCol}>
           <h2 className={d.nH2}>Options we weighed</h2>
           <ul className={d.nAlts}>
-            {options.map((a) => <li key={a.option}><b>{a.option}</b><span>{a.consequence}</span></li>)}
+            {options.map((a) => <li key={a.option}><b>{a.option}</b><span>{hoursText(a.consequence)}</span></li>)}
             {options.length === 0 && <li><span>Risk is below the watch band; no action needed.</span></li>}
           </ul>
         </section>
@@ -137,10 +138,10 @@ export function Decision({ tail }: { tail: string }) {
             {isRepair && sp.chosen ? (
               <div className={d.nTwo}>
                 <div className={`${d.nSpare} ${d.pull}`}><StatusGlyph status="PULL" size={22} /> Aircraft: in repair now (do not fly while waiting)</div>
-                <div className={`${d.nSpare} ${d.source}`}><StatusGlyph status="READY" size={22} /> Spare: {localSrc ? `in store at ${baseName}` : `from ${sp.chosen.name}, ${sp.chosen.eta_hours?.toFixed(0)} h away`}, fitted in ~{((localSrc ? 0 : sp.chosen.eta_hours ?? 0) + sp.install_hours).toFixed(0)} h</div>
+                <div className={`${d.nSpare} ${d.source}`}><StatusGlyph status="READY" size={22} /> Spare: {localSrc ? `in store at ${baseName}` : `from ${sp.chosen.name}, ${formatDuration(sp.chosen.eta_hours ?? 0)} away`}, fitted in ~{formatDuration((localSrc ? 0 : sp.chosen.eta_hours ?? 0) + sp.install_hours)}</div>
               </div>
             ) : sp.chosen && sp.verdict === "SOURCE" ? (
-              <div className={`${d.nSpare} ${d.source}`}>Yes — it arrives in time (about {((sp.chosen.eta_hours ?? 0) + sp.install_hours).toFixed(0)} h)</div>
+              <div className={`${d.nSpare} ${d.source}`}>Yes — it arrives in time (about {formatDuration((sp.chosen.eta_hours ?? 0) + sp.install_hours)})</div>
             ) : (
               <div className={`${d.nSpare} ${d.pull}`}>{isRepair ? "No spare can reach this base — order the part" : "No — the part cannot arrive in time"}</div>
             )}
@@ -166,4 +167,9 @@ function RulBar({ p10, p50, p90, window }: { p10: number; p50: number; p90: numb
       <text x={x(p50) + 5} y={38} fontFamily="var(--font-mono)" fontSize={14} fill="var(--ink)">median {p50.toFixed(0)} d</text>
     </svg>
   );
+}
+
+/** Backend sentences contain raw "N h" durations; show them with the shared formatter. */
+function hoursText(s: string): string {
+  return s.replace(/(\d+(?:\.\d+)?) h\b/g, (_, n: string) => formatDuration(Number(n)));
 }

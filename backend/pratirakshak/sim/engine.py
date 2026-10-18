@@ -194,6 +194,7 @@ class Simulator:
         self.hangar_by_base: dict[str, list[int]] = {b: [] for b in self.bays}
         self.damage_curve: list[list[float]] = []
         self.wasted: list[float] = []
+        self.fail_curve: list[int] = []   # cumulative unplanned failures at the end of each day (headline chart)
         self._prev_fault = np.zeros((self.A, len(self.model.sensors)), dtype=bool)
 
     def rng(self, day: int, purpose: str) -> np.random.Generator:
@@ -646,6 +647,7 @@ class Simulator:
             self._schedule(t)
             up = np.array([s == "up" for s in self.status])
             self.ready_curve.append(float(up.mean()))
+            self.fail_curve.append(int(self.m["unplanned_failures"]))
             for b in self.ready_by_base:
                 m = np.array(self.base_of) == b
                 self.ready_by_base[b].append(float(up[m].mean()))
@@ -664,6 +666,8 @@ class Simulator:
             "cost": round(m["cost_planned"] + m["cost_unplanned"] + m["cost_abort"] + m["cost_expedite"], 1),
             "sensor_fault_onsets": int(m["sensor_fault_onsets"]), "hangar_days": int(m["hangar_days"]),
             "ready_curve": [round(x, 4) for x in self.ready_curve],
+            "fail_curve": self.fail_curve,
+            "life_used": [round(1 - w, 3) for w in self.wasted],
             "ready_by_base": {b: [round(x, 4) for x in v] for b, v in self.ready_by_base.items()},
             "hangar_by_base": self.hangar_by_base,
             "damage_curve": self.damage_curve,

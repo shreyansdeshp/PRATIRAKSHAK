@@ -29,9 +29,9 @@
 
   /* data series — policy identity (emphasis form: P3 accent, P0 recessive ink).
      Validated with the dataviz validator on #F4EFE3, all-pairs: CVD ΔE ≥ 9.5, normal-vision ΔE ≥ 21.4, contrast ≥ 3:1. */
-  --series-p3: #2a78d6;
-  --series-p2: #14996b;
-  --series-p1: #d9622b;
+  --series-p3: #4b5632;
+  --series-p2: #b7791f;
+  --series-p1: #a89f7a;
   --series-p0: #4a4f52;
   --grid: #ddd4bf;          /* hairline grid, one step off the paper */
 

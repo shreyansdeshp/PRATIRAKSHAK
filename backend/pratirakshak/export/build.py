@@ -271,11 +271,21 @@ def build_vendor(world: dict[str, Any], wcfg: dict[str, Any]) -> dict[str, Any]:
 
 
 # ------------------------------------------------------------------------------------------ results etc.
+def _headline() -> dict:
+    """Cumulative-failure curves (mean + min/max over seeds) and life-used-at-replacement samples for Results > Headline."""
+    import numpy as np
+    h = read_json(RESULTS / "headline.json")
+    for v in h["policies"].values():
+        lu = sorted(v["life_used"])
+        v["life_used"] = [lu[int(i * (len(lu) - 1) / 239)] for i in range(240)] if len(lu) > 240 else lu  # even quantile sample
+    return h
+
+
 def build_results() -> dict[str, Any]:
     s = read_json(RESULTS / "summary.json")
     return {**s, "curves": read_json(RESULTS / "curves.json"), "ablation": read_json(RESULTS / "ablation.json"),
             "sensitivity": read_json(RESULTS / "sensitivity.json"), "counterfactuals": read_json(RESULTS / "counterfactuals.json"),
-            "scenario_defs": load_config("scenarios")["scenarios"]}
+            "scenario_defs": load_config("scenarios")["scenarios"], "headline": _headline()}
 
 
 def build_demo() -> dict[str, Any]:

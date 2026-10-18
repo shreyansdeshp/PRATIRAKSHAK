@@ -32,8 +32,8 @@
   },
   {
    "path": "data/plan.json",
-   "bytes": 17399,
-   "sha256": "a9ca26755a1bdf62"
+   "bytes": 17400,
+   "sha256": "4c92b33a1bbe1408"
   },
   {
    "path": "data/profiles.json",
@@ -42,8 +42,8 @@
   },
   {
    "path": "data/results.json",
-   "bytes": 126316,
-   "sha256": "cfb573274e421072"
+   "bytes": 135824,
+   "sha256": "42b135ad892cf9c0"
   },
   {
    "path": "data/routes/air.geojson",
@@ -211,5 +211,5 @@
    "sha256": "3f504d3eabb32a6d"
   }
  ],
- "total_bytes": 4708020
+ "total_bytes": 4717529
 }

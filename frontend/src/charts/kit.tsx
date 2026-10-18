@@ -222,7 +222,7 @@ export interface Block { start: number; end: number; kind: "planned" | "unplanne
 export function TimelineStrips({ rows, days, width = 900, rowHeight = 26, labelWidth = 150, dayLabel = (d: number) => `D+${d}` }:
   { rows: { label: string; sub?: string; blocks: Block[]; markers?: { day: number; label: string }[] }[]; days: number;
     width?: number; rowHeight?: number; labelWidth?: number; dayLabel?: (d: number) => string }) {
-  const m = { t: 18, r: 12 };
+  const m = { t: 24, r: 44 };
   const xs = scaleLinear().domain([0, days]).range([labelWidth, width - m.r]);
   const height = m.t + rows.length * rowHeight + 6;
   const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(null);
@@ -245,8 +245,8 @@ export function TimelineStrips({ rows, days, width = 900, rowHeight = 26, labelW
                 const bx = xs(b.start); const bw = Math.max(3, xs(b.end) - xs(b.start));
                 return (
                   <rect key={j} x={bx} y={5} width={bw} height={rowHeight - 10} rx={2}
-                        fill={b.kind === "planned" ? "var(--ink-soft)" : "url(#hatch-unplanned)"}
-                        stroke={b.kind === "planned" ? "none" : "var(--pull)"} strokeWidth={1}
+                        fill={b.kind === "planned" ? "var(--olive)" : "url(#hatch-unplanned)"}
+                        stroke={b.kind === "planned" ? "none" : "var(--khaki)"} strokeWidth={1}
                         onMouseEnter={() => setTip({ x: bx, y, text: `${b.kind === "planned" ? "Planned" : "Unplanned"} · D+${b.start}–${b.end}${b.label ? " · " + b.label : ""}` })}
                         onMouseLeave={() => setTip(null)} />
                 );
@@ -393,7 +393,7 @@ export function ChartDefs() {
       <defs>
         <pattern id="hatch-unplanned" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <rect width="6" height="6" fill="var(--paper-hi)" />
-          <line x1="0" y1="0" x2="0" y2="6" stroke="var(--pull)" strokeWidth="2" />
+          <line x1="0" y1="0" x2="0" y2="6" stroke="var(--khaki)" strokeWidth="2" />
         </pattern>
         <pattern id="hatch-stale" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(135)">
           <line x1="0" y1="0" x2="0" y2="5" stroke="var(--stale)" strokeWidth="1.5" />

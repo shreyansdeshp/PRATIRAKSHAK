@@ -6,6 +6,7 @@ import type { AircraftState, FleetState, Status } from "../../data/types";
 import { useSnapshots } from "../../data/useSnapshots";
 import { useBeatParams } from "../../story/story";
 import s from "./Offline.module.css";
+import { formatDuration } from "../../util/duration";
 
 const BASES: Record<string, string> = { SAH: "Sahyadri", ARV: "Aravalli", HIM: "Himshikhar", KAV: "Kaveri" };
 const RANK: Record<Status, number> = { READY: 0, WATCH: 1, PULL: 2 };
@@ -73,7 +74,7 @@ export function Offline() {
         <span className={s.age}>Snapshot {st.snapshot} · age <b>{fmtAge(age)}</b></span>
         <label className={s.slider}>data age
           <input type="range" min={0} max={72} step={0.5} value={age} onChange={(e) => setAge(Number(e.target.value))} aria-label="data age in hours" />
-          <span>{Math.round(age)} h</span>
+          <span>{formatDuration(age)}</span>
         </label>
         <span className={s.chip}><ProvenanceChip kind="ILLUSTRATIVE" /></span>
       </div>
@@ -104,7 +105,7 @@ export function Offline() {
           <div className={s.secHead}><span>{focus.a.tail} · {focus.sys.replace("_", " ")}</span><StatusGlyph status={focus.now} label /></div>
           <p className={s.keyLine}>Remaining life of this system, in days: <i className={s.kBand} /> likely range · <i className={s.kMed} /> median · <i className={s.kWin} /> {st.window_days}-day check</p>
           <Band label="At snapshot" q={focus.a.systems.find((x) => x.id === focus.sys)!.rul_days} w={st.window_days} />
-          <Band label={`Now, ${Math.round(age)} h later`} q={aged(focus.a.systems.find((x) => x.id === focus.sys)!.rul_days, age)} w={st.window_days} wide />
+          <Band label={`Now, ${formatDuration(age)} later`} q={aged(focus.a.systems.find((x) => x.id === focus.sys)!.rul_days, age)} w={st.window_days} wide />
           <div className={s.risk}>
             <span>Chance of failure within {st.window_days} days</span>
             <b>{Math.round(focus.p0 * 100)} % → {Math.round(focus.p * 100)} %</b>

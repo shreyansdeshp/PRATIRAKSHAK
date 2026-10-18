@@ -6,6 +6,7 @@ import { ChartMap, type Camera } from "../../map/ChartMap";
 import { useSnapshots } from "../../data/useSnapshots";
 import type { Meta } from "../../data/types";
 import v from "./Vendor.module.css";
+import { formatDuration } from "../../util/duration";
 
 /* ----- local types (vendor.json only) ----- */
 interface VendorDemand {
@@ -269,7 +270,7 @@ export function Vendor() {
                   { label: "Destination", value: d.destination.name.replace(" Air Base", "") },
                   { label: "Source", value: d.source.name.replace(" Air Base", "").replace(" Logistics Depot", " Depot").replace(" Forward Depot", " Depot").replace(" Vendor Hub", " Hub") },
                   { label: "Mode", value: d.mode === "air" ? "Air" : "Road", width: 75 },
-                  { label: "ETA", value: `${d.eta_hours.toFixed(1)} h`, width: 85 },
+                  { label: "ETA", value: formatDuration(d.eta_hours), width: 85 },
                   {
                     label: "Deliver by",
                     value: new Date(d.deliver_by).toLocaleDateString("en-GB", {
