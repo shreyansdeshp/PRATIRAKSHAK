@@ -130,10 +130,10 @@ export function Spares({ tail }: { tail: string }) {
 
         <aside className={p.side}>
           <div className={`${p.verdict} ${sp.verdict === "SOURCE" ? p.source : p.pull}`} data-testid="verdict">
-            <span className={p.verdictWord}>{sp.verdict}</span>
+            <span className={p.verdictWord}>{sp.verdict === "SOURCE" ? "SOURCE" : "REPAIR"}</span>
             <span>{sp.verdict === "SOURCE"
               ? `The ${row.headline.lru} arrives and is fitted about ${slack !== null ? formatDuration(Math.max(0, slack)) : ""} before the earliest plausible failure.`
-              : `No source can deliver and fit it before the earliest plausible failure (${formatDuration(sp.deadline_hours)}): take the aircraft in for repair.`}</span>
+              : `The aircraft goes in for repair now and must not fly while it waits. ${eta === 0 ? `The ${row.headline.lru} is already in the base store and takes ${formatDuration(sp.install_hours)} to fit` : `The ${row.headline.lru} needs ${eta !== null ? formatDuration(eta + sp.install_hours) : "an unknown time"} to arrive and be fitted`}${sp.deadline_hours < 1 ? ", and the aircraft could fail at any time." : `, against ${formatDuration(sp.deadline_hours)} before it could fail.`}`}</span>
           </div>
           {sp.chosen && (
             <p className={p.routeLine} data-testid="route-line">
@@ -141,7 +141,7 @@ export function Spares({ tail }: { tail: string }) {
             </p>
           )}
           <div className={p.timing}>
-            <div><span>Earliest plausible failure</span><b>{formatDuration(sp.deadline_hours)}</b></div>
+            <div><span>Earliest plausible failure</span><b>{sp.deadline_hours < 1 ? "any time now" : formatDuration(sp.deadline_hours)}</b></div>
             <div><span>Fastest delivery</span><b>{eta !== null ? fmtH(eta) : "—"}</b></div>
             <div><span>Fitting time</span><b>{formatDuration(sp.install_hours)}</b></div>
           </div>
