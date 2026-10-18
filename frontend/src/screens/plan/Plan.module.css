@@ -31,3 +31,20 @@
 .callout { margin: 0; font-family: var(--font-sans); font-size: 20px; line-height: 1.35; }
 .callout b { font-size: 28px; display: block; }
 .small { margin: 0; font-family: var(--font-sans); font-size: 14px; color: var(--ink-soft); }
+
+/* judge-friendly sizing */
+.takeaway { font-size: 36px !important; }
+.sub { font-size: 20px !important; line-height: 1.4; color: var(--ink) !important; }
+.sub b { font-weight: 700; }
+.h2 { font-size: 24px !important; }
+.baseName { font-size: 28px !important; }
+.util { font-size: 17px !important; }
+.bayLabel { font-size: 18px !important; width: 80px !important; }
+.axis { margin-left: 80px !important; }
+.tick { font-size: 15px !important; }
+.track { height: 36px !important; }
+.visit { height: 30px !important; font-size: 16px !important; top: 3px !important; }
+.callout { font-size: 22px !important; }
+.callout b { font-size: 44px !important; color: var(--series-p3); }
+.tabs button { font-size: 22px !important; }
+.tabs button { white-space: nowrap; padding: 8px 16px !important; }

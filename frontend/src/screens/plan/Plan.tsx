@@ -53,9 +53,9 @@ export function Plan() {
     return { blocks, markers };
   };
   const r0 = blocksOf(demo.runs.P0?.events ?? []), r3 = blocksOf(demo.runs.P3?.events ?? []);
-  const unplanned0 = r0.blocks.filter((b) => b.kind === "unplanned").length;
-  const planned3 = r3.blocks.filter((b) => b.kind === "planned").length;
-  const takeaway = `${tail}: ${r0.markers.length} in-flight failure${r0.markers.length === 1 ? "" : "s"} and ${unplanned0} breakdown repairs without prediction; ${r3.markers.length} and ${r3.blocks.length - planned3} with Pratirakshak, using ${planned3} planned visits`;
+  const takeaway = r3.markers.length === 0 && r0.markers.length > 0
+    ? `Without prediction, ${tail} fails in flight ${r0.markers.length} times. With Pratirakshak: never.`
+    : `${tail}: ${r0.markers.length} in-flight failures without prediction, ${r3.markers.length} with Pratirakshak.`;
 
   const bases = world.bases;
   const shown = selected ? bases.filter((b) => b.id === selected) : bases;
@@ -80,19 +80,19 @@ export function Plan() {
           <h2 className={p.takeaway}>{takeaway}</h2>
           <ProvenanceChip kind="SIMULATED" />
         </div>
-        <p className={p.sub}>Same aircraft, same 90-day horizon, day by day.</p>
-        <TimelineStrips days={90} width={1700} labelWidth={230} rowHeight={92} dayLabel={(d) => (d === 0 ? "Day 0" : `${d}`)}
+        <p className={p.sub}>One aircraft followed for 90 days, twice. <b>Red square</b> = it failed while flying. <b>Hatched bar</b> = emergency repair after a breakdown. <b>Green bar</b> = planned visit, done before it can fail.</p>
+        <TimelineStrips days={90} width={1700} labelWidth={230} rowHeight={72} dayLabel={(d) => (d === 0 ? "Day 0" : `${d}`)}
           rows={[
-            { label: POLICY_LABELS.P0, blocks: r0.blocks, markers: r0.markers },
-            { label: POLICY_LABELS.P3, blocks: r3.blocks, markers: r3.markers },
+            { label: "Without prediction", blocks: r0.blocks, markers: r0.markers },
+            { label: "With Pratirakshak", blocks: r3.blocks, markers: r3.markers },
           ]} />
-        <Legend items={[{ label: "Planned visit", color: "var(--olive)", kind: "band" }, { label: "Repair after a breakdown", color: "var(--khaki)", kind: "hatch" }, { label: "In-flight failure", color: "var(--pull)", kind: "dot" }]} />
+        <Legend items={[{ label: "Planned visit", color: "var(--olive)", kind: "band" }, { label: "Emergency repair after a breakdown", color: "var(--khaki)", kind: "hatch" }, { label: "Failed while flying", color: "var(--pull)", kind: "dot" }]} />
       </section>
 
       <div className={p.lower}>
         <section className={p.bay} data-testid="bay-schedule">
           <div className={p.sectionHead}>
-            <h2 className={p.h2}>Garage schedule · next {SHOW_DAYS} days</h2>
+            <div><h2 className={p.h2}>Garage schedule · next {SHOW_DAYS} days</h2><p className={p.sub}>Each bar is an aircraft in a garage bay. Hatched = already in repair. Click a bar to see why.</p></div>
             <div className={p.tabs}>
               <button type="button" className={!selected ? p.tabOn : ""} onClick={() => setSelected(null)}>All bases</button>
               {bases.map((b) => <button key={b.id} type="button" className={selected === b.id ? p.tabOn : ""} onClick={() => setSelected(b.id)}>{b.name.replace(" Air Base", "")}</button>)}
@@ -106,12 +106,12 @@ export function Plan() {
         </section>
 
         <aside className={p.card} data-testid="downtime">
-          <h2 className={p.h2}>Unplanned downtime (aircraft-hours)</h2>
+          <h2 className={p.h2}>Time aircraft spend broken down</h2><p className={p.sub}>Aircraft-hours lost to unplanned breakdowns in 90 days, fleet total.</p>
           <BarCI width={470}
             rows={(["P0", "P1", "P2", "P3"] as PolicyId[]).map((pid) => { const c = sum[pid]!.unplanned_hours!; return { label: POLICY_LABELS[pid], mean: c.mean, lo: c.lo, hi: c.hi, color: POLICY_COLORS[pid] }; })}
             format={(v) => fmt(v)} />
-          <p className={p.callout}><b>{fmt(dh3)} vs {fmt(dh0)}</b>{fewer.toFixed(1)}% fewer ({formatDuration(dh3)} vs {formatDuration(dh0)} of aircraft downtime across the fleet)</p>
-          <p className={p.small}>Mean of {results.seeds} runs, 95% interval shown.</p>
+          <p className={p.callout}><b>{fewer.toFixed(1)}% less</b>{fmt(dh3)} hours with Pratirakshak against {fmt(dh0)} with no prediction.</p>
+          <p className={p.small}>Average of {results.seeds} simulated runs.</p>
         </aside>
       </div>
     </div>

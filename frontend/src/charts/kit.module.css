@@ -32,3 +32,5 @@
 .table { border-collapse: collapse; font-family: var(--font-mono); font-size: 15px; font-variant-numeric: tabular-nums; }
 .table th { text-align: left; font-family: var(--font-sans); font-weight: 500; color: var(--ink-soft); border-bottom: 1px solid var(--ink); padding: 3px 10px 3px 0; }
 .table td { border-bottom: 1px solid var(--fold); padding: 3px 10px 3px 0; }
+
+.rowLabel { font-size: 20px !important; font-family: var(--font-sans) !important; }
