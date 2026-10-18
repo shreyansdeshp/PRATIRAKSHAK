@@ -71,7 +71,7 @@ export function NavBar() {
           <span className={s.vlogo}>◈</span>
           <span className={s.vbrand}>SpareLink<em>Vendor Portal</em></span>
           <span className={s.vnav}>
-            {([["deliveries", "Deliveries"], ["inventory", "Inventory"], ["invoices", "Invoices"], ["support", "Support"]] as [VendorTab, string][]).map(([k, label]) => (
+            {([["deliveries", "Deliveries"], ["inventory", "Inventory"], ["invoices", "Invoices"]] as [VendorTab, string][]).map(([k, label]) => (
               <button key={k} type="button" className={vtab === k ? s.vOn : ""} onClick={() => setVtab(k)}>{label}</button>
             ))}
           </span>

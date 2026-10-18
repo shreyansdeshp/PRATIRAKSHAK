@@ -314,7 +314,7 @@ export function Vendor() {
   );
 }
 
-function Extra({ tab, vendor }: { tab: "inventory" | "invoices" | "support"; vendor: VendorData }) {
+function Extra({ tab, vendor }: { tab: "inventory" | "invoices"; vendor: VendorData }) {
   const ps = vendor.demands;
   if (tab === "inventory") {
     const stock = [...vendor.stock_at_hub].sort((a, b) => a.qty - b.qty);
@@ -326,7 +326,7 @@ function Extra({ tab, vendor }: { tab: "inventory" | "invoices" | "support"; ven
       </section>
     );
   }
-  if (tab === "invoices") {
+  {
     return (
       <section className={v.panel} data-testid="vendor-invoices">
         <h2>Delivery notes and invoices</h2>
@@ -336,15 +336,4 @@ function Extra({ tab, vendor }: { tab: "inventory" | "invoices" | "support"; ven
       </section>
     );
   }
-  return (
-    <section className={v.panel} data-testid="vendor-support">
-      <h2>Support</h2>
-      <p>Questions about a delivery? Every request carries a reference such as {ps[0]?.demand_id}; quote it when you contact the base logistics desk.</p>
-      <ul className={v.faq}>
-        <li><b>Why do I not see aircraft names?</b> Bases share only the part, the quantity, the destination and the deadline.</li>
-        <li><b>What does P1 mean?</b> Expedite: an aircraft is waiting and the part must travel by air.</li>
-        <li><b>What if a road is closed?</b> The plan switches that delivery to airlift and tells you the new delivery time.</li>
-      </ul>
-    </section>
-  );
 }
