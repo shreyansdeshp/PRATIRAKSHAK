@@ -58,3 +58,5 @@
 .others button { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 14px; background: var(--paper-hi); border: 1px solid var(--fold);
   border-radius: var(--r-1); padding: 3px 7px; cursor: pointer; }
 .others button.on { border-color: var(--ink); }
+
+.routeLine { margin: 0; font-family: var(--font-sans); font-size: 20px; font-weight: 600; color: var(--ink); }

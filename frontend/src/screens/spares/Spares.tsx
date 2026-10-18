@@ -72,7 +72,7 @@ export function Spares({ tail }: { tail: string }) {
     const all = (framed.length ? framed : legs).flatMap((l) => l.coords);
     const lons = all.map((c) => c[0]), lats = all.map((c) => c[1]);
     map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]],
-      { padding: { top: 110, bottom: 90, left: 140, right: 300 }, duration: 0, pitch: row?.base === "HIM" ? 40 : 0, bearing: row?.base === "HIM" ? -14 : 0, maxZoom: 7.6 });
+      { padding: { top: 110, bottom: 90, left: 140, right: 300 }, duration: 0, pitch: 0, bearing: 0, maxZoom: 7.6 });
   }, [map, legs, row]);
 
   if (!data || !row?.headline.spares) return <div className={p.loading} />;
@@ -80,8 +80,10 @@ export function Spares({ tail }: { tail: string }) {
   const sp = row.headline.spares;
   const dest = world.nodes.find((n) => n.id === row.base)!;
   const chosenLeg = legs?.find((l) => l.role === "chosen");
-  const profileLeg = legs?.find((l) => l.mode === "road");
+  const roadLeg = legs?.find((l) => l.mode === "road");
+  const profileLeg = chosenLeg && profiles.routes[chosenLeg.id] ? chosenLeg : roadLeg;
   const profile = profileLeg ? profiles.routes[profileLeg.id] : undefined;
+  const profileReversed = !!(profileLeg && world.routes.find((r) => r.id === profileLeg.id)?.to_node === profileLeg.node);
   const vendor = world.nodes.find((n) => n.kind === "vendor_hub")!;
   const eta = sp.chosen?.eta_hours ?? null;
   const arrive = eta !== null ? new Date(Date.UTC(2026, 5, 1, 6, 0) + eta * 3600e3) : null;
@@ -122,16 +124,21 @@ export function Spares({ tail }: { tail: string }) {
                 ); })()}
               </>
             )} />
-          {profile && profileLeg && <ElevationStrip profile={profile} leg={profileLeg} />}
+          {profile && profileLeg && <ElevationStrip profile={profile} leg={profileLeg} reversed={profileReversed} destName={dest.name.replace(" Air Base", "")} notChosen={profileLeg.role !== "chosen"} />}
         </section>
 
         <aside className={p.side}>
           <div className={`${p.verdict} ${sp.verdict === "SOURCE" ? p.source : p.pull}`} data-testid="verdict">
             <span className={p.verdictWord}>{sp.verdict}</span>
             <span>{sp.verdict === "SOURCE"
-              ? `The ${row.headline.lru} arrives and is fitted ${slack !== null ? fmtH(Math.max(0, slack)) : ""} before the earliest plausible failure.`
+              ? `The ${row.headline.lru} arrives and is fitted about ${slack !== null ? Math.round(Math.max(0, slack)) : ""} h before the earliest plausible failure.`
               : `No source can deliver and fit it before the earliest plausible failure (${sp.deadline_hours.toFixed(0)} h): take the aircraft in for repair.`}</span>
           </div>
+          {sp.chosen && (
+            <p className={p.routeLine} data-testid="route-line">
+              {sp.chosen.mode === "air" ? "Vahak airlift" : sp.chosen.mode === "road" ? "Road convoy" : "Local store"} from {sp.chosen.name.replace(" Air Base", "")} · {sp.chosen.qty} in stock
+            </p>
+          )}
           <div className={p.timing}>
             <div><span>Earliest plausible failure</span><b>{sp.deadline_hours.toFixed(0)} h</b></div>
             <div><span>Fastest delivery</span><b>{eta !== null ? fmtH(eta) : "—"}</b></div>
@@ -146,8 +153,8 @@ export function Spares({ tail }: { tail: string }) {
                   <td>{s.name}<em>{s.note}</em></td><td>{s.mode}</td><td>{s.eta_hours === null ? "closed" : `${s.eta_hours.toFixed(1)} h`}</td><td>{s.qty}</td>
                 </tr>
               ))}
-              {profileLeg && profileLeg.role === "road" && (
-                <tr><td>{profileLeg.label}<em>road alternative{profileLeg.closure ? ` · closed ${profileLeg.closure.start_mmdd}→${profileLeg.closure.end_mmdd}` : ""}</em></td><td>road</td><td>{profileLeg.eta?.toFixed(1)} h</td><td>—</td></tr>
+              {roadLeg && (
+                <tr><td>{roadLeg.label}<em>road alternative, not chosen · {closureText(roadLeg.closure)}</em></td><td>road</td><td>{roadLeg.eta?.toFixed(1)} h</td><td>—</td></tr>
               )}
             </tbody>
           </table>
@@ -192,24 +199,43 @@ function Vehicle({ coords, project, still }: { coords: [number, number][]; proje
   return <span className={p.vehicle} style={{ left: x, top: y }} aria-label="consignment in transit" />;
 }
 
-function ElevationStrip({ profile, leg }: { profile: Profiles["routes"][string]; leg: Leg }) {
-  const W = 1180, H = 150, m = { l: 56, r: 16, t: 22, b: 24 };
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const fmtMD = (mmdd: string) => { const [m, d] = mmdd.split("-").map(Number); return `${d} ${MONTHS[(m ?? 1) - 1]}`; };
+/** Snapshot date is D+0 = 1 Jun 2026. A closure window can wrap the year end (e.g. 15 Nov → 15 May). */
+function closureText(c: Leg["closure"]): string {
+  if (!c) return "open all year";
+  const key = (mmdd: string) => Number(mmdd.replace("-", ""));
+  const today = 601, s = key(c.start_mmdd), e = key(c.end_mmdd);
+  const inside = s <= e ? today >= s && today <= e : today >= s || today <= e;
+  return inside ? `closed now, reopens ${fmtMD(c.end_mmdd)}` : `open now, closes ${fmtMD(c.start_mmdd)}`;
+}
+
+function ElevationStrip({ profile, leg, reversed, destName, notChosen }: { profile: Profiles["routes"][string]; leg: Leg; reversed: boolean; destName: string; notChosen: boolean }) {
+  const W = 1180, H = 150, m = { l: 92, r: 16, t: 22, b: 24 };
   const maxE = Math.max(1000, Math.ceil(profile.max_m / 1000) * 1000);
   const x = (km: number) => m.l + (km / profile.length_km) * (W - m.l - m.r);
   const y = (e: number) => H - m.b - (e / maxE) * (H - m.t - m.b);
-  const pts = profile.distance_km.map((d, i) => `${x(d).toFixed(1)},${y(profile.elevation_m[i]!).toFixed(1)}`);
+  const dist = reversed ? [...profile.distance_km].map((d) => profile.length_km - d).reverse() : profile.distance_km;
+  const elev = reversed ? [...profile.elevation_m].reverse() : profile.elevation_m;
+  const peakAt = reversed ? profile.length_km - profile.max_at_km : profile.max_at_km;
+  const pts = dist.map((d, i) => `${x(d).toFixed(1)},${y(elev[i]!).toFixed(1)}`);
+  const kind = leg.mode === "air" ? "airlift flight line" : "road route";
+  const title = notChosen ? `Terrain along the ${kind} — road alternative, not chosen` : `Terrain along the chosen ${kind}`;
   return (
     <div className={p.profile} data-testid="elevation-profile">
-      <svg width={W} height={H} aria-label={`elevation profile, highest point ${profile.max_m} m`}>
-        {[0, maxE / 2, maxE].map((e) => (
-          <g key={e}><line x1={m.l} x2={W - m.r} y1={y(e)} y2={y(e)} stroke="var(--grid)" /><text x={m.l - 6} y={y(e)} dy="0.32em" textAnchor="end" className={p.tick}>{e.toLocaleString("en-IN")} m</text></g>
-        ))}
-        <path d={`M${x(0)},${y(0)} L${pts.join(" L")} L${x(profile.length_km)},${y(0)} Z`} fill="var(--khaki)" opacity={0.35} />
-        <path d={`M${pts.join(" L")}`} fill="none" stroke="var(--ink)" strokeWidth={1.5} />
-        <line x1={x(profile.max_at_km)} x2={x(profile.max_at_km)} y1={y(profile.max_m)} y2={m.t - 6} stroke="var(--ink)" />
-        <text x={x(profile.max_at_km) + 6} y={m.t - 8} className={p.peak}>highest point {profile.max_m.toLocaleString("en-IN")} m at km {profile.max_at_km.toFixed(0)}</text>
-        <text x={m.l} y={H - 6} className={p.tick}>0 km</text>
-        <text x={W - m.r} y={H - 6} textAnchor="end" className={p.tick}>{profile.length_km.toFixed(0)} km · {leg.label} → destination by road{leg.closure ? ` · closed ${leg.closure.start_mmdd} → ${leg.closure.end_mmdd} (${leg.closure.reason})` : ""}</text>
+      <svg width={W} height={H + 16} aria-label={`${title}, highest point ${profile.max_m} m`}>
+        <text x={m.l} y={11} className={p.peak}>{title}</text>
+        <g transform="translate(0,16)">
+          {[0, maxE / 2, maxE].map((e) => (
+            <g key={e}><line x1={m.l} x2={W - m.r} y1={y(e)} y2={y(e)} stroke="var(--grid)" /><text x={m.l - 8} y={y(e)} dy="0.32em" textAnchor="end" className={p.tick}>{e.toLocaleString("en-IN")} m</text></g>
+          ))}
+          <path d={`M${x(0)},${y(0)} L${pts.join(" L")} L${x(profile.length_km)},${y(0)} Z`} fill="var(--khaki)" opacity={0.35} />
+          <path d={`M${pts.join(" L")}`} fill="none" stroke="var(--ink)" strokeWidth={1.5} />
+          <line x1={x(peakAt)} x2={x(peakAt)} y1={y(profile.max_m)} y2={m.t - 6} stroke="var(--ink)" />
+          <text x={x(peakAt) + (peakAt > profile.length_km * 0.6 ? -6 : 6)} textAnchor={peakAt > profile.length_km * 0.6 ? "end" : "start"} y={m.t - 8} className={p.peak}>highest point {profile.max_m.toLocaleString("en-IN")} m at km {peakAt.toFixed(0)}</text>
+          <text x={m.l} y={H - 6} className={p.tick}>0 km</text>
+          <text x={W - m.r} y={H - 6} textAnchor="end" className={p.tick}>{profile.length_km.toFixed(0)} km · {leg.label} → {destName}</text>
+        </g>
       </svg>
     </div>
   );

@@ -86,5 +86,17 @@ def build_profiles() -> dict[str, Any]:
         rid = f"road:{feat['properties']['from']}-{feat['properties']['to']}"
         out[rid] = {"distance_km": [round(x, 1) for x in dist], "elevation_m": [round(e) for e in elev],
                     "max_m": round(elev[k]), "max_at_km": round(dist[k], 1), "length_km": round(dist[-1], 1)}
-    return {"provenance": "REAL-ANCHORED", "source": "AWS Terrain Tiles (Terrarium, z8) sampled every 2 km along cached OSRM road geometry",
+    # airlift legs: the straight flight line between the two nodes, same sampling (terrain under the flight path)
+    import pandas as pd
+    from pratirakshak.settings import PROCESSED_DIR
+    nodes = pd.read_parquet(PROCESSED_DIR / "world" / "nodes.parquet").set_index("id")
+    routes = pd.read_parquet(PROCESSED_DIR / "world" / "routes.parquet")
+    for _, r in routes[routes["mode"] == "air"].iterrows():
+        a, b = nodes.loc[r["from_node"]], nodes.loc[r["to_node"]]
+        dist, pts = resample([[float(a["lon"]), float(a["lat"])], [float(b["lon"]), float(b["lat"])]])
+        elev = [max(0.0, dem.elevation(lon, lat)) for lon, lat in pts]
+        k = int(np.argmax(elev))
+        out[r["id"]] = {"distance_km": [round(x, 1) for x in dist], "elevation_m": [round(e) for e in elev],
+                        "max_m": round(elev[k]), "max_at_km": round(dist[k], 1), "length_km": round(dist[-1], 1)}
+    return {"provenance": "REAL-ANCHORED", "source": "AWS Terrain Tiles (Terrarium, z8) sampled every 2 km along cached OSRM road geometry and along straight airlift flight lines",
             "routes": out}

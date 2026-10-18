@@ -37,8 +37,8 @@
   },
   {
    "path": "data/profiles.json",
-   "bytes": 220974,
-   "sha256": "b6ac7d6a13b7eee8"
+   "bytes": 398890,
+   "sha256": "78c55777f8624b04"
   },
   {
    "path": "data/results.json",
@@ -211,5 +211,5 @@
    "sha256": "3f504d3eabb32a6d"
   }
  ],
- "total_bytes": 4530088
+ "total_bytes": 4708004
 }
