@@ -80,3 +80,13 @@
   --olive: #4b3fa6; --khaki: #9a90cf; --backdrop: #d6d1e8;
   --series-p3: #4b3fa6;
 }
+
+/* vendor portal feels like its own site: sans-serif everywhere, soft rounded cards, no paper-chart frame */
+:root[data-role="vendor"] {
+  --font-serif: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --r-1: 10px; --r-2: 12px;
+  --paper: #f1effa; --backdrop: #e4e0f4;
+}
+:root[data-role="vendor"] [class*="sheetTitle"] h1 { text-transform: none; font-weight: 700; letter-spacing: -0.01em; }
+:root[data-role="vendor"] [class*="sheetHeader"] { border-bottom: none; }
+:root[data-role="vendor"] [data-testid="stage"] { box-shadow: 0 6px 30px rgba(43, 35, 112, 0.16); border-radius: 14px; }

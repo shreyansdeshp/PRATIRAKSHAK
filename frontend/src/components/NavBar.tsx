@@ -40,7 +40,7 @@ function subItems(screen: string, param: string | null): Sub[] {
 
 /** Total height of the fixed header for a screen (main bar + tricolour line + optional sub-bar). */
 export function navHeight(screen: string, param: string | null): number {
-  if (screen === "vendor") return MAIN_H + LINE_H;
+  if (screen === "vendor") return MAIN_H;
   return MAIN_H + LINE_H + (subItems(screen, param).length ? SUB_H : 0);
 }
 
@@ -62,6 +62,19 @@ export function NavBar() {
     </div>
   );
 
+  if (vendor) {
+    return (
+      <header className={`${s.wrap} ${s.vwrap}`} data-testid="vendor-header">
+        <nav className={s.vbar} style={{ height: MAIN_H }} aria-label="Vendor portal">
+          <span className={s.vlogo}>◈</span>
+          <span className={s.vbrand}>SpareLink<em>Vendor Portal</em></span>
+          <span className={s.vnav}><b>Deliveries</b><span>Inventory</span><span>Invoices</span><span>Support</span></span>
+          <span className={s.vuser}>Nandi Vendor Hub · Bengaluru</span>
+          <button type="button" className={s.vback} onClick={() => navigate("/")}>← Back to Pratirakshak</button>
+        </nav>
+      </header>
+    );
+  }
   return (
     <header className={s.wrap}>
       <nav className={s.bar} style={{ height: MAIN_H }} aria-label="Sheets">
