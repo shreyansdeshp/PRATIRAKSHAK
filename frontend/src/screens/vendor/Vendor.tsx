@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { useVendorTab } from "./vendorTab";
 import { CornerTag, FlightStrip, ProvenanceChip, RegistrationMarks, SheetHeader, StatTile, NumberTick } from "../../components/primitives";
 import { SheetIndex } from "../../components/SheetIndex";
 import { ChartMap, type Camera } from "../../map/ChartMap";
@@ -133,6 +134,7 @@ export function Vendor() {
     };
   }, [data]);
 
+  const vtab = useVendorTab((s) => s.tab);
   if (!data) return <div className={v.loading} />;
   const { vendor } = data;
 
@@ -154,11 +156,13 @@ export function Vendor() {
       <RegistrationMarks />
       <SheetHeader
         sheet="12"
-        title="Spares vendor — deliveries"
+        title={vtab === "deliveries" ? "Spares vendor — deliveries" : vtab[0]!.toUpperCase() + vtab.slice(1)}
         subtitle={`${vendor.snapshot} · ${demands.length} delivery demands from the maintenance plan`}
         right={<SheetIndex />}
       />
 
+      {vtab !== "deliveries" && <Extra tab={vtab} vendor={vendor} />}
+      {vtab === "deliveries" && <>
       <div className={v.topRow}>
       <div className={v.tiles}>
         <StatTile label="Total demands" value={<NumberTick value={demands.length} />} accent />
@@ -304,7 +308,43 @@ export function Vendor() {
           <span>Routes <ProvenanceChip kind="REAL-ANCHORED" /></span>
         </div>
       </div>
+      </>}
       <CornerTag />
     </div>
+  );
+}
+
+function Extra({ tab, vendor }: { tab: "inventory" | "invoices" | "support"; vendor: VendorData }) {
+  const ps = vendor.demands;
+  if (tab === "inventory") {
+    const stock = [...vendor.stock_at_hub].sort((a, b) => a.qty - b.qty);
+    return (
+      <section className={v.panel} data-testid="vendor-inventory">
+        <h2>Inventory at {vendor.vendor_hub.name}</h2>
+        <p>{stock.length} part types on the shelf. The lowest stock is listed first; red means empty.</p>
+        <div className={v.invGrid}>{stock.map((s) => <div key={s.lru} className={s.qty === 0 ? v.invZero : ""}><b>{s.qty}</b><span>{s.lru}</span></div>)}</div>
+      </section>
+    );
+  }
+  if (tab === "invoices") {
+    return (
+      <section className={v.panel} data-testid="vendor-invoices">
+        <h2>Delivery notes and invoices</h2>
+        <p>One line per delivery. Amounts are not shown: pricing is outside this prototype.</p>
+        <table className={v.invTable}><thead><tr><th>Delivery</th><th>Part</th><th>Qty</th><th>To</th><th>Deliver by</th><th>Status</th></tr></thead>
+          <tbody>{ps.slice(0, 12).map((d) => <tr key={d.demand_id}><td>{d.demand_id}</td><td>{d.part}</td><td>{d.qty}</td><td>{d.destination.name.replace(" Air Base", "")}</td><td>{d.deliver_by.slice(0, 10)}</td><td>Scheduled</td></tr>)}</tbody></table>
+      </section>
+    );
+  }
+  return (
+    <section className={v.panel} data-testid="vendor-support">
+      <h2>Support</h2>
+      <p>Questions about a delivery? Every request carries a reference such as {ps[0]?.demand_id}; quote it when you contact the base logistics desk.</p>
+      <ul className={v.faq}>
+        <li><b>Why do I not see aircraft names?</b> Bases share only the part, the quantity, the destination and the deadline.</li>
+        <li><b>What does P1 mean?</b> Expedite: an aircraft is waiting and the part must travel by air.</li>
+        <li><b>What if a road is closed?</b> The plan switches that delivery to airlift and tells you the new delivery time.</li>
+      </ul>
+    </section>
   );
 }

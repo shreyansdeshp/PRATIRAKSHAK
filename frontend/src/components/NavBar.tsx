@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useApp } from "../store/app";
 import { useStory } from "../story/story";
+import { useVendorTab, type VendorTab } from "../screens/vendor/vendorTab";
 import { Crest } from "./Crest";
 import s from "./NavBar.module.css";
 
@@ -49,6 +50,7 @@ export function NavBar() {
   const { route, navigate } = useApp();
   const show = useStory((st) => !st.active || st.chrome);
   const [more, setMore] = useState(false);
+  const { tab: vtab, set: setVtab } = useVendorTab();
   const vendor = route.screen === "vendor";
   useEffect(() => { document.documentElement.dataset.role = vendor ? "vendor" : "commander"; }, [vendor]);
   if (!show) return null;
@@ -68,7 +70,11 @@ export function NavBar() {
         <nav className={s.vbar} style={{ height: MAIN_H }} aria-label="Vendor portal">
           <span className={s.vlogo}>◈</span>
           <span className={s.vbrand}>SpareLink<em>Vendor Portal</em></span>
-          <span className={s.vnav}><b>Deliveries</b><span>Inventory</span><span>Invoices</span><span>Support</span></span>
+          <span className={s.vnav}>
+            {([["deliveries", "Deliveries"], ["inventory", "Inventory"], ["invoices", "Invoices"], ["support", "Support"]] as [VendorTab, string][]).map(([k, label]) => (
+              <button key={k} type="button" className={vtab === k ? s.vOn : ""} onClick={() => setVtab(k)}>{label}</button>
+            ))}
+          </span>
           <span className={s.vuser}>Nandi Vendor Hub · Bengaluru</span>
           <button type="button" className={s.vback} onClick={() => navigate("/")}>← Back to Pratirakshak</button>
         </nav>
