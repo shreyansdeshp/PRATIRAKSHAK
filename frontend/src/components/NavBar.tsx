@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
+import type { FleetState, Meta } from "../data/types";
+import { useSnapshots } from "../data/useSnapshots";
 import { useApp } from "../store/app";
 import { useStory } from "../story/story";
 import { useVendorTab, type VendorTab } from "../screens/vendor/vendorTab";
 import { Crest } from "./Crest";
 import s from "./NavBar.module.css";
 
-const MAIN_H = 56, LINE_H = 8, SUB_H = 40;
+const MAIN_H = 56, LINE_H = 18, SUB_H = 40, STRIP_H = 32;
 
 interface Tab { label: string; path: string; screens: string[] }
 const TABS: Tab[] = [
@@ -17,6 +19,7 @@ const TABS: Tab[] = [
   { label: "Spares", path: "/spares/PR-S350", screens: ["spares"] },
   { label: "Plan", path: "/plan", screens: ["plan"] },
   { label: "Proof", path: "/results", screens: ["results", "stress", "late"] },
+  { label: "Lifecycle", path: "/lifecycle", screens: ["lifecycle"] },
 ];
 
 const BASES = [["SAH", "Sahyadri"], ["ARV", "Aravalli"], ["HIM", "Himshikhar"], ["KAV", "Kaveri"]] as const;
@@ -42,14 +45,14 @@ function subItems(screen: string, param: string | null): Sub[] {
 /** Total height of the fixed header for a screen (main bar + tricolour line + optional sub-bar). */
 export function navHeight(screen: string, param: string | null): number {
   if (screen === "vendor") return MAIN_H;
-  return MAIN_H + LINE_H + (subItems(screen, param).length ? SUB_H : 0);
+  return MAIN_H + LINE_H + STRIP_H + (subItems(screen, param).length ? SUB_H : 0);
 }
 
 /** Paper-chart header: brand, story-order tabs, offline chip, role switch; tricolour as a 3 px line beneath. */
 export function NavBar() {
   const { route, navigate } = useApp();
   const show = useStory((st) => !st.active || st.chrome);
-  const [more, setMore] = useState(false);
+  const { data: snap } = useSnapshots<{ meta: Meta; state: FleetState }>(["meta", "state"]);
   const { tab: vtab, set: setVtab } = useVendorTab();
   const vendor = route.screen === "vendor";
   useEffect(() => { document.documentElement.dataset.role = vendor ? "vendor" : "commander"; }, [vendor]);
@@ -84,16 +87,12 @@ export function NavBar() {
   return (
     <header className={s.wrap}>
       <nav className={s.bar} style={{ height: MAIN_H }} aria-label="Sheets">
-        <button type="button" className={s.brand} onClick={() => navigate(vendor ? "/vendor" : "/")}><Crest size={32} />PRATIRAKSHAK{vendor && <em>· Spares vendor</em>}</button>
+        <button type="button" className={s.brand} onClick={() => navigate(vendor ? "/vendor" : "/")}><Crest size={44} /><span className={s.brandText}><span className={s.brandA}>PRATI</span><span className={s.brandB}>RAKSHAK</span></span>{vendor && <em>· Spares vendor</em>}</button>
         {!vendor && (
           <div className={s.items}>
             {TABS.map((tb) => (
               <button key={tb.label} type="button" className={`${s.item} ${tb.screens.includes(route.screen) ? s.active : ""}`} onClick={() => navigate(tb.path)}>{tb.label}</button>
             ))}
-            <div className={s.moreWrap}>
-              <button type="button" className={`${s.item} ${route.screen === "lifecycle" ? s.active : ""}`} onClick={() => setMore((v) => !v)} aria-expanded={more}>More ▾</button>
-              {more && <div className={s.menu}><button type="button" onClick={() => { setMore(false); navigate("/lifecycle"); }}>Fleet lifecycle</button></div>}
-            </div>
           </div>
         )}
         <div className={s.right}>
@@ -105,7 +104,22 @@ export function NavBar() {
           {role}
         </div>
       </nav>
-      <div className={s.tricolour} />
+      <div className={s.tricolour}>
+        <svg className={s.chakra} width="16" height="16" viewBox="0 0 16 16" aria-hidden>
+          <circle cx="8" cy="8" r="7.6" fill="#fff" stroke="#06038D" strokeWidth="0.9" />
+          <circle cx="8" cy="8" r="1.2" fill="#06038D" />
+          {Array.from({ length: 24 }, (_, i) => { const a = (i / 24) * Math.PI * 2; return <line key={i} x1="8" y1="8" x2={8 + Math.cos(a) * 6.8} y2={8 + Math.sin(a) * 6.8} stroke="#06038D" strokeWidth="0.5" />; })}
+        </svg>
+      </div>
+      {!vendor && snap && (
+        <div className={s.strip} style={{ height: STRIP_H }} data-testid="status-strip">
+          <span>Sim clock <b>{snap.meta.snapshot}</b></span>
+          <span>Seed <b>{snap.meta.seed}</b></span>
+          <span>Data age <b>00:00</b></span>
+          <span>Ready <b>{snap.state.summary.fleet.ready} / {snap.state.summary.fleet.aircraft}</b></span>
+          <span>Alerts <b>{snap.state.summary.fleet.watch + snap.state.summary.fleet.pull}</b></span>
+        </div>
+      )}
       {!vendor && subs.length > 0 && (
         <nav className={s.sub} style={{ height: SUB_H }} aria-label="Section">
           {subs.map((x) => <button key={x.label} type="button" className={x.on ? s.subOn : ""} onClick={() => navigate(x.path)}>{x.label}</button>)}

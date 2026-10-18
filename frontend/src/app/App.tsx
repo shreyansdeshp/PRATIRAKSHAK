@@ -21,6 +21,7 @@ import { Stress } from "../screens/stress/Stress";
 import { Vendor } from "../screens/vendor/Vendor";
 import { Stage } from "../stage/Stage";
 import { useSnapshotError } from "../data/useSnapshots";
+import { SHEETS } from "../components/SheetIndex";
 import { useApp } from "../store/app";
 import { StoryController } from "../story/StoryController";
 import { useStory } from "../story/story";
@@ -39,7 +40,7 @@ export function App() {
   return (
     <>
     <NavBar />
-    <Stage top={navShown ? navHeight(route.screen, route.param) : 0}>
+    <Stage top={navShown ? navHeight(route.screen, route.param) : 0} footer={<TitleBlock screen={route.screen} />}>
       <ChartDefs />
       {loadError ? <SheetError detail={loadError} /> : (
         <Boundary key={`${route.screen}/${route.param ?? ""}`}><Screen screen={route.screen} param={route.param} /></Boundary>
@@ -103,4 +104,16 @@ class Boundary extends Component<{ children: ReactNode }, { error: string | null
   state = { error: null as string | null };
   static getDerivedStateFromError(e: unknown) { return { error: String(e) }; }
   render() { return this.state.error ? <SheetError detail={this.state.error} /> : this.props.children; }
+}
+
+/** Title-block footer printed on every sheet. */
+function TitleBlock({ screen }: { screen: string }) {
+  const sh = SHEETS.find((x) => x.screen === screen);
+  return (
+    <>
+      <span><b>PRATIRAKSHAK</b> · SIH26249</span>
+      <span>Sheet {sh?.no ?? "—"} / 13 · {sh?.label ?? ""}</span>
+      <span>Rev A · Simulated data · 2026-06-01</span>
+    </>
+  );
 }

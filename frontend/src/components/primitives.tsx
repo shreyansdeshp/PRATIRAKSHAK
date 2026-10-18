@@ -1,3 +1,4 @@
+import { SHEETS } from "./SheetIndex";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import type { Provenance, Status } from "../data/types";
@@ -71,11 +72,12 @@ export function RegistrationMarks(_: { inset?: number }): null {
 }
 
 /** Double-rule sheet header: sheet number · title · edition line. */
-export function SheetHeader({ title, subtitle, edition, right }:
+export function SheetHeader({ sheet, title, subtitle, edition, right }:
   { sheet: string; title: string; subtitle?: string; edition?: string; right?: ReactNode }) {
   return (
     <header className={s.sheetHeader}>
       <div className={s.sheetTitle}>
+        <span className={s.sheetTag}>SHEET {sheet} / 13 · {SHEETS.find((x) => x.no === sheet)?.label.toUpperCase() ?? "VENDOR"}</span>
         <h1>{title}</h1>
         {subtitle && <p>{subtitle}</p>}
       </div>

@@ -1,4 +1,4 @@
-.sheet { position: absolute; inset: 0; padding: 40px 64px 48px; display: flex; flex-direction: column; gap: 22px; }
+.sheet { position: absolute; inset: 0; padding: 24px 64px 44px; display: flex; flex-direction: column; gap: 14px; }
 .loading { position: absolute; inset: 0; }
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr) 1.6fr; border-bottom: 1px solid var(--fold); padding-bottom: 8px; }
 .body { display: grid; grid-template-columns: 1fr 400px; gap: 40px; min-height: 0; }
@@ -11,7 +11,7 @@
 .baseHeadName { display: block; font-family: var(--font-serif); font-weight: 600; font-size: 32px; color: var(--ink); }
 .baseHeadMeta { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.08em; color: var(--ink-soft); }
 
-.row { background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); min-height: 132px; }
+.row { background: var(--paper-hi); border: 1px solid var(--fold); border-radius: var(--r-1); min-height: 112px; }
 .typeCell { display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 10px 14px; border-right: 1px solid var(--fold);
   border-left: 6px solid var(--olive); border-radius: var(--r-1) 0 0 var(--r-1); }
 .typeName { font-family: var(--font-serif); font-weight: 600; font-size: 26px; line-height: 1; }
@@ -33,7 +33,7 @@
 .cellLabel { font-family: var(--font-sans); font-size: 14px; color: var(--ink-mute); }
 .totalCell, .baseTotal { display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 10px 12px; }
 .baseTotal { border-right: 1px solid var(--fold); }
-.totalRow { min-height: 78px; background: transparent; border-top: 2px solid var(--ink); }
+.totalRow { min-height: 64px; background: transparent; border-top: 2px solid var(--ink); }
 
 .side { display: flex; flex-direction: column; gap: 10px; }
 .h2 { font-family: var(--font-sans); font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft);
@@ -55,3 +55,15 @@
 .prov span { display: flex; align-items: center; gap: 6px; }
 
 .limitsBox { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; border-radius: var(--r-1); background: color-mix(in srgb, var(--watch) 14%, var(--paper-hi)); border: 1px solid color-mix(in srgb, var(--watch) 45%, transparent); }
+
+.wall { display: flex; gap: var(--sp-5); align-items: center; padding: var(--sp-2) 0; border-top: 1px solid var(--fold); border-bottom: 1px solid var(--fold); }
+.wallGroup { display: flex; flex-direction: column; gap: var(--sp-1); }
+.wallName { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; font-variant-caps: all-small-caps; color: var(--ink-soft); }
+.wallCells { display: flex; flex-wrap: wrap; gap: 3px; max-width: 380px; }
+.wallCell { width: 14px; height: 14px; border: 1px solid var(--paper); }
+.wallREADY { background: var(--ready); }
+.wallWATCH { background: var(--watch); }
+.wallPULL { background: var(--pull); }
+.wallCell:hover { outline: 2px solid var(--ink); outline-offset: 1px; }
+.limName { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.note { display: none; }

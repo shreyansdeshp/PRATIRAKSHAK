@@ -20,6 +20,7 @@ body {
   font-size: var(--fs-16);
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
 }
 
 /* static paper grain, ≤3% opacity (SVG turbulence, no animation) */

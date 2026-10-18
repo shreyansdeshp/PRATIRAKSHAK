@@ -1,3 +1,4 @@
+import { SystemIcon } from "../../components/SystemIcon";
 import { CornerTag, HealthBar, NumberTick, RegistrationMarks, SheetHeader, StatTile, StatusGlyph } from "../../components/primitives";
 import { SheetIndex } from "../../components/SheetIndex";
 import type { FleetState, Rollup, World } from "../../data/types";
@@ -41,6 +42,20 @@ export function Fleet() {
         <StatTile label="In repair" value={<NumberTick value={sum.fleet.pull} />} note="being repaired, not flying" />
         <StatTile label="Average health" value={<NumberTick value={sum.fleet.avg_health} />} note="criticality-weighted, 0–100" />
         <StatTile label="Cells below floor" value={belowFloor.length} note={belowFloor.length ? belowFloor.map((x) => `${x.t.name} @ ${x.b.id}`).join(" · ") : "none"} />
+      </div>
+
+      <div className={f.wall} data-testid="tail-wall" aria-label="Every aircraft, coloured by status">
+        {world.bases.map((b) => (
+          <div key={b.id} className={f.wallGroup}>
+            <span className={f.wallName}>{b.name.replace(" Air Base", "")}</span>
+            <div className={f.wallCells}>
+              {state.aircraft.filter((a) => a.base === b.id).sort((x, y) => x.tail.localeCompare(y.tail)).map((a) => (
+                <i key={a.tail} className={`${f.wallCell} ${f[`wall${a.status}`]}`}
+                  title={`${a.tail} · ${a.status === "READY" ? "ready" : a.status === "WATCH" ? "watch" : "in repair"} · limiting: ${a.limiting_system.replace("_", " ")}`} />
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className={f.body}>
@@ -103,7 +118,7 @@ export function Fleet() {
           <ul className={f.limits}>
             {limiting.map(([sys, n]) => (
               <li key={sys}>
-                <span className={f.limName}>{SYS_NAME[sys] ?? sys}</span>
+                <span className={f.limName}><SystemIcon id={sys} size={20} /> {SYS_NAME[sys] ?? sys}</span>
                 <span className={f.limBar}><span style={{ width: `${(n / maxLim) * 100}%` }} /></span>
                 <span className={f.limN}>{n}</span>
               </li>
@@ -112,7 +127,7 @@ export function Fleet() {
           </div>
           <h2 className={f.h2}>Most at risk now</h2>
           <ul className={f.atRisk}>
-            {[...notReady].sort((a, b) => b.limiting_p - a.limiting_p).slice(0, 7).map((a) => (
+            {[...notReady].sort((a, b) => b.limiting_p - a.limiting_p).slice(0, 6).map((a) => (
               <li key={a.tail}>
                 <button type="button" onClick={() => navigate(`/aircraft/${a.tail}`)}>
                   <StatusGlyph status={a.status} />

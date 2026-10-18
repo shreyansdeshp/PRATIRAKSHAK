@@ -34,3 +34,5 @@
 .table td { border-bottom: 1px solid var(--fold); padding: 3px 10px 3px 0; }
 
 .rowLabel { font-size: 20px !important; font-family: var(--font-sans) !important; }
+
+.frame > svg, .frame > div > svg { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><path d='M48 0V48M0 48H48' stroke='%23b9ae90' stroke-opacity='0.22' fill='none'/></svg>"); background-size: 48px 48px; }

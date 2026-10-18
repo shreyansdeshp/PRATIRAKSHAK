@@ -4,17 +4,17 @@
   color-scheme: light;
 
   /* ground */
-  --paper: #f4efe3;
-  --paper-hi: #faf7ef;      /* raised sheet */
-  --sand: #e7dfcb;
-  --fold: #d6ccb1;
-  --ink: #1e2224;
-  --ink-soft: #4a4f52;
-  --ink-mute: #6b6f6a;      /* 5.0:1 on paper */
+  --paper: #e9e7d3;
+  --paper-hi: #f5f3e6;      /* raised sheet */
+  --sand: #d8d5b8;
+  --fold: #c4c1a2;
+  --ink: #1c2216;
+  --ink-soft: #444e38;
+  --ink-mute: #5d6552;      /* 5.0:1 on paper */
 
   /* structure */
-  --olive: #4b5632;
-  --khaki: #a89f7a;
+  --olive: #3f4b28;
+  --khaki: #9a9868;
   --charcoal: #2e3234;
   --water: #c9d3d0;         /* pale, desaturated chart water */
 
@@ -33,7 +33,7 @@
   --series-p2: #b7791f;
   --series-p1: #a89f7a;
   --series-p0: #4a4f52;
-  --grid: #ddd4bf;          /* hairline grid, one step off the paper */
+  --grid: #d3d0b2;          /* hairline grid, one step off the paper */
 
   /* type */
   --font-serif: "Source Serif 4", "Newsreader", Georgia, serif;
@@ -52,6 +52,9 @@
   --r-1: 2px;
   --r-2: 4px;
   --u: 8px;
+  --backdrop: #8c9c68;
+  --stage-bg: #e3e1c9;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 16px; --sp-4: 24px; --sp-5: 32px;
   --hairline: 1px solid var(--ink);
   --hairline-soft: 1px solid var(--fold);
 
@@ -62,9 +65,9 @@
   /* stage */
   --stage-w: 1920px;
   --stage-h: 1080px;
-  --nav-bg: var(--paper-hi);
-  --nav-ink: var(--ink);
-  --nav-accent: var(--olive);
+  --nav-bg: #66774a;
+  --nav-ink: #ece8d2;
+  --nav-accent: #c9c58a;
 }
 
 @media (prefers-reduced-motion: reduce) {

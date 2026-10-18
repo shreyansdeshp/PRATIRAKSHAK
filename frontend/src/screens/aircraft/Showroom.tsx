@@ -1,3 +1,4 @@
+import { SystemIcon } from "../../components/SystemIcon";
 import { ContactShadows, Html, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
@@ -195,7 +196,7 @@ function SpecSheet({ a, lifeUsed, meta, onOpen }: { a: AircraftState; lifeUsed: 
           <button key={x.id} type="button" onClick={() => onOpen(x.id as SystemKey)}>
             <span className={s.sysTop}>
               <StatusGlyph status={sysStatus(x.p_fail)} size={16} />
-              <span className={s.sysName}>{SYS[x.id as SystemKey]}</span>
+              <SystemIcon id={x.id} size={26} /><span className={s.sysName}>{SYS[x.id as SystemKey]}</span>
               <span className={s.sysProv}>{x.provenance === "REAL-ANCHORED" ? "anchored" : x.provenance.toLowerCase()}</span>
             </span>
             <HealthBar value={x.health} width={170} />
