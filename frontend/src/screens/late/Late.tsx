@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { BarCI, ChartFrame, LineChart, TimelineStrips, type Block } from "../../charts/kit";
-import { CornerTag, ProvenanceChip, RegistrationMarks, SheetHeader, StatTile } from "../../components/primitives";
+import { CornerTag, ProvenanceChip, RegistrationMarks, SheetHeader } from "../../components/primitives";
 import { SheetIndex } from "../../components/SheetIndex";
 import type { CI } from "../../data/types";
 import { useSnapshots } from "../../data/useSnapshots";
@@ -43,14 +43,23 @@ export function Late() {
         <span className={l.chip}><ProvenanceChip kind="SIMULATED" /></span>
       </div>
 
-      <div className={l.tiles}>
-        <StatTile accent label={`Unplanned failures in 90 days · ${d} d late`} value={<>{f0.unplanned_failures.mean.toFixed(1)} → <b className={l.bad}>{fd.unplanned_failures.mean.toFixed(1)}</b></>}
-          note={`95 % CI [${fd.unplanned_failures.lo.toFixed(1)}, ${fd.unplanned_failures.hi.toFixed(1)}] · 10 seeds`} />
-        <StatTile label="In-flight failures (mission aborts)" value={<>{f0.inflight_failures.mean.toFixed(1)} → <b className={l.bad}>{fd.inflight_failures.mean.toFixed(1)}</b></>}
-          note={`95 % CI [${fd.inflight_failures.lo.toFixed(1)}, ${fd.inflight_failures.hi.toFixed(1)}]`} />
+      <p className={l.explain}>
+        We replayed the same 90 days twice. In the second run, every sensor reading reaches the base <b>{d} day{d > 1 ? "s" : ""} late</b>, so decisions are made on old data. Everything else is identical.
+      </p>
+      <div className={l.bigRow} data-testid="late-big">
+        <div className={l.bigBox}>
+          <span className={l.bigLabel}>Unplanned breakdowns in 90 days</span>
+          <span className={l.bigNum}>{f0.unplanned_failures.mean.toFixed(1)} <i>→</i> <b className={l.bad}>{fd.unplanned_failures.mean.toFixed(1)}</b></span>
+          <span className={l.bigNote}>data on time → data {d} day{d > 1 ? "s" : ""} late</span>
+        </div>
+        <div className={l.bigBox}>
+          <span className={l.bigLabel}>Failures in the air (mission aborts)</span>
+          <span className={l.bigNum}>{f0.inflight_failures.mean.toFixed(1)} <i>→</i> <b className={l.bad}>{fd.inflight_failures.mean.toFixed(1)}</b></span>
+          <span className={l.bigNote}>data on time → data {d} day{d > 1 ? "s" : ""} late</span>
+        </div>
         <div className={l.caveat}>
           <b>Waiting looks cheaper but causes about {(fd.unplanned_failures.mean / Math.max(0.1, f0.unplanned_failures.mean)).toFixed(0)}x more failures.</b>{" "}
-          The fleet is ready {gap < 0 ? `${Math.abs(gap).toFixed(0)} aircraft-days more` : `${gap.toFixed(0)} aircraft-days less`} over 90 days, because later action means fewer garage visits, but the extra failures include aircraft that fail in the air.
+          The fleet is ready {gap < 0 ? `${Math.abs(gap).toFixed(0)} aircraft-days more` : `${gap.toFixed(0)} aircraft-days less`} over 90 days only because late action means fewer garage visits.
         </div>
       </div>
 
