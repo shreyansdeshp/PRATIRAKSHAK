@@ -1,6 +1,7 @@
 {
   "beats": [
-    { "id": "s8", "path": "/late", "param": "d=7&tab=aircraft", "caption": "The same data, a week late. Five aircraft that were serviced in time now fail — three of them in the air." },
-    { "id": "s8-fleet", "path": "/late", "param": "d=7&tab=fleet", "caption": "Across ten seeds: 1.2 unplanned failures with timely data, 8.8 with week-old data. Late detection does not cost availability on paper — it costs aircraft." }
+    {"id": "s8", "path": "/late", "param": "d=7&tab=aircraft", "caption": "What if the same data arrived 7 days late? 5 aircraft that were fixed in time now fail, 3 of them in the air."},
+    {"id": "s8-base", "path": "/late", "param": "d=7&tab=base", "caption": "At Aravalli alone, that's 0 failures with on time data and 5 when it's 7 days late."},
+    {"id": "s8-fleet", "path": "/late", "param": "d=7&tab=fleet", "caption": "Over 10 runs it's 1.2 failures with on time data against 8.8 with late data. Readiness barely changes. What you lose is aircraft."}
   ]
 }

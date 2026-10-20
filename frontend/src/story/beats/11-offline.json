@@ -1,5 +1,5 @@
 {
   "beats": [
-    { "id": "s11", "path": "/offline", "param": "age=24", "caption": "The link to the depot is down. The base keeps deciding from yesterday's snapshot — the bands widen, a few aircraft move to watch, and every change waits to sync." }
+    {"id": "s11", "path": "/offline", "param": "age=24", "caption": "The link to the depot is down. The base keeps working from a 24 h old snapshot, a few aircraft move to watch, and everything syncs once the link is back."}
   ]
 }

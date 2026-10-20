@@ -1,6 +1,7 @@
 {
   "beats": [
-    { "id": "s10", "path": "/results", "caption": "Ten seeds, five scenarios, four policies. Unplanned failures fall from 32 to 1 against the best alarm practice — and availability is the same, not better, in normal operations." },
-    { "id": "s10-models", "path": "/results", "param": "tab=models", "caption": "Engine models are scored on NASA's held-out test engines; one subset's intervals under-cover, and the sheet says so." }
+    {"id": "s10", "path": "/results", "caption": "10 runs, 5 scenarios, 4 strategies. Unplanned failures drop from 32 to 1 compared with the best alarm setup. In normal flying, readiness stays about the same."},
+    {"id": "s10-scenarios", "path": "/results", "param": "view=scenarios&sc=base", "caption": "Every strategy faces the same 90 days and the same events. In normal flying, readiness is about the same, with 31 fewer unplanned failures."},
+    {"id": "s10-parts", "path": "/results", "param": "view=parts", "caption": "Turn off spares awareness and more aircraft look ready, but failures jump from 1.2 to 15.7. The other 2 parts made no measurable difference here."}
   ]
 }

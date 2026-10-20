@@ -1,15 +1,6 @@
 {
   "beats": [
-    {
-      "id": "s3",
-      "path": "/aircraft/PR-S149",
-      "caption": "PR-S149, a Shikshak trainer. Eight systems, each with its own health — and hydraulics is the problem."
-    },
-    {
-      "id": "s3-part",
-      "path": "/aircraft/PR-S149",
-      "param": "part=hydraulics",
-      "caption": "Hydraulics: pressure down about 20 psi, fluid 23 °C hot — effect sizes taken from a real hydraulic test rig."
-    }
+    {"id": "s3", "path": "/aircraft/PR-S149", "caption": "PR-S149 is a Shikshak trainer. We track 8 systems on it, and the hydraulics are in trouble."},
+    {"id": "s3-part", "path": "/aircraft/PR-S149", "param": "part=hydraulics", "caption": "Pressure is down about 20 psi and the fluid is running 23 °C hot. Those numbers come from a real hydraulic test rig."}
   ]
 }

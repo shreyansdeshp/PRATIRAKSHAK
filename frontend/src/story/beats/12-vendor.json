@@ -1,6 +1,8 @@
 {
   "beats": [
-    { "id": "s12-vendor-deliveries", "path": "/vendor", "caption": "The spares vendor view: part delivery demands sorted by priority (P1 expedites to P3 restock)." },
-    { "id": "s12-vendor-routes", "path": "/vendor", "caption": "Hub logistics: Nandi vendor hub connects to bases and depots via air and road corridors." }
+    {"id": "s12-vendor-deliveries", "path": "/vendor", "param": "vtab=deliveries", "caption": "This is what the spares vendor sees: delivery requests, most urgent first."},
+    {"id": "s12-vendor-routes", "path": "/vendor", "param": "vtab=deliveries", "caption": "Parts go out from the Nandi hub to bases and depots by air and by road."},
+    {"id": "s12-vendor-inventory", "path": "/vendor", "param": "vtab=inventory", "caption": "Their stock at the Nandi hub, 35 part types, lowest first. Red means out of stock."},
+    {"id": "s12-vendor-invoices", "path": "/vendor", "param": "vtab=invoices", "caption": "Delivery notes list the part, quantity, base and due date. The vendor never sees tail numbers or aircraft health."}
   ]
 }

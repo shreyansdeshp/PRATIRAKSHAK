@@ -1,6 +1,8 @@
 {
   "beats": [
-    { "id": "s7", "path": "/stress", "param": "sc=surge", "caption": "Double the flying. Against the best alternative, Pratirakshak keeps 3 points more of the fleet ready and cuts unplanned failures from 121 to 11." },
-    { "id": "s7-strike", "path": "/stress", "param": "sc=strike", "caption": "A strike takes out most of Aravalli's hangars. Availability is no better than threshold alarms — but unplanned failures fall from 39 to 6." }
+    {"id": "s7", "path": "/stress", "param": "sc=surge", "caption": "Now the fleet flies 2x as much. Compared with the best alternative, about 3 points more of the fleet stays ready and failures drop from 121 to 11."},
+    {"id": "s7-strike", "path": "/stress", "param": "sc=strike", "caption": "A strike knocks out most of Aravalli's hangars. Readiness ends up about the same as threshold alarms, but failures drop from 39 to 6."},
+    {"id": "s7-supply", "path": "/stress", "param": "sc=supply", "caption": "All roads into Himshikhar are cut, so only airlift works. Readiness holds, and failures drop from 33 to 2."},
+    {"id": "s7-weather", "path": "/stress", "param": "sc=weather", "caption": "Dust storms and a heavy monsoon wear everything out faster. Readiness is 2 points lower than threshold alarms here, but failures drop from 41 to 2."}
   ]
 }

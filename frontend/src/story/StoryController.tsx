@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useApp } from "../store/app";
-import { BEATS, useStory } from "./story";
+import { AUTO, BEATS, holdMs, START_DELAY_MS, useStory } from "./story";
 import c from "./Story.module.css";
 
 /** Keyboard + lower-third captions for storyline mode. Mounted only when ?mode=story. */
@@ -10,16 +10,27 @@ export function StoryController() {
   const { index, captions, chrome, go } = useStory();
   const navigate = useApp((s) => s.navigate);
   const beat = BEATS[index]!;
+  const [paused, setPaused] = useState(false);
+  const started = useRef(false);
 
   useEffect(() => { if (window.location.pathname !== beat.path) navigate(beat.path); }, [beat.path, navigate]);
+  // Autoplay: any manual key press changes the index and so restarts this beat's timer.
+  useEffect(() => {
+    if (!AUTO || paused || index >= BEATS.length - 1) return;
+    const wait = holdMs(beat) + (started.current ? 0 : START_DELAY_MS);
+    const t = window.setTimeout(() => { started.current = true; go(index + 1); }, wait);
+    return () => window.clearTimeout(t);
+  }, [index, paused, beat, go]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
+      if (k !== "h" && k !== "c") started.current = true; // stepping by hand ends the start delay
       if (k === " " || k === "arrowright" || k === "pagedown") { e.preventDefault(); go(index + 1); }
       else if (k === "arrowleft" || k === "pageup") { e.preventDefault(); go(index - 1); }
       else if (k === "r") go(0);
       else if (k === "h") useStory.setState((s) => ({ chrome: !s.chrome }));
       else if (k === "c") useStory.setState((s) => ({ captions: !s.captions }));
+      else if (k === "p") setPaused((p) => !p);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);

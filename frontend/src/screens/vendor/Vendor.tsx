@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { useVendorTab } from "./vendorTab";
+import { useVendorTab, type VendorTab } from "./vendorTab";
+import { useBeatParams } from "../../story/story";
 import { CornerTag, FlightStrip, ProvenanceChip, RegistrationMarks, SheetHeader, StatTile, NumberTick } from "../../components/primitives";
 import { SheetIndex } from "../../components/SheetIndex";
 import { ChartMap, type Camera } from "../../map/ChartMap";
@@ -135,6 +136,9 @@ export function Vendor() {
   }, [data]);
 
   const vtab = useVendorTab((s) => s.tab);
+  // Storyline beats pick the vendor tab (it lives in the nav bar's store, not in the URL).
+  const beatTab = useBeatParams().get("vtab") as VendorTab | null;
+  useEffect(() => { if (beatTab) useVendorTab.getState().set(beatTab); }, [beatTab]);
   if (!data) return <div className={v.loading} />;
   const { vendor } = data;
 

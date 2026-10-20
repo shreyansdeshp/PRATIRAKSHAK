@@ -24,7 +24,7 @@ import { useSnapshotError } from "../data/useSnapshots";
 import { SHEETS } from "../components/SheetIndex";
 import { useApp } from "../store/app";
 import { StoryController } from "../story/StoryController";
-import { useStory } from "../story/story";
+import { BEATS, useStory } from "../story/story";
 import styles from "./App.module.css";
 
 /**
@@ -34,16 +34,19 @@ import styles from "./App.module.css";
 export function App() {
   const route = useApp((s) => s.route);
   const story = useStory((s) => s.active);
+  const chrome = useStory((s) => s.chrome);
+  // Screens seed their tab state from the beat's params once, at mount; remount when they change between beats.
+  const beatParam = useStory((s) => (s.active ? BEATS[s.index]?.param ?? "" : ""));
   const loadError = useSnapshotError((s) => s.error);
   if (route.screen === "dev-data") return <DevData />;
-  const navShown = !story || useStory.getState().chrome;
+  const navShown = !story || chrome;
   return (
     <>
     <NavBar />
     <Stage top={navShown ? navHeight(route.screen, route.param) : 0} footer={<TitleBlock screen={route.screen} />}>
       <ChartDefs />
       {loadError ? <SheetError detail={loadError} /> : (
-        <Boundary key={`${route.screen}/${route.param ?? ""}`}><Screen screen={route.screen} param={route.param} /></Boundary>
+        <Boundary key={`${route.screen}/${route.param ?? ""}?${beatParam}`}><Screen screen={route.screen} param={route.param} /></Boundary>
       )}
       {story && <StoryController />}
     </Stage>

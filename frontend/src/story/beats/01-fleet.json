@@ -1,9 +1,5 @@
 {
   "beats": [
-    {
-      "id": "s1",
-      "path": "/fleet",
-      "caption": "The fleet readiness board: ready to deploy by type and base, with the readiness floor marked on every cell."
-    }
+    {"id": "s1", "path": "/fleet", "caption": "This is the whole fleet at a glance: how many aircraft are ready, by type and by base."}
   ]
 }

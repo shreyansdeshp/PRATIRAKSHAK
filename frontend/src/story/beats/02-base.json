@@ -1,9 +1,5 @@
 {
   "beats": [
-    {
-      "id": "s2",
-      "path": "/base/HIM",
-      "caption": "Himshikhar: 3,600 metres up. Every aircraft is a flight strip — health, limiting system, next action."
-    }
+    {"id": "s2", "path": "/base/HIM", "caption": "Zooming into Himshikhar, 3,600 m up. Each aircraft shows its health, its weakest system and what to do next."}
   ]
 }

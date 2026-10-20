@@ -11,37 +11,37 @@
       "id": "s0-1",
       "path": "/",
       "heroStep": 1,
-      "caption": "Four air bases. Seventy-two aircraft. One question every morning: what will fail next — and when?"
+      "caption": "72 aircraft across 4 bases. Every morning we need to know what's going to fail next, and when."
     },
     {
       "id": "s0-2",
       "path": "/",
       "heroStep": 2,
-      "caption": "Sahyadri, Aravalli, Himshikhar and Kaveri: monsoon, dust and heat, thin cold air, coastal salt."
+      "caption": "Each base is hard on aircraft in its own way. Monsoon at Sahyadri, dust and heat at Aravalli, thin cold air at Himshikhar, salt at Kaveri."
     },
     {
       "id": "s0-3",
       "path": "/",
       "heroStep": 3,
-      "caption": "Every engine replays a real NASA run-to-failure trajectory; seven more systems are simulated around it."
+      "caption": "The engine data is real, from NASA's run to failure tests. The other 7 systems are simulated around it."
     },
     {
       "id": "s0-4",
       "path": "/",
       "heroStep": 4,
-      "caption": "Spares move by road (cached OpenStreetMap routing) or by Vahak airlift."
+      "caption": "Spare parts can go by road, on real OpenStreetMap routes, or be flown in on a Vahak transport."
     },
     {
       "id": "s0-5",
       "path": "/",
       "heroStep": 5,
-      "caption": "Each ring is a base's readiness today: ready, watch, sent for repair."
+      "caption": "The ring around each base shows how much of its fleet is ready today."
     },
     {
       "id": "s0-6",
       "path": "/",
       "heroStep": 6,
-      "caption": "06:00Z — Himshikhar's data arrives. One aircraft moves to watch, and we can say exactly why."
+      "caption": "At 06:00 the data from Himshikhar comes in. 1 aircraft drops to watch, and we can show exactly why."
     },
     {
       "id": "s0-7",

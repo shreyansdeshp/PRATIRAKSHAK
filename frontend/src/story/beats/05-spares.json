@@ -1,6 +1,6 @@
 {
   "beats": [
-    { "id": "s5", "path": "/spares/PR-S350", "caption": "The generator control unit for PR-S350: airlifted from Aravalli in 5 h 24 min — 199 hours before the earliest plausible failure. Source it." },
-    { "id": "s5-road", "path": "/spares/PR-S350", "caption": "The road alternative crosses a 4,119 m pass and closes every winter — which is why the decision checks every route, not just the nearest." }
+    {"id": "s5", "path": "/spares/PR-S350", "caption": "PR-S350 needs a generator control unit. Flying one in from Aravalli takes 5 h 24 min, and the earliest it could fail is about 8 days away. So we order it."},
+    {"id": "s5-road", "path": "/spares/PR-S350", "caption": "By road it would have to cross a 4,119 m pass that shuts every winter. So the system checks every route, not just the closest one."}
   ]
 }
